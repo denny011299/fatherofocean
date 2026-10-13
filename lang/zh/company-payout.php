@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'tab' => 'Pay Out',
+    'hint' => '记录公司净额固定提现 — 手动金额、日期和转账凭证。',
+    'btn_add' => '提现净额固定',
+    'modal_title' => '公司净额固定提现',
+    'col_date' => '日期',
+    'col_amount' => '金额',
+    'col_proof' => '凭证',
+    'col_note' => '备注',
+    'col_created_by' => '录入人',
+    'col_created_at' => '录入时间',
+    'field_amount' => '金额 (Rp)',
+    'field_date' => '日期',
+    'field_proof' => '凭证照片',
+    'field_note' => '备注（可选）',
+    'net_fix_company' => '公司净额固定',
+    'remaining_balance' => '净额固定余额',
+    'total_withdrawn' => '已提现合计',
+    'view_proof' => '查看凭证',
+    'saved' => '提现已保存。',
+    'empty' => '暂无净额固定提现记录。',
+    'filter_period' => '期间',
+];

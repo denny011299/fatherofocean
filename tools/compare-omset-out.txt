@@ -1,0 +1,107 @@
+﻿
+Warning: PHP Startup: Unable to load dynamic library 'xmlreader' (tried: C:/laragon/bin/php/php-8.2.6/ext\xmlreader (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_xmlreader.dll (The specified module could not be found)) in Unknown on line 0
+
+Warning: PHP Startup: Unable to load dynamic library 'xml' (tried: C:/laragon/bin/php/php-8.2.6/ext\xml (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_xml.dll (The specified module could not be found)) in Unknown on line 0
+
+Warning: PHP Startup: Unable to load dynamic library 'zlib' (tried: C:/laragon/bin/php/php-8.2.6/ext\zlib (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_zlib.dll (The specified module could not be found)) in Unknown on line 0
+
+Warning: PHP Startup: Unable to load dynamic library 'php_imagick.dll' (tried: C:/laragon/bin/php/php-8.2.6/ext\php_imagick.dll (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_php_imagick.dll.dll (The specified module could not be found)) in Unknown on line 0
+=== HEADER DIFF ===
+A: expected=[No] actual=[No] OK
+B: expected=[Serial No.] actual=[Serial No.] OK
+C: expected=[Tanggal Masuk] actual=[Tanggal Masuk] OK
+D: expected=[Marking] actual=[Marking] OK
+E: expected=[Item] actual=[Item] OK
+F: expected=[Kategori] actual=[Kategori] OK
+G: expected=[CBM] actual=[CBM] OK
+H: expected=[Total CBM] actual=[Total CBM] OK
+I: expected=[Max CBM per marking] actual=[Max CBM per marking] OK
+J: expected=[KG] actual=[KG] OK
+K: expected=[Total KG] actual=[Total KG] OK
+L: expected=[Harga Modal CBM] actual=[Harga Modal CBM] OK
+M: expected=[Harga Modal Kg] actual=[Harga Modal Kg] OK
+N: expected=[Keterangan] actual=[Keterangan] OK
+O: expected=[Harga jual CBM] actual=[Harga jual CBM] OK
+P: expected=[Harga Jual Kg] actual=[Harga Jual Kg] OK
+Q: expected=[Aditional Fee] actual=[Aditional Fee] OK
+R: expected=[Keterangan] actual=[Keterangan] OK
+S: expected=[Total Modal] actual=[Total Modal] OK
+T: expected=[Total Jual] actual=[Total Jual] OK
+U: expected=[Grand Total bayar] actual=[Grand Total bayar] OK
+V: expected=[Catatan] actual=[Catatan] OK
+W: expected=[Marketing] actual=[Marketing] OK
+X: expected=[PIC] actual=[PIC] OK
+Y: expected=[Pembayaran] actual=[Pembayaran] OK
+Z: expected=[Update] actual=[Update] OK
+AA: expected=[Loading] actual=[Loading] OK
+AB: expected=[Partai] actual=[Partai] OK
+AC: expected=[Profit Perusahaan] actual=[Profit Perusahaan] OK
+AD: expected=[Modal Perusahaan] actual=[Modal Perusahaan] OK
+AE: expected=[Total Modal Perusahaan] actual=[Total Modal Perusahaan] OK
+AF: expected=[Komisi Perusahaan] actual=[Komisi Perusahaan] OK
+AG: expected=[Komisi Sales] actual=[Komisi Sales] OK
+AH: expected=[Komisi Sales] actual=[Komisi Sales] OK
+AI: expected=[Komisi PIC] actual=[Komisi PIC] OK
+header_mismatches=0
+
+=== FORMULA DIFF R2 ===
+N2 expected==IF(G2*I2>=J2,"CBM","CBM + Overweight -"&J2-(G2*I2)&" Kg")
+N2 actual  ==IF(G2*I2>=J2,"CBM","CBM + Overweight -"&J2-(G2*I2)&" Kg")
+  SAME
+S2 expected==IF(G2*I2<=J2,(L2*G2)+(M2*(J2-(G2*I2)))+Q2,L2*G2+Q2)
+S2 actual  ==IF(G2*I2<=J2,(L2*G2)+(M2*(J2-(G2*I2)))+Q2,L2*G2+Q2)
+  SAME
+T2 expected==IF(G2*I2<=J2,(O2*G2)+(P2*(J2-(G2*I2)))+Q2,O2*G2+Q2)
+T2 actual  ==IF(G2*I2<=J2,(O2*G2)+(P2*(J2-(G2*I2)))+Q2,O2*G2+Q2)
+  SAME
+H2 expected=0.1
+H2 actual  ==SUM(G2:G3)
+  DIFF
+K2 expected=9.8
+K2 actual  ==SUM(J2:J3)
+  DIFF
+U2 expected=
+U2 actual  ==SUM(T2:T3)
+  DIFF
+AD2 expected==L2+AC2
+AD2 actual  ==L2+AC2
+  SAME
+AE2 expected==IF(G2*500<=J2,(AD2*G2)+(M2*(J2-(G2*500)))+Q2,AD2*G2+Q2)
+AE2 actual  ==IF(G2*I2<=J2,(AD2*G2)+(M2*(J2-(G2*I2)))+Q2,AD2*G2+Q2)
+  DIFF
+AF2 expected==AC2*G2
+AF2 actual  ==AC2*G2
+  SAME
+AH2 expected==(T2-Q2)*AG2
+AH2 actual  ==(T2-Q2)*AG2
+  SAME
+AI2 expected==T2-AE2-AH2
+AI2 actual  ==T2-AE2-AH2
+  SAME
+
+=== VALUE SAMPLE R2 ===
+G2 actual=0.1 | expected=0.1
+I2 actual=500 | expected=500
+J2 actual=9.8 | expected=9.8
+L2 actual=5000000 | expected=5000000
+M2 actual=10000 | expected=10000
+O2 actual=6500000 | expected=
+P2 actual=12000 | expected=
+AC2 actual=150000 | expected=150000
+AG2 actual=0.025 | expected=2,50%
+W2 actual=ALWIN | expected=ALWIN
+X2 actual=Test PIC | expected=Alwin
+Y2 actual=belum lunas | expected=belum lunas
+Z2 actual=Bongkaran | expected=Bongkaran
+AA2 actual=46154 | expected=46154
+AB2 actual=1054 | expected=1054
+
+=== MERGES actual ===
+D2:D3
+H2:H3
+K2:K3
+U2:U3
+W2:W3
+X2:X3
+
+=== Sheet title actual=Omset expected=Omset

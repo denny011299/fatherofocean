@@ -1,0 +1,495 @@
+﻿
+Warning: PHP Startup: Unable to load dynamic library 'xmlreader' (tried: C:/laragon/bin/php/php-8.2.6/ext\xmlreader (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_xmlreader.dll (The specified module could not be found)) in Unknown on line 0
+
+Warning: PHP Startup: Unable to load dynamic library 'xml' (tried: C:/laragon/bin/php/php-8.2.6/ext\xml (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_xml.dll (The specified module could not be found)) in Unknown on line 0
+
+Warning: PHP Startup: Unable to load dynamic library 'zlib' (tried: C:/laragon/bin/php/php-8.2.6/ext\zlib (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_zlib.dll (The specified module could not be found)) in Unknown on line 0
+
+Warning: PHP Startup: Unable to load dynamic library 'php_imagick.dll' (tried: C:/laragon/bin/php/php-8.2.6/ext\php_imagick.dll (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_php_imagick.dll.dll (The specified module could not be found)) in Unknown on line 0
+=== SHEET: Omset ===
+rows=66 cols=AM (39)
+-- Merges --
+U30:U33
+V20:V25
+U20:U25
+K60:K63
+K51:K58
+K45:K46
+K20:K25
+K30:K33
+X20:X42
+X43:X65
+X2:X19
+W2:W19
+D43:D44
+W43:W63
+D45:D46
+P43:P44
+W26:W42
+W20:W25
+K36:K40
+H36:H40
+H43:H44
+H45:H46
+H48:H49
+H51:H58
+H60:H63
+K43:K44
+H30:H33
+H20:H25
+D20:D25
+D30:D33
+D36:D40
+D60:D63
+D51:D58
+D48:D49
+P48:P49
+U36:U40
+V43:V44
+U43:U44
+U60:U63
+U48:U49
+U45:U46
+U51:U58
+-- Row heights / widths (sample) --
+A=5.6640625
+B=15.109375
+C=15.109375
+D=20.109375
+E=17.5546875
+F=17.5546875
+G=12.88671875
+H=12.88671875
+I=14.6640625
+J=13.109375
+K=12.88671875
+L=20.21875
+M=16.5546875
+N=16.5546875
+O=16.109375
+P=16.109375
+Q=16.109375
+R=16.109375
+S=21.33203125
+T=24.109375
+U=33.77734375
+V=18.21875
+W=18.21875
+X=11.33203125
+Y=16.44140625
+Z=15.88671875
+AA=8.6640625
+AB=7.33203125
+AC=18.6640625
+AD=17.109375
+AE=18.5546875
+AF=17.21875
+AG=18.21875
+AH=18.6640625
+AI=17.109375
+R1: A=No fill=0F172A bold font=FFFFFF | B=Serial No. fill=0F172A bold font=FFFFFF | C=Tanggal Masuk fill=0F172A bold font=FFFFFF | D=Marking fill=0F172A bold font=FFFFFF | E=Item fill=0F172A bold font=FFFFFF | F=Kategori fill=0F172A bold font=FFFFFF | G=CBM fill=0F172A bold font=FFFFFF | H=Total CBM fill=0F172A bold font=FFFFFF | I=Max CBM per marking fill=0F172A bold font=FFFFFF | J=KG fill=0F172A bold font=FFFFFF | K=Total KG fill=0F172A bold font=FFFFFF | L=Harga Modal CBM fill=0F172A bold font=FFFFFF | M=Harga Modal Kg fill=0F172A bold font=FFFFFF | N=Keterangan fill=0F172A bold font=FFFFFF | O=Harga jual CBM fill=0F172A bold font=FFFFFF | P=Harga Jual Kg fill=0F172A bold font=FFFFFF | Q=Aditional Fee fill=0F172A bold font=FFFFFF | R=Keterangan fill=0F172A bold font=FFFFFF | S=Total Modal fill=0F172A bold font=FFFFFF | T=Total Jual fill=0F172A bold font=FFFFFF | U=Grand Total bayar fill=0F172A bold font=FFFFFF | V=Catatan fill=0F172A bold font=FFFFFF | W=Marketing fill=0F172A bold font=FFFFFF | X=PIC fill=0F172A bold font=FFFFFF | Y=Pembayaran fill=0F172A bold font=FFFFFF | Z=Update fill=0F172A bold font=FFFFFF | AA=Loading fill=0F172A bold font=FFFFFF | AB=Partai fill=0F172A bold font=FFFFFF | AC=Profit Perusahaan fill=000000 bold font=FFFFFF | AD=Modal Perusahaan fill=000000 bold font=FFFFFF | AE=Total Modal Perusahaan fill=000000 bold font=FFFFFF | AF=Komisi Perusahaan fill=000000 bold font=FFFFFF | AG=Komisi Sales fill=000000 bold font=FFFFFF | AH=Komisi Sales fill=000000 bold font=FFFFFF | AI=Komisi PIC fill=000000 bold font=FFFFFF
+R2: A=1 fill=FFFFFF font=000000 | B=1205..01 fill=FFFFFF font=000000 | C=12 May 2026 fill=FFFFFF font=000000 | D=EK/ON/ADR/MLG fill=FFFFFF font=000000 | E=Ice Bucket fill=FFFFFF font=000000 | F=umum fill=FFFFFF font=000000 | G=0.1 fill=FFFFFF font=000000 | H=0.1 fill=FFFFFF font=000000 | I=500 fill=FFFFFF font=000000 | J=9.8 fill=FFFFFF font=000000 | K=9.8 fill=FFFFFF font=000000 | L=5000000 fill=FFFFFF font=000000 | M=10000 fill=FFFFFF font=000000 | N==IF(G2*I2>=J2,"CBM","CBM + Overweight -"&J2-(G2*I2)&" Kg") fill=FFFFFF font=000000 | S==IF(G2*I2<=J2,(L2*G2)+(M2*(J2-(G2*I2)))+Q2,L2*G2+Q2) fill=FFFFFF font=000000 | T==IF(G2*I2<=J2,(O2*G2)+(P2*(J2-(G2*I2)))+Q2,O2*G2+Q2) fill=FFFFFF font=000000 | W=ALWIN fill=FFFFFF font=000000 | X=Alwin fill=FFFFFF bold font=000000 | Y=belum lunas fill=FFFFFF font=000000 | Z=Bongkaran fill=FFFFFF font=000000 | AA=46154 fill=FFFFFF font=000000 | AB=1054 fill=FFFFFF font=000000 | AC=150000 fill=E6B9B8 font=000000 | AD==L2+AC2 fill=E6B9B8 font=000000 | AE==IF(G2*500<=J2,(AD2*G2)+(M2*(J2-(G2*500)))+Q2,AD2*G2+Q2) fill=E6B9B8 font=000000 | AF==AC2*G2 fill=E6B9B8 font=000000 | AG=2,50% fill=E6B9B8 font=000000 | AH==(T2-Q2)*AG2 fill=E6B9B8 font=000000 | AI==T2-AE2-AH2 fill=E6B9B8 font=000000
+R3: A=2 fill=FFFFFF font=000000 | B=11.05.1 fill=FFFFFF font=000000 | C=11 May 2026 fill=FFFFFF font=000000 | D=EK/ON/ADR/UBE fill=FFFFFF font=000000 | E=Rubber Band fill=FFFFFF font=000000 | F=umum fill=FFFFFF font=000000 | G=0.1 fill=FFFFFF font=000000 | H=0.1 fill=FFFFFF font=000000 | I=500 fill=FFFFFF font=000000 | J=2 fill=FFFFFF font=000000 | K=2 fill=FFFFFF font=000000 | L=5000000 fill=FFFFFF font=000000 | M=10000 fill=FFFFFF font=000000 | N==IF(G3*I3>=J3,"CBM","CBM + Overweight -"&J3-(G3*I3)&" Kg") fill=FFFFFF font=000000 | S==IF(G3*I3<=J3,(L3*G3)+(M3*(J3-(G3*I3)))+Q3,L3*G3+Q3) fill=FFFFFF font=000000 | T==IF(G3*I3<=J3,(O3*G3)+(P3*(J3-(G3*I3)))+Q3,O3*G3+Q3) fill=FFFFFF font=000000 | Y=belum lunas fill=FFFFFF font=000000 | Z=Bongkaran fill=FFFFFF font=000000 | AA=46153 fill=FFFFFF font=000000 | AB=1054 fill=FFFFFF font=000000 | AC=150000 fill=E6B9B8 font=000000 | AD==L3+AC3 fill=E6B9B8 font=000000 | AE==IF(G3*500<=J3,(AD3*G3)+(M3*(J3-(G3*500)))+Q3,AD3*G3+Q3) fill=E6B9B8 font=000000 | AF==AC3*G3 fill=E6B9B8 font=000000 | AG=2,50% fill=E6B9B8 font=000000 | AH==(T3-Q3)*AG3 fill=E6B9B8 font=000000 | AI==T3-AE3-AH3 fill=E6B9B8 font=000000
+R4: B=1105.02 fill=FFFFFF font=000000 | C=11 May 2026 fill=FFFFFF font=000000 | D=EK/ON/ADR/UBE fill=FFFFFF font=000000 | E=Hair ACC fill=FFFFFF font=000000 | F=umum fill=FFFFFF font=000000 | G=0.1 fill=FFFFFF font=000000 | H=0.1 fill=FFFFFF font=000000 | I=500 fill=FFFFFF font=000000 | J=0.3 fill=FFFFFF font=000000 | K=0.3 fill=FFFFFF font=000000 | L=5000000 fill=FFFFFF font=000000 | M=10000 fill=FFFFFF font=000000 | N==IF(G4*I4>=J4,"CBM","CBM + Overweight -"&J4-(G4*I4)&" Kg") fill=FFFFFF font=000000 | S==IF(G4*I4<=J4,(L4*G4)+(M4*(J4-(G4*I4)))+Q4,L4*G4+Q4) fill=FFFFFF font=000000 | T==IF(G4*I4<=J4,(O4*G4)+(P4*(J4-(G4*I4)))+Q4,O4*G4+Q4) fill=FFFFFF font=000000 | Y=belum lunas fill=FFFFFF font=000000 | Z=Bongkaran fill=FFFFFF font=000000 | AA=46153 fill=FFFFFF font=000000 | AB=1054 fill=FFFFFF font=000000 | AC=150000 fill=E6B9B8 font=000000 | AD==L4+AC4 fill=E6B9B8 font=000000 | AE==IF(G4*500<=J4,(AD4*G4)+(M4*(J4-(G4*500)))+Q4,AD4*G4+Q4) fill=E6B9B8 font=000000 | AF==AC4*G4 fill=E6B9B8 font=000000 | AG=2,50% fill=E6B9B8 font=000000 | AH==(T4-Q4)*AG4 fill=E6B9B8 font=000000 | AI==T4-AE4-AH4 fill=E6B9B8 font=000000
+R5: B=1105.03 fill=FFFFFF font=000000 | C=11 May 2026 fill=FFFFFF font=000000 | D=EK/ON/ADR/UBE fill=FFFFFF font=000000 | E=Hair Acc fill=FFFFFF font=000000 | F=umum fill=FFFFFF font=000000 | G=0.1 fill=FFFFFF font=000000 | H=0.1 fill=FFFFFF font=000000 | I=500 fill=FFFFFF font=000000 | J=5.8 fill=FFFFFF font=000000 | K=5.8 fill=FFFFFF font=000000 | L=5000000 fill=FFFFFF font=000000 | M=10000 fill=FFFFFF font=000000 | N==IF(G5*I5>=J5,"CBM","CBM + Overweight -"&J5-(G5*I5)&" Kg") fill=FFFFFF font=000000 | S==IF(G5*I5<=J5,(L5*G5)+(M5*(J5-(G5*I5)))+Q5,L5*G5+Q5) fill=FFFFFF font=000000 | T==IF(G5*I5<=J5,(O5*G5)+(P5*(J5-(G5*I5)))+Q5,O5*G5+Q5) fill=FFFFFF font=000000 | Y=belum lunas fill=FFFFFF font=000000 | Z=Bongkaran fill=FFFFFF font=000000 | AA=46153 fill=FFFFFF font=000000 | AB=1054 fill=FFFFFF font=000000 | AC=150000 fill=E6B9B8 font=000000 | AD==L5+AC5 fill=E6B9B8 font=000000 | AE==IF(G5*500<=J5,(AD5*G5)+(M5*(J5-(G5*500)))+Q5,AD5*G5+Q5) fill=E6B9B8 font=000000 | AF==AC5*G5 fill=E6B9B8 font=000000 | AG=2,50% fill=E6B9B8 font=000000 | AH==(T5-Q5)*AG5 fill=E6B9B8 font=000000 | AI==T5-AE5-AH5 fill=E6B9B8 font=000000
+R6: B=1105.1 fill=FFFFFF font=000000 | C=11 May 2026 fill=FFFFFF font=000000 | D=EK/ON/ADR/UBE fill=FFFFFF font=000000 | E=Hair Acc fill=FFFFFF font=000000 | F=Umum fill=FFFFFF font=000000 | G=0.1 fill=FFFFFF font=000000 | H=0.1 fill=FFFFFF font=000000 | I=500 fill=FFFFFF font=000000 | J=5 fill=FFFFFF font=000000 | K=5 fill=FFFFFF font=000000 | L=5000000 fill=FFFFFF font=000000 | M=10000 fill=FFFFFF font=000000 | N==IF(G6*I6>=J6,"CBM","CBM + Overweight -"&J6-(G6*I6)&" Kg") fill=FFFFFF font=000000 | S==IF(G6*I6<=J6,(L6*G6)+(M6*(J6-(G6*I6)))+Q6,L6*G6+Q6) fill=FFFFFF font=000000 | T==IF(G6*I6<=J6,(O6*G6)+(P6*(J6-(G6*I6)))+Q6,O6*G6+Q6) fill=FFFFFF font=000000 | Y=belum lunas fill=FFFFFF font=000000 | Z=Bongkaran fill=FFFFFF font=000000 | AA=46153 fill=FFFFFF font=000000 | AB=1054 fill=FFFFFF font=000000 | AC=150000 fill=E6B9B8 font=000000 | AD==L6+AC6 fill=E6B9B8 font=000000 | AE==IF(G6*500<=J6,(AD6*G6)+(M6*(J6-(G6*500)))+Q6,AD6*G6+Q6) fill=E6B9B8 font=000000 | AF==AC6*G6 fill=E6B9B8 font=000000 | AG=2,50% fill=E6B9B8 font=000000 | AH==(T6-Q6)*AG6 fill=E6B9B8 font=000000 | AI==T6-AE6-AH6 fill=E6B9B8 font=000000
+R7: B=1305.1 fill=FFFFFF font=000000 | C=13 May 2026 fill=FFFFFF font=000000 | D=EK/ON/ADR/UBE fill=FFFFFF font=000000 | E=Fake Eyelash fill=FFFFFF font=000000 | F=Umum fill=FFFFFF font=000000 | G=0.1 fill=FFFFFF font=000000 | H=0.1 fill=FFFFFF font=000000 | I=500 fill=FFFFFF font=000000 | J=8.65 fill=FFFFFF font=000000 | K=8.65 fill=FFFFFF font=000000 | L=5000000 fill=FFFFFF font=000000 | M=10000 fill=FFFFFF font=000000 | N==IF(G7*I7>=J7,"CBM","CBM + Overweight -"&J7-(G7*I7)&" Kg") fill=FFFFFF font=000000 | S==IF(G7*I7<=J7,(L7*G7)+(M7*(J7-(G7*I7)))+Q7,L7*G7+Q7) fill=FFFFFF font=000000 | T==IF(G7*I7<=J7,(O7*G7)+(P7*(J7-(G7*I7)))+Q7,O7*G7+Q7) fill=FFFFFF font=000000 | Y=belum lunas fill=FFFFFF font=000000 | Z=Bongkaran fill=FFFFFF font=000000 | AA=46155 fill=FFFFFF font=000000 | AB=1054 fill=FFFFFF font=000000 | AC=150000 fill=E6B9B8 font=000000 | AD==L7+AC7 fill=E6B9B8 font=000000 | AE==IF(G7*500<=J7,(AD7*G7)+(M7*(J7-(G7*500)))+Q7,AD7*G7+Q7) fill=E6B9B8 font=000000 | AF==AC7*G7 fill=E6B9B8 font=000000 | AG=2,50% fill=E6B9B8 font=000000 | AH==(T7-Q7)*AG7 fill=E6B9B8 font=000000 | AI==T7-AE7-AH7 fill=E6B9B8 font=000000
+R8: A=3 fill=FFFFFF font=000000 | B=1205.07 fill=FFFFFF font=000000 | C=12 May 2026 fill=FFFFFF font=000000 | D=EK/ON/POSEIDON789 fill=FFFFFF font=000000 | E=BAG fill=FFFFFF font=000000 | F=Tas Non Brand fill=FFFFFF font=000000 | G=0.992 fill=FFFFFF font=000000 | H=0.992 fill=FFFFFF font=000000 | I=500 fill=FFFFFF font=000000 | J=209 fill=FFFFFF font=000000 | K=209 fill=FFFFFF font=000000 | L=5000000 fill=FFFFFF font=000000 | M=10000 fill=FFFFFF font=000000 | N==IF(G8*I8>=J8,"CBM","CBM + Overweight -"&J8-(G8*I8)&" Kg") fill=FFFFFF font=000000 | S==IF(G8*I8<=J8,(L8*G8)+(M8*(J8-(G8*I8)))+Q8,L8*G8+Q8) fill=FFFFFF font=000000 | T==IF(G8*I8<=J8,(O8*G8)+(P8*(J8-(G8*I8)))+Q8,O8*G8+Q8) fill=FFFFFF font=000000 | Y=belum lunas fill=FFFFFF font=000000 | Z=Bongkaran fill=FFFFFF font=000000 | AA=46154 fill=FFFFFF font=000000 | AB=1054 fill=FFFFFF font=000000 | AC=150000 fill=E6B9B8 font=000000 | AD==L8+AC8 fill=E6B9B8 font=000000 | AE==IF(G8*500<=J8,(AD8*G8)+(M8*(J8-(G8*500)))+Q8,AD8*G8+Q8) fill=E6B9B8 font=000000 | AF==AC8*G8 fill=E6B9B8 font=000000 | AG=2,50% fill=E6B9B8 font=000000 | AH==(T8-Q8)*AG8 fill=E6B9B8 font=000000 | AI==T8-AE8-AH8 fill=E6B9B8 font=000000
+-- Formulas sample (rows 2-25) --
+N2==IF(G2*I2>=J2,"CBM","CBM + Overweight -"&J2-(G2*I2)&" Kg") fill=FFFFFF
+S2==IF(G2*I2<=J2,(L2*G2)+(M2*(J2-(G2*I2)))+Q2,L2*G2+Q2) fill=FFFFFF
+T2==IF(G2*I2<=J2,(O2*G2)+(P2*(J2-(G2*I2)))+Q2,O2*G2+Q2) fill=FFFFFF
+AD2==L2+AC2 fill=E6B9B8
+AE2==IF(G2*500<=J2,(AD2*G2)+(M2*(J2-(G2*500)))+Q2,AD2*G2+Q2) fill=E6B9B8
+AF2==AC2*G2 fill=E6B9B8
+AH2==(T2-Q2)*AG2 fill=E6B9B8
+AI2==T2-AE2-AH2 fill=E6B9B8
+N3==IF(G3*I3>=J3,"CBM","CBM + Overweight -"&J3-(G3*I3)&" Kg") fill=FFFFFF
+S3==IF(G3*I3<=J3,(L3*G3)+(M3*(J3-(G3*I3)))+Q3,L3*G3+Q3) fill=FFFFFF
+T3==IF(G3*I3<=J3,(O3*G3)+(P3*(J3-(G3*I3)))+Q3,O3*G3+Q3) fill=FFFFFF
+AD3==L3+AC3 fill=E6B9B8
+AE3==IF(G3*500<=J3,(AD3*G3)+(M3*(J3-(G3*500)))+Q3,AD3*G3+Q3) fill=E6B9B8
+AF3==AC3*G3 fill=E6B9B8
+AH3==(T3-Q3)*AG3 fill=E6B9B8
+AI3==T3-AE3-AH3 fill=E6B9B8
+N4==IF(G4*I4>=J4,"CBM","CBM + Overweight -"&J4-(G4*I4)&" Kg") fill=FFFFFF
+S4==IF(G4*I4<=J4,(L4*G4)+(M4*(J4-(G4*I4)))+Q4,L4*G4+Q4) fill=FFFFFF
+T4==IF(G4*I4<=J4,(O4*G4)+(P4*(J4-(G4*I4)))+Q4,O4*G4+Q4) fill=FFFFFF
+AD4==L4+AC4 fill=E6B9B8
+AE4==IF(G4*500<=J4,(AD4*G4)+(M4*(J4-(G4*500)))+Q4,AD4*G4+Q4) fill=E6B9B8
+AF4==AC4*G4 fill=E6B9B8
+AH4==(T4-Q4)*AG4 fill=E6B9B8
+AI4==T4-AE4-AH4 fill=E6B9B8
+N5==IF(G5*I5>=J5,"CBM","CBM + Overweight -"&J5-(G5*I5)&" Kg") fill=FFFFFF
+S5==IF(G5*I5<=J5,(L5*G5)+(M5*(J5-(G5*I5)))+Q5,L5*G5+Q5) fill=FFFFFF
+T5==IF(G5*I5<=J5,(O5*G5)+(P5*(J5-(G5*I5)))+Q5,O5*G5+Q5) fill=FFFFFF
+AD5==L5+AC5 fill=E6B9B8
+AE5==IF(G5*500<=J5,(AD5*G5)+(M5*(J5-(G5*500)))+Q5,AD5*G5+Q5) fill=E6B9B8
+AF5==AC5*G5 fill=E6B9B8
+AH5==(T5-Q5)*AG5 fill=E6B9B8
+AI5==T5-AE5-AH5 fill=E6B9B8
+N6==IF(G6*I6>=J6,"CBM","CBM + Overweight -"&J6-(G6*I6)&" Kg") fill=FFFFFF
+S6==IF(G6*I6<=J6,(L6*G6)+(M6*(J6-(G6*I6)))+Q6,L6*G6+Q6) fill=FFFFFF
+T6==IF(G6*I6<=J6,(O6*G6)+(P6*(J6-(G6*I6)))+Q6,O6*G6+Q6) fill=FFFFFF
+AD6==L6+AC6 fill=E6B9B8
+AE6==IF(G6*500<=J6,(AD6*G6)+(M6*(J6-(G6*500)))+Q6,AD6*G6+Q6) fill=E6B9B8
+AF6==AC6*G6 fill=E6B9B8
+AH6==(T6-Q6)*AG6 fill=E6B9B8
+AI6==T6-AE6-AH6 fill=E6B9B8
+N7==IF(G7*I7>=J7,"CBM","CBM + Overweight -"&J7-(G7*I7)&" Kg") fill=FFFFFF
+S7==IF(G7*I7<=J7,(L7*G7)+(M7*(J7-(G7*I7)))+Q7,L7*G7+Q7) fill=FFFFFF
+T7==IF(G7*I7<=J7,(O7*G7)+(P7*(J7-(G7*I7)))+Q7,O7*G7+Q7) fill=FFFFFF
+AD7==L7+AC7 fill=E6B9B8
+AE7==IF(G7*500<=J7,(AD7*G7)+(M7*(J7-(G7*500)))+Q7,AD7*G7+Q7) fill=E6B9B8
+AF7==AC7*G7 fill=E6B9B8
+AH7==(T7-Q7)*AG7 fill=E6B9B8
+AI7==T7-AE7-AH7 fill=E6B9B8
+N8==IF(G8*I8>=J8,"CBM","CBM + Overweight -"&J8-(G8*I8)&" Kg") fill=FFFFFF
+S8==IF(G8*I8<=J8,(L8*G8)+(M8*(J8-(G8*I8)))+Q8,L8*G8+Q8) fill=FFFFFF
+T8==IF(G8*I8<=J8,(O8*G8)+(P8*(J8-(G8*I8)))+Q8,O8*G8+Q8) fill=FFFFFF
+AD8==L8+AC8 fill=E6B9B8
+AE8==IF(G8*500<=J8,(AD8*G8)+(M8*(J8-(G8*500)))+Q8,AD8*G8+Q8) fill=E6B9B8
+AF8==AC8*G8 fill=E6B9B8
+AH8==(T8-Q8)*AG8 fill=E6B9B8
+AI8==T8-AE8-AH8 fill=E6B9B8
+N9==IF(G9*I9>=J9,"CBM","CBM + Overweight -"&J9-(G9*I9)&" Kg") fill=FFFFFF
+S9==IF(G9*I9<=J9,(L9*G9)+(M9*(J9-(G9*I9)))+Q9,L9*G9+Q9) fill=FFFFFF
+T9==IF(G9*I9<=J9,(O9*G9)+(P9*(J9-(G9*I9)))+Q9,O9*G9+Q9) fill=FFFFFF
+AD9==L9+AC9 fill=E6B9B8
+AE9==IF(G9*500<=J9,(AD9*G9)+(M9*(J9-(G9*500)))+Q9,AD9*G9+Q9) fill=E6B9B8
+AF9==AC9*G9 fill=E6B9B8
+AH9==(T9-Q9)*AG9 fill=E6B9B8
+AI9==T9-AE9-AH9 fill=E6B9B8
+N10==IF(G10*I10>=J10,"CBM","CBM + Overweight -"&J10-(G10*I10)&" Kg") fill=FFFF00
+S10==IF(G10*I10<=J10,(L10*G10)+(M10*(J10-(G10*I10)))+Q10,L10*G10+Q10) fill=FFFF00
+T10==IF(G10*I10<=J10,(O10*G10)+(P10*(J10-(G10*I10)))+Q10,O10*G10+Q10) fill=FFFF00
+AD10==L10+AC10 fill=FFFF00
+AE10==IF(G10*500<=J10,(AD10*G10)+(M10*(J10-(G10*500)))+Q10,AD10*G10+Q10) fill=FFFF00
+AF10==AC10*G10 fill=FFFF00
+AH10==(T10-Q10)*AG10 fill=FFFF00
+AI10==T10-AE10-AH10 fill=FFFF00
+N11==IF(G11*I11>=J11,"CBM","CBM + Overweight -"&J11-(G11*I11)&" Kg") fill=FFFF00
+S11==IF(G11*I11<=J11,(L11*G11)+(M11*(J11-(G11*I11)))+Q11,L11*G11+Q11) fill=FFFF00
+T11==IF(G11*I11<=J11,(O11*G11)+(P11*(J11-(G11*I11)))+Q11,O11*G11+Q11) fill=FFFF00
+AD11==L11+AC11 fill=FFFF00
+AE11==IF(G11*500<=J11,(AD11*G11)+(M11*(J11-(G11*500)))+Q11,AD11*G11+Q11) fill=FFFF00
+AF11==AC11*G11 fill=FFFF00
+AH11==(T11-Q11)*AG11 fill=FFFF00
+AI11==T11-AE11-AH11 fill=FFFF00
+N12==IF(G12*I12>=J12,"CBM","CBM + Overweight -"&J12-(G12*I12)&" Kg") fill=FFFFFF
+S12==IF(G12*I12<=J12,(L12*G12)+(M12*(J12-(G12*I12)))+Q12,L12*G12+Q12) fill=FFFFFF
+T12==IF(G12*I12<=J12,(O12*G12)+(P12*(J12-(G12*I12)))+Q12,O12*G12+Q12) fill=FFFFFF
+AD12==L12+AC12 fill=E6B9B8
+AE12==IF(G12*500<=J12,(AD12*G12)+(M12*(J12-(G12*500)))+Q12,AD12*G12+Q12) fill=E6B9B8
+AF12==AC12*G12 fill=E6B9B8
+AH12==(T12-Q12)*AG12 fill=E6B9B8
+AI12==T12-AE12-AH12 fill=E6B9B8
+N13==IF(G13*I13>=J13,"CBM","CBM + Overweight -"&J13-(G13*I13)&" Kg") fill=FFFFFF
+S13==IF(G13*I13<=J13,(L13*G13)+(M13*(J13-(G13*I13)))+Q13,L13*G13+Q13) fill=FFFFFF
+T13==IF(G13*I13<=J13,(O13*G13)+(P13*(J13-(G13*I13)))+Q13,O13*G13+Q13) fill=FFFFFF
+AD13==L13+AC13 fill=E6B9B8
+AE13==IF(G13*500<=J13,(AD13*G13)+(M13*(J13-(G13*500)))+Q13,AD13*G13+Q13) fill=E6B9B8
+AF13==AC13*G13 fill=E6B9B8
+AH13==(T13-Q13)*AG13 fill=E6B9B8
+AI13==T13-AE13-AH13 fill=E6B9B8
+N14==IF(G14*I14>=J14,"CBM","CBM + Overweight -"&J14-(G14*I14)&" Kg") fill=FFFFFF
+S14==IF(G14*I14<=J14,(L14*G14)+(M14*(J14-(G14*I14)))+Q14,L14*G14+Q14) fill=FFFFFF
+T14==IF(G14*I14<=J14,(O14*G14)+(P14*(J14-(G14*I14)))+Q14,O14*G14+Q14) fill=FFFFFF
+AD14==L14+AC14 fill=E6B9B8
+AE14==IF(G14*500<=J14,(AD14*G14)+(M14*(J14-(G14*500)))+Q14,AD14*G14+Q14) fill=E6B9B8
+AF14==AC14*G14 fill=E6B9B8
+AH14==(T14-Q14)*AG14 fill=E6B9B8
+AI14==T14-AE14-AH14 fill=E6B9B8
+N15==IF(G15*I15>=J15,"CBM","CBM + Overweight -"&J15-(G15*I15)&" Kg") fill=FFFFFF
+S15==IF(G15*I15<=J15,(L15*G15)+(M15*(J15-(G15*I15)))+Q15,L15*G15+Q15) fill=FFFFFF
+T15==IF(G15*I15<=J15,(O15*G15)+(P15*(J15-(G15*I15)))+Q15,O15*G15+Q15) fill=FFFFFF
+AD15==L15+AC15 fill=E6B9B8
+AE15==IF(G15*500<=J15,(AD15*G15)+(M15*(J15-(G15*500)))+Q15,AD15*G15+Q15) fill=E6B9B8
+AF15==AC15*G15 fill=E6B9B8
+AH15==(T15-Q15)*AG15 fill=E6B9B8
+AI15==T15-AE15-AH15 fill=E6B9B8
+N16==IF(G16*I16>=J16,"CBM","CBM + Overweight -"&J16-(G16*I16)&" Kg") fill=FFFFFF
+S16==IF(G16*I16<=J16,(L16*G16)+(M16*(J16-(G16*I16)))+Q16,L16*G16+Q16) fill=FFFFFF
+T16==IF(G16*I16<=J16,(O16*G16)+(P16*(J16-(G16*I16)))+Q16,O16*G16+Q16) fill=FFFFFF
+AD16==L16+AC16 fill=E6B9B8
+AE16==IF(G16*500<=J16,(AD16*G16)+(M16*(J16-(G16*500)))+Q16,AD16*G16+Q16) fill=E6B9B8
+AF16==AC16*G16 fill=E6B9B8
+AH16==(T16-Q16)*AG16 fill=E6B9B8
+AI16==T16-AE16-AH16 fill=E6B9B8
+N17==IF(G17*I17>=J17,"CBM","CBM + Overweight -"&J17-(G17*I17)&" Kg") fill=FFFFFF
+S17==IF(G17*I17<=J17,(L17*G17)+(M17*(J17-(G17*I17)))+Q17,L17*G17+Q17) fill=FFFFFF
+T17==IF(G17*I17<=J17,(O17*G17)+(P17*(J17-(G17*I17)))+Q17,O17*G17+Q17) fill=FFFFFF
+AD17==L17+AC17 fill=E6B9B8
+AE17==IF(G17*500<=J17,(AD17*G17)+(M17*(J17-(G17*500)))+Q17,AD17*G17+Q17) fill=E6B9B8
+AF17==AC17*G17 fill=E6B9B8
+AH17==(T17-Q17)*AG17 fill=E6B9B8
+AI17==T17-AE17-AH17 fill=E6B9B8
+N18==IF(G18*I18>=J18,"CBM","CBM + Overweight -"&J18-(G18*I18)&" Kg") fill=FFFFFF
+S18==IF(G18*I18<=J18,(L18*G18)+(M18*(J18-(G18*I18)))+Q18,L18*G18+Q18) fill=FFFFFF
+T18==IF(G18*I18<=J18,(O18*G18)+(P18*(J18-(G18*I18)))+Q18,O18*G18+Q18) fill=FFFFFF
+AD18==L18+AC18 fill=E6B9B8
+AE18==IF(G18*500<=J18,(AD18*G18)+(M18*(J18-(G18*500)))+Q18,AD18*G18+Q18) fill=E6B9B8
+AF18==AC18*G18 fill=E6B9B8
+AH18==(T18-Q18)*AG18 fill=E6B9B8
+AI18==T18-AE18-AH18 fill=E6B9B8
+N19==IF(G19*I19>=J19,"CBM","CBM + Overweight -"&J19-(G19*I19)&" Kg") fill=FFFFFF
+S19==IF(G19*I19<=J19,(L19*G19)+(M19*(J19-(G19*I19)))+Q19,L19*G19+Q19) fill=FFFFFF
+T19==IF(G19*I19<=J19,(O19*G19)+(P19*(J19-(G19*I19)))+Q19,O19*G19+Q19) fill=FFFFFF
+AD19==L19+AC19 fill=E6B9B8
+AE19==IF(G19*500<=J19,(AD19*G19)+(M19*(J19-(G19*500)))+Q19,AD19*G19+Q19) fill=E6B9B8
+AF19==AC19*G19 fill=E6B9B8
+AH19==(T19-Q19)*AG19 fill=E6B9B8
+AI19==T19-AE19-AH19 fill=E6B9B8
+H20==SUM(G20:G25) fill=FFFFFF
+K20==SUM(J20:J25) fill=FFFFFF
+N20==IF(G20*I20>=J20,"CBM","CBM + Overweight -"&J20-(G20*I20)&" Kg") fill=FFFFFF
+S20==IF(G20*I20<=J20,(L20*G20)+(M20*(J20-(G20*I20)))+Q20,L20*G20+Q20) fill=FFFFFF
+T20==IF(G20*I20<=J20,(O20*G20)+(P20*(J20-(G20*I20)))+Q20,O20*G20+Q20) fill=FFFFFF
+U20==SUM(T20:T25) fill=FFFFFF
+AD20==L20+AC20 fill=E6B9B8
+AE20==IF(G20*500<=J20,(AD20*G20)+(M20*(J20-(G20*500)))+Q20,AD20*G20+Q20) fill=E6B9B8
+AF20==AC20*G20 fill=E6B9B8
+AH20==(T20-Q20)*AG20 fill=E6B9B8
+AI20==T20-AE20-AH20 fill=E6B9B8
+N21==IF(G21*I21>=J21,"CBM","CBM + Overweight -"&J21-(G21*I21)&" Kg") fill=FFFFFF
+S21==IF(G21*I21<=J21,(L21*G21)+(M21*(J21-(G21*I21)))+Q21,L21*G21+Q21) fill=FFFFFF
+T21==IF(G21*I21<=J21,(O21*G21)+(P21*(J21-(G21*I21)))+Q21,O21*G21+Q21) fill=FFFFFF
+AD21==L21+AC21 fill=E6B9B8
+AE21==IF(G21*500<=J21,(AD21*G21)+(M21*(J21-(G21*500)))+Q21,AD21*G21+Q21) fill=E6B9B8
+AF21==AC21*G21 fill=E6B9B8
+AH21==(T21-Q21)*AG21 fill=E6B9B8
+AI21==T21-AE21-AH21 fill=E6B9B8
+N22==IF(G22*I22>=J22,"CBM","CBM + Overweight -"&J22-(G22*I22)&" Kg") fill=FFFFFF
+S22==IF(G22*I22<=J22,(L22*G22)+(M22*(J22-(G22*I22)))+Q22,L22*G22+Q22) fill=FFFFFF
+T22==IF(G22*I22<=J22,(O22*G22)+(P22*(J22-(G22*I22)))+Q22,O22*G22+Q22) fill=FFFFFF
+AD22==L22+AC22 fill=E6B9B8
+AE22==IF(G22*500<=J22,(AD22*G22)+(M22*(J22-(G22*500)))+Q22,AD22*G22+Q22) fill=E6B9B8
+AF22==AC22*G22 fill=E6B9B8
+AH22==(T22-Q22)*AG22 fill=E6B9B8
+AI22==T22-AE22-AH22 fill=E6B9B8
+N23==IF(G23*I23>=J23,"CBM","CBM + Overweight -"&J23-(G23*I23)&" Kg") fill=FFFFFF
+S23==IF(G23*I23<=J23,(L23*G23)+(M23*(J23-(G23*I23)))+Q23,L23*G23+Q23) fill=FFFFFF
+T23==IF(G23*I23<=J23,(O23*G23)+(P23*(J23-(G23*I23)))+Q23,O23*G23+Q23) fill=FFFFFF
+AD23==L23+AC23 fill=E6B9B8
+AE23==IF(G23*500<=J23,(AD23*G23)+(M23*(J23-(G23*500)))+Q23,AD23*G23+Q23) fill=E6B9B8
+AF23==AC23*G23 fill=E6B9B8
+AH23==(T23-Q23)*AG23 fill=E6B9B8
+AI23==T23-AE23-AH23 fill=E6B9B8
+N24==IF(G24*I24>=J24,"CBM","CBM + Overweight -"&J24-(G24*I24)&" Kg") fill=FFFFFF
+S24==IF(G24*I24<=J24,(L24*G24)+(M24*(J24-(G24*I24)))+Q24,L24*G24+Q24) fill=FFFFFF
+T24==IF(G24*I24<=J24,(O24*G24)+(P24*(J24-(G24*I24)))+Q24,O24*G24+Q24) fill=FFFFFF
+AD24==L24+AC24 fill=E6B9B8
+AE24==IF(G24*500<=J24,(AD24*G24)+(M24*(J24-(G24*500)))+Q24,AD24*G24+Q24) fill=E6B9B8
+AF24==AC24*G24 fill=E6B9B8
+AH24==(T24-Q24)*AG24 fill=E6B9B8
+AI24==T24-AE24-AH24 fill=E6B9B8
+N25==IF(G25*I25>=J25,"CBM","CBM + Overweight -"&J25-(G25*I25)&" Kg") fill=FFFFFF
+S25==IF(G25*I25<=J25,(L25*G25)+(M25*(J25-(G25*I25)))+Q25,L25*G25+Q25) fill=FFFFFF
+T25==IF(G25*I25<=J25,(O25*G25)+(P25*(J25-(G25*I25)))+Q25,O25*G25+Q25) fill=FFFFFF
+AD25==L25+AC25 fill=E6B9B8
+AE25==IF(G25*500<=J25,(AD25*G25)+(M25*(J25-(G25*500)))+Q25,AD25*G25+Q25) fill=E6B9B8
+AF25==AC25*G25 fill=E6B9B8
+AH25==(T25-Q25)*AG25 fill=E6B9B8
+AI25==T25-AE25-AH25 fill=E6B9B8
+-- Yellow / highlighted cells --
+A10 fill=FFFF00 val=
+B10 fill=FFFF00 val=
+C10 fill=FFFF00 val=
+D10 fill=FFFF00 val=EK/ON/ARIASBY
+E10 fill=FFFF00 val=
+F10 fill=FFFF00 val=
+G10 fill=FFFF00 val=3.977
+H10 fill=FFFF00 val=
+I10 fill=FFFF00 val=
+J10 fill=FFFF00 val=
+K10 fill=FFFF00 val=
+L10 fill=FFFF00 val=
+M10 fill=FFFF00 val=
+N10 fill=FFFF00 val==IF(G10*I10>=J10,"CBM","CBM + Overweight -"&J10-(G10*I10)&" Kg")
+O10 fill=FFFF00 val=6500000
+P10 fill=FFFF00 val=
+Q10 fill=FFFF00 val=
+R10 fill=FFFF00 val=
+S10 fill=FFFF00 val==IF(G10*I10<=J10,(L10*G10)+(M10*(J10-(G10*I10)))+Q10,L10*G10+Q10)
+T10 fill=FFFF00 val==IF(G10*I10<=J10,(O10*G10)+(P10*(J10-(G10*I10)))+Q10,O10*G10+Q10)
+U10 fill=FFFF00 val=
+V10 fill=FFFF00 val=
+Y10 fill=FFFF00 val=
+Z10 fill=FFFF00 val=
+AA10 fill=FFFF00 val=
+AB10 fill=FFFF00 val=
+AC10 fill=FFFF00 val=150000
+AD10 fill=FFFF00 val==L10+AC10
+AE10 fill=FFFF00 val==IF(G10*500<=J10,(AD10*G10)+(M10*(J10-(G10*500)))+Q10,AD10*G10+Q10)
+AF10 fill=FFFF00 val==AC10*G10
+AG10 fill=FFFF00 val=2,50%
+AH10 fill=FFFF00 val==(T10-Q10)*AG10
+AI10 fill=FFFF00 val==T10-AE10-AH10
+AJ10 fill=FFFF00 val=
+AK10 fill=FFFF00 val=
+AL10 fill=FFFF00 val=
+AM10 fill=FFFF00 val=
+A11 fill=FFFF00 val=
+B11 fill=FFFF00 val=
+C11 fill=FFFF00 val=
+D11 fill=FFFF00 val=EK/ON/GAXYB74
+E11 fill=FFFF00 val=
+F11 fill=FFFF00 val=
+G11 fill=FFFF00 val=1.473
+H11 fill=FFFF00 val=
+I11 fill=FFFF00 val=
+J11 fill=FFFF00 val=
+K11 fill=FFFF00 val=
+L11 fill=FFFF00 val=
+M11 fill=FFFF00 val=
+N11 fill=FFFF00 val==IF(G11*I11>=J11,"CBM","CBM + Overweight -"&J11-(G11*I11)&" Kg")
+O11 fill=FFFF00 val=6500000
+P11 fill=FFFF00 val=
+Q11 fill=FFFF00 val=
+R11 fill=FFFF00 val=
+S11 fill=FFFF00 val==IF(G11*I11<=J11,(L11*G11)+(M11*(J11-(G11*I11)))+Q11,L11*G11+Q11)
+T11 fill=FFFF00 val==IF(G11*I11<=J11,(O11*G11)+(P11*(J11-(G11*I11)))+Q11,O11*G11+Q11)
+U11 fill=FFFF00 val=
+V11 fill=FFFF00 val=
+Y11 fill=FFFF00 val=
+Z11 fill=FFFF00 val=
+AA11 fill=FFFF00 val=
+AB11 fill=FFFF00 val=
+AC11 fill=FFFF00 val=150000
+AD11 fill=FFFF00 val==L11+AC11
+AE11 fill=FFFF00 val==IF(G11*500<=J11,(AD11*G11)+(M11*(J11-(G11*500)))+Q11,AD11*G11+Q11)
+AF11 fill=FFFF00 val==AC11*G11
+AG11 fill=FFFF00 val=2,50%
+AH11 fill=FFFF00 val==(T11-Q11)*AG11
+AI11 fill=FFFF00 val==T11-AE11-AH11
+AJ11 fill=FFFF00 val=
+AK11 fill=FFFF00 val=
+AL11 fill=FFFF00 val=
+AM11 fill=FFFF00 val=
+AI47 fill=FF0000 val==T47-AE47-AH47
+AI50 fill=FF0000 val==T50-AE50-AH50
+AI51 fill=FF0000 val==T51-AE51-AH51
+AI52 fill=FF0000 val==T52-AE52-AH52
+AI53 fill=FF0000 val==T53-AE53-AH53
+AI54 fill=FF0000 val==T54-AE54-AH54
+AI55 fill=FF0000 val==T55-AE55-AH55
+AI56 fill=FF0000 val==T56-AE56-AH56
+AI57 fill=FF0000 val==T57-AE57-AH57
+AI58 fill=FF0000 val==T58-AE58-AH58
+AI59 fill=FF0000 val==T59-AE59-AH59
+AI60 fill=FF0000 val==T60-AE60-AH60
+AI61 fill=FF0000 val==T61-AE61-AH61
+AI62 fill=FF0000 val==T62-AE62-AH62
+AI63 fill=FF0000 val==T63-AE63-AH63
+-- All non-white fills (unique by row) --
+row=1 fill=0F172A A=No B=Serial No. D=Marking
+row=1 fill=000000 A=No B=Serial No. D=Marking
+row=2 fill=E6B9B8 A=1 B=1205..01 D=EK/ON/ADR/MLG
+row=3 fill=E6B9B8 A=2 B=11.05.1 D=EK/ON/ADR/UBE
+row=4 fill=E6B9B8 A= B=1105.02 D=EK/ON/ADR/UBE
+row=5 fill=E6B9B8 A= B=1105.03 D=EK/ON/ADR/UBE
+row=6 fill=E6B9B8 A= B=1105.1 D=EK/ON/ADR/UBE
+row=7 fill=E6B9B8 A= B=1305.1 D=EK/ON/ADR/UBE
+row=8 fill=E6B9B8 A=3 B=1205.07 D=EK/ON/POSEIDON789
+row=9 fill=E6B9B8 A= B=2205.05 D=EK/ON/POSEIDON789
+row=10 fill=FFFF00 A= B= D=EK/ON/ARIASBY
+row=11 fill=FFFF00 A= B= D=EK/ON/GAXYB74
+row=12 fill=E6B9B8 A=4 B=0905.10 D=EK/ON/SAKIOFC
+row=13 fill=E6B9B8 A= B=1405.3 D=EK/ON/SAKIOFC
+row=14 fill=E6B9B8 A= B=1605.3 D=EK/ON/SAKIOFC
+row=15 fill=E6B9B8 A= B=1905.12 D=EK/ON/SAKIOFC
+row=16 fill=E6B9B8 A= B=2505.08 D=EK/ON/SAKIOFC
+row=17 fill=E6B9B8 A=5 B=0705.06 D=EK/ON/TERNATE
+row=18 fill=E6B9B8 A=6 B=1105.63 D=EK/ON/TUTEMPO
+row=19 fill=E6B9B8 A= B=2704.05 D=EK/ON/TUTEMPO
+row=20 fill=E6B9B8 A=1 B=2605.1 D=EK/ON/SIENNYZHUANG
+row=21 fill=E6B9B8 A= B=2805.01 D=
+row=22 fill=E6B9B8 A= B=2805.02 D=
+row=23 fill=E6B9B8 A= B=2805.2 D=
+row=24 fill=E6B9B8 A= B=2905.01 D=
+row=25 fill=E6B9B8 A= B=2905.02 D=
+row=26 fill=E6B9B8 A=1 B=1505.04 D=EK/ON/ARTO
+row=27 fill=E6B9B8 A=2 B=2804.01 D=EK/ON/CJLSBY
+row=28 fill=E6B9B8 A=3 B=1405.05 D=EK/ON/DMNCY
+row=29 fill=E6B9B8 A=4 B=26.05.02 D=EK/ON/GNI21
+row=30 fill=E6B9B8 A=5 B=0805.5 D=EK/ON/HRION
+row=31 fill=E6B9B8 A= B=1605.01 D=
+row=32 fill=E6B9B8 A= B=1905.18 D=
+row=33 fill=E6B9B8 A= B=3004.51 D=
+row=34 fill=E6B9B8 A=6 B=0605.02 D=EK/ON/L7DW
+row=35 fill=E6B9B8 A=7 B=2904.31 D=EK/ON/MNAFE
+row=36 fill=E6B9B8 A=8 B=1205.01 D=EK/ON/OX222
+row=37 fill=E6B9B8 A= B=1805.2 D=
+row=38 fill=E6B9B8 A= B=2005.02 D=
+row=39 fill=E6B9B8 A= B=2105.04 D=
+row=40 fill=E6B9B8 A= B=2105.4 D=
+row=41 fill=E6B9B8 A=9 B=1205.11 D=EK/ON/RCBID74
+row=42 fill=E6B9B8 A=10 B=0705.42 D=EK/ON/SURISBY
+row=43 fill=E6B9B8 A=1 B=0805.05 D=EK/ON/DEUCY
+row=44 fill=E6B9B8 A= B=1405.08 D=
+row=45 fill=E6B9B8 A=2 B=1305.03 D=EK/ON/ELOK88
+row=46 fill=E6B9B8 A= B=2704.38 D=
+row=47 fill=E6B9B8 A=3 B=1405.4 D=EK/ON/GWSS
+row=47 fill=FF0000 A=3 B=1405.4 D=EK/ON/GWSS
+row=48 fill=E6B9B8 A=4 B=0705.09 D=EK/ON/INDOSKATES
+row=49 fill=E6B9B8 A= B=1505.3 D=
+row=50 fill=E6B9B8 A=5 B=0905.97 D=EK/ON/LAILAI
+row=50 fill=FF0000 A=5 B=0905.97 D=EK/ON/LAILAI
+row=51 fill=E6B9B8 A=6 B=0806.247 D=EK/ON/LAIMENA
+row=51 fill=FF0000 A=6 B=0806.247 D=EK/ON/LAIMENA
+row=52 fill=E6B9B8 A= B=0905.04 D=
+row=52 fill=FF0000 A= B=0905.04 D=
+row=53 fill=E6B9B8 A= B=1105.74 D=
+row=53 fill=FF0000 A= B=1105.74 D=
+row=54 fill=E6B9B8 A= B=1205.229 D=
+row=54 fill=FF0000 A= B=1205.229 D=
+row=55 fill=E6B9B8 A= B=1305.09 D=
+row=55 fill=FF0000 A= B=1305.09 D=
+row=56 fill=E6B9B8 A= B=1305.4 D=
+row=56 fill=FF0000 A= B=1305.4 D=
+row=57 fill=E6B9B8 A= B=2005.01 D=
+row=57 fill=FF0000 A= B=2005.01 D=
+row=58 fill=E6B9B8 A= B=2005.16 D=
+row=58 fill=FF0000 A= B=2005.16 D=
+row=59 fill=E6B9B8 A=7 B=2205.07 D=EK/ON/SARA
+row=59 fill=FF0000 A=7 B=2205.07 D=EK/ON/SARA
+row=60 fill=E6B9B8 A=8 B=0805.08 D=EK/ON/SONDAKH
+row=60 fill=FF0000 A=8 B=0805.08 D=EK/ON/SONDAKH
+row=61 fill=E6B9B8 A= B=1105.01 D=
+row=61 fill=FF0000 A= B=1105.01 D=
+row=62 fill=E6B9B8 A= B=1105.04 D=
+row=62 fill=FF0000 A= B=1105.04 D=
+row=63 fill=E6B9B8 A= B=1905.1 D=
+row=63 fill=FF0000 A= B=1905.1 D=
+row=64 fill=E6B9B8 A=1 B=2804.1 D=EK/ON/RICO
+row=65 fill=E6B9B8 A=1 B=0106.40 D=EK/ON/TOPSEVEN
+row=66 fill=E6B9B8 A= B= D=
+=== SHEET: Tarif Kategori ===
+rows=12 cols=E (5)
+-- Merges --
+A1:E1
+A2:E2
+A3:E3
+-- Row heights / widths (sample) --
+A=22
+B=16
+C=16
+D=22
+E=18
+R1: A=Referensi Tarif per Kategori fill=0F172A bold font=FFFFFF
+R2: A=Keuntungan perusahaan = per pengiriman (per no urut). Tarif di bawah dari pengaturan sistem saat export dibuat. font=64748B
+R3: A=Default pengaturan umum (jika kategori belum diisi): Rp 150.000 / pengiriman font=64748B
+R4: 
+R5: A=Kategori / Tipe Barang fill=0F172A bold font=FFFFFF | B=Modal CBM (Rp) fill=0F172A bold font=FFFFFF | C=Modal kg (Rp) fill=0F172A bold font=FFFFFF | D=Keuntungan / Pengiriman (Rp) fill=0F172A bold font=FFFFFF | E=Keterangan fill=0F172A bold font=FFFFFF
+R6: A=Lartas Berat fill=F8FAFC font=000000 | B=6150000 fill=F8FAFC font=000000 | C=12000 fill=F8FAFC font=000000 | D=150000 fill=F8FAFC font=000000
+R7: A=Sepatu Non Brand font=000000 | B=3950000 font=000000 | C=9000 font=000000 | D=150000 font=000000
+R8: A=Umum fill=F8FAFC font=000000 | B=5150000 fill=F8FAFC font=000000 | C=10000 fill=F8FAFC font=000000 | D=150000 fill=F8FAFC font=000000
+-- Formulas sample (rows 2-25) --
+-- Yellow / highlighted cells --
+-- All non-white fills (unique by row) --
+row=1 fill=0F172A A=Referensi Tarif per Kategori B= D=
+row=5 fill=0F172A A=Kategori / Tipe Barang B=Modal CBM (Rp) D=Keuntungan / Pengiriman (Rp)
+row=6 fill=F8FAFC A=Lartas Berat B=6150000 D=150000
+row=8 fill=F8FAFC A=Umum B=5150000 D=150000
+row=10 fill=F8FAFC A=Mesin B=5650000 D=150000
+row=12 fill=F8FAFC A=Semi Garment B=7150000 D=150000

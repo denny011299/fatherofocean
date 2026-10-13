@@ -1,0 +1,18 @@
+﻿
+Warning: PHP Startup: Unable to load dynamic library 'xmlreader' (tried: C:/laragon/bin/php/php-8.2.6/ext\xmlreader (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_xmlreader.dll (The specified module could not be found)) in Unknown on line 0
+
+Warning: PHP Startup: Unable to load dynamic library 'xml' (tried: C:/laragon/bin/php/php-8.2.6/ext\xml (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_xml.dll (The specified module could not be found)) in Unknown on line 0
+
+Warning: PHP Startup: Unable to load dynamic library 'zlib' (tried: C:/laragon/bin/php/php-8.2.6/ext\zlib (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_zlib.dll (The specified module could not be found)) in Unknown on line 0
+
+Warning: PHP Startup: Unable to load dynamic library 'php_imagick.dll' (tried: C:/laragon/bin/php/php-8.2.6/ext\php_imagick.dll (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_php_imagick.dll.dll (The specified module could not be found)) in Unknown on line 0
+=== YELLOW ROWS (FFFF00) full values ===
+R10: D=EK/ON/ARIASBY | G=3.977 | O=6500000 | AC=150000 | AG=2,50%
+R11: D=EK/ON/GAXYB74 | G=1.473 | O=6500000 | AC=150000 | AG=2,50%
+
+=== SUMMARY / TOTAL rows (labels in B or text) ===
+R1: A=No | B=Serial No. | C=Tanggal Masuk | D=Marking | E=Item | F=Kategori | G=CBM | H=Total CBM | I=Max CBM per marking | J=KG | K=Total KG | L=Harga Modal CBM | M=Harga Modal Kg | N=Keterangan | O=Harga jual CBM | P=Harga Jual Kg | Q=Aditional Fee | R=Keterangan | S=Total Modal | T=Total Jual | U=Grand Total bayar | V=Catatan | W=Marketing | X=PIC | Y=Pembayaran | Z=Update | AA=Loading | AB=Partai | AC=Profit Perusahaan | AD=Modal Perusahaan | AE=Total Modal Perusahaan | AF=Komisi Perusahaan | AG=Komisi Sales | AH=Komisi Sales | AI=Komisi PIC
+
+=== Sheet list ===
+Omset rows=66
+Tarif Kategori rows=12

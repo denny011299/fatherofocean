@@ -1,0 +1,219 @@
+    private function scheduleAfterStoreSideEffects(int $barangId): void
+    {
+        app()->terminating(function () use ($barangId): void {
+            $barang = Barang::query()->find($barangId);
+            if (! $barang) {
+                return;
+            }
+
+            ActivityLog::record('Barang created', $barang);
+            app(BarangTrackingService::class)->syncStuffing($barang, auth()->id());
+
+            $invoice = $this->createInvoiceForBarang($barang->fresh());
+            if ($invoice) {
+                ActivityLog::record('Invoice generated', $invoice);
+            }
+        });
+    }
+
+    /** @param array<string, mixed> $old */
+    /** @param array<string, mixed> $new */
+    private function scheduleAfterUpdateSideEffects(int $barangId, array $old, array $new): void
+    {
+        app()->terminating(function () use ($barangId, $old, $new): void {
+            $barang = Barang::query()->find($barangId);
+            if (! $barang) {
+                return;
+            }
+
+            ActivityLog::record('Barang updated', $barang, $old, $new);
+        });
+    }
+
+    /** @param list<int|string> $invoiceIds */
+    /** @param array<string, mixed> $snapshot */
+    private function scheduleAfterDestroySideEffects(array $invoiceIds, array $snapshot): void
+    {
+        app()->terminating(function () use ($invoiceIds, $snapshot): void {
+            ActivityLog::record('Barang deleted', null, $snapshot);
+
+            foreach ($invoiceIds as $invoiceId) {
+                $invoice = Invoice::query()->find((int) $invoiceId);
+                if (! $invoice) {
+                    continue;
+                }
+
+                $invoice->recalculate();
+                if (! $invoice->items()->exists()) {
+                    $invoice->delete();
+                }
+            }
+        });
+    }
+
+    private function createInvoiceForBarang(Barang $barang): ?Invoice
+    {
+        if (! $barang->user_id || $barang->invoiceItems()->exists()) {
+            return null;
+        }
+
+        $pricePerCbm = (float) ($barang->price_per_cbm ?? 0);
+        if ($pricePerCbm <= 0) {
+            return null;
+        }
+
+        $insuranceAmount = (float) $barang->insurance_value * ((float) $barang->insurance_rate / 100);
+        $due = \App\Support\InvoiceDueResolver::resolveForBarang($barang);
+
+        $invoice = Invoice::create([
+            'invoice_no' => Invoice::generateNumber(),
+            'user_id' => $barang->user_id,
+            'price_per_cbm' => $pricePerCbm,
+            'status' => \App\Support\InvoiceDueResolver::statusForResolved($due, 'draft'),
+            'due_date' => $due['due_date'],
+            'created_by' => auth()->id(),
+        ]);
+
+        InvoiceItem::create([
+            'invoice_id' => $invoice->id,
+            'barang_id' => $barang->id,
+            'cbm' => $barang->total_cbm,
+            'price_per_cbm' => $pricePerCbm,
+            'insurance' => $insuranceAmount,
+            'extra' => (float) ($barang->extra_charge ?? 0),
+        ]);
+
+        $invoice->recalculate();
+
+        return $invoice;
+    }
+
+    /** @var list<string> */
+    private const PRODUCT_LOGISTICS_FIELDS = ['ctns', 'length_cm', 'width_cm', 'height_cm'];
+
+    private function canEditBarangProductLogistics(): bool
+    {
+        return true;
+    }
+
+    private function enforceProductLogisticsPermissions(Request $request, Barang $barang): void
+    {
+        if ($this->canEditBarangProductLogistics() || !$request->has('products')) {
+            return;
+        }
+
+        $rows = $request->input('products', []);
+        if (!is_array($rows)) {
+            return;
+        }
+
+        $existingById = $barang->exists
+            ? $barang->products()->get()->keyBy('id')
+            : collect();
+
+        $blocked = false;
+
+        foreach ($rows as $index => $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+
+            foreach (self::PRODUCT_LOGISTICS_FIELDS as $field) {
+                if (!empty($row['id']) && $existingById->has((int) $row['id'])) {
+                    /** @var BarangProduct $product */
+                    $product = $existingById->get((int) $row['id']);
+                    if ($this->productLogisticsValueChanged($row, $product, $field)) {
+                        $blocked = true;
+                    }
+                    $rows[$index][$field] = $product->{$field};
+                } elseif ($this->productLogisticsIncomingNotEmpty($row, $field)) {
+                    $blocked = true;
+                    $rows[$index][$field] = $field === 'ctns' ? 0 : 0;
+                }
+            }
+        }
+
+        $request->merge(['products' => $rows]);
+
+        if ($blocked) {
+            ActivityLog::record('Barang product logistics change blocked', $barang);
+        }
+    }
+
+    /** @param array<string, mixed> $row */
+    private function productLogisticsIncomingNotEmpty(array $row, string $field): bool
+    {
+        if ($field === 'ctns') {
+            return (int) ($row[$field] ?? 0) > 0;
+        }
+
+        return (float) ($row[$field] ?? 0) > 0;
+    }
+
+    /** @param array<string, mixed> $row */
+    private function productLogisticsValueChanged(array $row, BarangProduct $product, string $field): bool
+    {
+        if ($field === 'ctns') {
+            return (int) ($row[$field] ?? 0) !== (int) $product->ctns;
+        }
+
+        return abs((float) ($row[$field] ?? 0) - (float) $product->{$field}) > 0.0001;
+    }
+
+    private function syncBarangAdditionalPrices(Request $request, Barang $barang): void
+    {
+        if (! $request->has('additional_prices')) {
+            return;
+        }
+
+        $rows = $request->input('additional_prices', []);
+        if (! is_array($rows)) {
+            return;
+        }
+
+        $existing = $barang->additionalPrices()->get()->keyBy('id');
+        $keepIds = [];
+        $sort = 0;
+
+        foreach ($rows as $row) {
+            if (! is_array($row)) {
+                continue;
+            }
+
+            $name = trim((string) ($row['name'] ?? ''));
+            $price = (float) ($row['price'] ?? 0);
+
+            if ($name === '' && $price <= 0) {
+                continue;
+            }
+
+            $payload = [
+                'sort_order' => $sort++,
+                'name' => $name !== '' ? $name : '-',
+                'price' => $price,
+            ];
+
+            $record = null;
+            if (! empty($row['id'])) {
+                $record = $existing->get((int) $row['id']);
+            }
+
+            if ($record) {
+                if ($this->additionalPriceChanged($record, $payload)) {
+                    $record->update($payload);
+                }
+                $keepIds[] = $record->id;
+            } else {
+                $created = $barang->additionalPrices()->create($payload);
+                $keepIds[] = $created->id;
+            }
+        }
+
+        $barang->additionalPrices()->whereNotIn('id', $keepIds)->delete();
+    }
+
+    /**
+     * @param \Illuminate\Support\Collection<int, BarangAdditionalPrice>|\Illuminate\Database\Eloquent\Collection<int, BarangAdditionalPrice> $rows
+     * @return list<array<string, mixed>>
+     */
+    private function mapAdditionalPricesForForm($rows): array

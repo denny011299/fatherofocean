@@ -1,0 +1,256 @@
+public function trackingSummary(Container $container): JsonResponse
+    {
+        abort_unless(
+            (auth()->user()?->can('view delivery trip') ?? false)
+            || (auth()->user()?->can('create delivery trip') ?? false),
+            403,
+        );
+
+        $container->loadMissing('gudangChina:id,name');
+        $trip = $container->latestDeliveryTrip()->first();
+        $barangs = $trip !== null
+            ? $this->trackingTripBarangs($trip)
+            : $this->trackingContainerEligibleBarangs($container);
+
+        return response()->json($this->trackingTripPayload($container, $trip, $barangs));
+    }
+
+    public function trackingUpsert(Request $request, Container $container): JsonResponse
+    {
+        abort_unless(
+            (auth()->user()?->can('create delivery trip') ?? false)
+            || (auth()->user()?->can('manage delivery trip') ?? false),
+            403,
+        );
+
+        $trip = $container->latestDeliveryTrip()->first();
+        $data = $request->validate([
+            'truck_plate' => 'required|string|max:30',
+            'driver_name' => 'required|string|max:120',
+            'driver_phone' => 'nullable|string|max:30',
+            'destination' => 'nullable|string|max:255',
+            'trip_notes' => 'nullable|string|max:2000',
+            'marking_code' => 'nullable|string|max:255',
+            'customer' => 'nullable|string|max:255',
+            'telp' => 'nullable|string|max:60',
+            'alamat' => 'nullable|string|max:2000',
+            'loading_date' => 'nullable|date',
+            'nama_barang' => 'nullable|string|max:2000',
+            'total_coly' => 'nullable|string|max:60',
+            'partai' => 'nullable|string|max:255',
+            'print_notes' => 'nullable|string|max:2000',
+            'receiver_name' => 'nullable|string|max:255',
+            'receiver_phone' => 'nullable|string|max:60',
+            'received_date' => 'nullable|date',
+        ]);
+
+        $barangs = $trip !== null
+            ? $this->trackingTripBarangs($trip)
+            : $this->trackingContainerEligibleBarangs($container);
+
+        abort_if($barangs->isEmpty(), 422, __('delivery_trip.no_items'));
+
+        $payload = $this->trackingTripAttributes($data, $container);
+
+        $trip = DB::transaction(function () use ($trip, $container, $barangs, $payload): DeliveryTrip {
+            if ($trip === null) {
+                $created = DeliveryTrip::query()->create([
+                    'trip_no' => DeliveryTrip::generateTripNo(),
+                    'container_id' => $container->id,
+                    'status' => DeliveryTrip::STATUS_READY,
+                    'created_by' => (int) auth()->id(),
+                    ...$payload,
+                ]);
+
+                $sync = [];
+                foreach ($barangs as $index => $barang) {
+                    $sync[(int) $barang->id] = ['sort_order' => $index];
+                }
+                $created->barangs()->sync($sync);
+
+                ActivityLog::record('Delivery trip created from tracking', $created, null, [
+                    'trip_no' => $created->trip_no,
+                    'container_id' => $container->id,
+                    'barang_count' => count($sync),
+                ]);
+
+                return $created;
+            }
+
+            $trip->update($payload);
+
+            ActivityLog::record('Delivery trip summary updated', $trip);
+
+            return $trip->fresh();
+        });
+
+        $trip->load([
+            'container:id,partai,container_no,eta,load_date',
+            'barangs' => static fn ($q) => $q->with('customer:id,name', 'containers:id,partai,container_no')->orderBy('delivery_trip_barang.sort_order'),
+            'media.uploader:id,name',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => $trip->wasRecentlyCreated ? __('delivery_trip.created') : __('delivery_trip.updated'),
+            'data' => $this->trackingTripPayload($container, $trip, $trip->barangs),
+        ]);
+    }
+ 
+     public function containers(Request $request): JsonResponse
+     {
+         abort_unless(auth()->user()?->can('view delivery trip'), 403);
+@@
+     private static function displayContainerForTrip(DeliveryTrip $trip): string
+     {
+         $container = $trip->container;
+@@
+ 
+         return $partai !== '' ? $partai : ($containerNo !== '' ? $containerNo : '—');
+     }
+
+    /**
+     * @return Collection<int, Barang>
+     */
+    private function trackingContainerEligibleBarangs(Container $container): Collection
+    {
+        $query = $container->barangs()
+            ->with('customer:id,name', 'containers:id,partai,container_no')
+            ->where(static function (Builder $q): void {
+                $q->eligibleForDeliveryTrip();
+                Marking::restrictBarangsQuery($q);
+            })
+            ->orderBy('barangs.no_index');
+
+        return $query->get([
+            'barangs.id',
+            'barangs.no_index',
+            'barangs.marking',
+            'barangs.customer_name',
+            'barangs.user_id',
+            'barangs.destination',
+            'barangs.ctns',
+            'barangs.total_cbm',
+            'barangs.status',
+            'barangs.tanggal_masuk',
+            'barangs.notes',
+            'barangs.form',
+        ]);
+    }
+
+    /**
+     * @return Collection<int, Barang>
+     */
+    private function trackingTripBarangs(DeliveryTrip $trip): Collection
+    {
+        $trip->loadMissing([
+            'barangs' => static fn ($q) => $q
+                ->with('customer:id,name', 'containers:id,partai,container_no')
+                ->orderBy('delivery_trip_barang.sort_order'),
+        ]);
+
+        /** @var Collection<int, Barang> $barangs */
+        $barangs = $trip->barangs;
+
+        return $barangs;
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    private function trackingTripAttributes(array $data, Container $container): array
+    {
+        return [
+            'truck_plate' => trim((string) $data['truck_plate']),
+            'driver_name' => trim((string) $data['driver_name']),
+            'driver_phone' => $this->nullableTrim($data['driver_phone'] ?? null),
+            'destination' => $this->nullableTrim($data['destination'] ?? null),
+            'notes' => $this->nullableTrim($data['trip_notes'] ?? null),
+            'print_marking_code' => $this->nullableTrim($data['marking_code'] ?? null),
+            'print_customer_name' => $this->nullableTrim($data['customer'] ?? null),
+            'print_customer_phone' => $this->nullableTrim($data['telp'] ?? null),
+            'print_customer_address' => $this->nullableTrim($data['alamat'] ?? null),
+            'print_loading_date' => $data['loading_date'] ?? null,
+            'print_item_name' => $this->nullableTrim($data['nama_barang'] ?? null),
+            'print_total_coly' => $this->nullableTrim($data['total_coly'] ?? null),
+            'print_partai' => $this->nullableTrim($data['partai'] ?? null) ?? trim((string) ($container->partai ?? '')),
+            'print_notes' => $this->nullableTrim($data['print_notes'] ?? null),
+            'receiver_name' => $this->nullableTrim($data['receiver_name'] ?? null),
+            'receiver_phone' => $this->nullableTrim($data['receiver_phone'] ?? null),
+            'received_date' => $data['received_date'] ?? null,
+        ];
+    }
+
+    /**
+     * @param  Collection<int, Barang>  $barangs
+     * @return array<string, mixed>
+     */
+    private function trackingTripPayload(Container $container, ?DeliveryTrip $trip, Collection $barangs): array
+    {
+        $summary = $trip !== null
+            ? \\App\\Support\\SuratJalanPdfData::summaryFormDefaults($trip)
+            : \\App\\Support\\SuratJalanPdfData::draftSummary($container, $barangs);
+
+        $mediaPayload = $trip !== null
+            ? collect($trip->media)->map(static fn (DeliveryTripMedia $media) => [
+                'id' => $media->id,
+                'phase' => $media->phase,
+                'media_type' => $media->media_type,
+                'url' => $media->url(),
+                'original_name' => $media->original_name,
+                'uploaded_by' => $media->uploader?->name,
+                'created_at' => $media->created_at?->format('d M Y H:i'),
+            ])
+            : collect();
+
+        return [
+            'exists' => $trip !== null,
+            'container' => [
+                'id' => $container->id,
+                'partai' => $container->partai,
+                'container_no' => $container->container_no,
+                'eta' => $container->eta?->format('d/m/Y'),
+                'shipments_count' => $barangs->count(),
+            ],
+            'trip' => [
+                'id' => $trip?->id,
+                'trip_no' => $trip?->trip_no,
+                'status' => $trip?->status ?? DeliveryTrip::STATUS_READY,
+                'status_label' => DeliveryTrip::statusLabel($trip?->status ?? DeliveryTrip::STATUS_READY),
+                'status_badge' => $trip?->statusBadgeClass() ?? 'badge-status-pending',
+                'truck_plate' => $trip?->truck_plate ?? '',
+                'driver_name' => $trip?->driver_name ?? '',
+                'driver_phone' => $trip?->driver_phone ?? '',
+                'destination' => $trip?->destination ?? '',
+                'trip_notes' => $trip?->notes ?? '',
+                'summary' => $summary,
+                'shipments' => $barangs->map(static function (Barang $barang): array {
+                    return [
+                        'id' => $barang->id,
+                        'no_index' => $barang->no_index,
+                        'marking' => $barang->marking,
+                        'customer_name' => $barang->customer_name ?: ($barang->customer?->name ?? ''),
+                        'ctns' => (int) $barang->ctns,
+                        'total_cbm' => round((float) $barang->total_cbm, 4),
+                    ];
+                })->values()->all(),
+                'can_manage_summary' => $trip?->canManageSummary() ?? true,
+                'can_confirm_departure' => ($trip !== null) && (auth()->user()?->can('confirm delivery trip') ?? false) && $trip->canConfirmDeparture(),
+                'can_confirm_arrival' => ($trip !== null) && (auth()->user()?->can('confirm delivery trip') ?? false) && $trip->canConfirmArrival(),
+                'can_pdf' => ($trip !== null) && (auth()->user()?->can('export delivery trip pdf') ?? false) && $trip->canGeneratePdf(),
+                'departure_photos' => $mediaPayload->where('phase', DeliveryTripMedia::PHASE_DEPARTURE)->where('media_type', DeliveryTripMedia::TYPE_PHOTO)->values()->all(),
+                'departure_videos' => $mediaPayload->where('phase', DeliveryTripMedia::PHASE_DEPARTURE)->where('media_type', DeliveryTripMedia::TYPE_VIDEO)->values()->all(),
+                'arrival_photos' => $mediaPayload->where('phase', DeliveryTripMedia::PHASE_ARRIVAL)->where('media_type', DeliveryTripMedia::TYPE_PHOTO)->values()->all(),
+                'arrival_videos' => $mediaPayload->where('phase', DeliveryTripMedia::PHASE_ARRIVAL)->where('media_type', DeliveryTripMedia::TYPE_VIDEO)->values()->all(),
+            ],
+        ];
+    }
+
+    private function nullableTrim(mixed $value): ?string
+    {
+        $normalized = trim((string) ($value ?? ''));
+
+        return $normalized !== '' ? $normalized : null;
+    }
+ }

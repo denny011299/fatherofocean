@@ -1,0 +1,122 @@
+            return response()->json(['success' => false, 'message' => __('messages.preload_import_failed', ['error' => $e->getMessage()])], 422);
+        }
+    }
+
+    private function applyDailyRateToRequest(Request $request, bool $isUpdate): void
+    {
+        if ($isUpdate) {
+            $submitted = $request->input('rate');
+            if ($submitted !== null && $submitted !== '') {
+                return;
+            }
+        }
+
+        $value = SystemSetting::getValue('daily_rate');
+        if ($value === null || $value === '') {
+            return;
+        }
+
+        $request->merge(['rate' => (string) $value]);
+    }
+
+    private function applyMarkingPricingToRequest(Request $request): void
+    {
+        $marking = $this->resolveMarking($request);
+        if ($marking === null) {
+            return;
+        }
+
+        $row = $this->pickMarkingPricingRow(
+            $marking,
+            $this->normalizeMarkingMatchKey($request->input('cbm_type'))
+        );
+
+        $volumePrice = $row !== null ? (float) ($row->volume_price ?? 0) : 0.0;
+        $gwPrice = $row !== null ? (float) ($row->gw_price ?? 0) : 0.0;
+
+        $request->merge([
+            'price_per_cbm' => (string) $volumePrice,
+            'weight_price' => (string) $gwPrice,
+        ]);
+    }
+
+    private function resolvedMarking(Request $request): ?Marking
+    {
+        $cached = $request->attributes->get('resolved_marking');
+
+        return $cached instanceof Marking ? $cached : null;
+    }
+
+    private function resolveMarking(Request $request): ?Marking
+    {
+        $cached = $this->resolvedMarking($request);
+        if ($cached !== null) {
+            return $cached;
+        }
+
+        $markingValue = $request->input('marking');
+        if ($markingValue === null || $markingValue === '') {
+            return null;
+        }
+
+        $marking = Marking::visibleToUser()
+            ->whereBarangMarkingValue((string) $markingValue)
+            ->first();
+
+        if ($marking !== null) {
+            $request->attributes->set('resolved_marking', $marking);
+        }
+
+        return $marking;
+    }
+
+    private function pickMarkingPricingRow(Marking $marking, string $cbmType): ?MarkingPricing
+    {
+        $pricings = $marking->pricings()
+            ->with('pricingItem:id,name')
+            ->orderBy('id')
+            ->get();
+
+        if ($pricings->isEmpty()) {
+            return null;
+        }
+
+        if ($cbmType !== '') {
+            $exact = $pricings->first(
+                fn (MarkingPricing $row) => $this->normalizeMarkingMatchKey($row->pricingItem?->name) === $cbmType
+            );
+            if ($exact !== null) {
+                return $exact;
+            }
+
+            $partial = $pricings->first(function (MarkingPricing $row) use ($cbmType) {
+                $name = $this->normalizeMarkingMatchKey($row->pricingItem?->name);
+
+                return str_contains($name, $cbmType) || str_contains($cbmType, $name);
+            });
+            if ($partial !== null) {
+                return $partial;
+            }
+        }
+
+        $lartas = $pricings->first(
+            fn (MarkingPricing $row) => str_contains($this->normalizeMarkingMatchKey($row->pricingItem?->name), 'lartas')
+        );
+        if ($lartas !== null) {
+            return $lartas;
+        }
+
+        $umum = $pricings->first(
+            fn (MarkingPricing $row) => str_contains($this->normalizeMarkingMatchKey($row->pricingItem?->name), 'umum')
+        );
+
+        return $umum ?? $pricings->first();
+    }
+
+    private function normalizeMarkingMatchKey(mixed $value): string
+    {
+        $normalized = trim(preg_replace('/\s+/', ' ', (string) ($value ?? '')) ?? '');
+
+        return mb_strtolower($normalized);
+    }
+}

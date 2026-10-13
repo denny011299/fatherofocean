@@ -1,0 +1,20 @@
+﻿=== Gap-Fill Restore Report 2026-06-20 02:34:53 ===
+History entries indexed : 78
+Missing on disk (targets): 12
+Restored from history   : 0
+Still no history        : 12
+
+--- STILL MISSING (no history) ---
+  debug_packing_group.php
+  debug_packing_render.php
+  device-manager.blade.php
+  generate-test-terima.php
+  inspect-built-photo.php
+  inspect-fills.php
+  inspect-photo-header.php
+  inspect-pl-template.php
+  inspect-template-l.php
+  Models\Barang.php.latest-hist
+  Support\SalesRevenueCalculator_commission_detail.php
+  test-logo-upload.php
+

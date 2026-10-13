@@ -1,0 +1,31 @@
+﻿
+Warning: PHP Startup: Unable to load dynamic library 'xmlreader' (tried: C:/laragon/bin/php/php-8.2.6/ext\xmlreader (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_xmlreader.dll (The specified module could not be found)) in Unknown on line 0
+
+Warning: PHP Startup: Unable to load dynamic library 'xml' (tried: C:/laragon/bin/php/php-8.2.6/ext\xml (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_xml.dll (The specified module could not be found)) in Unknown on line 0
+
+Warning: PHP Startup: Unable to load dynamic library 'zlib' (tried: C:/laragon/bin/php/php-8.2.6/ext\zlib (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_zlib.dll (The specified module could not be found)) in Unknown on line 0
+
+Warning: PHP Startup: Unable to load dynamic library 'php_imagick.dll' (tried: C:/laragon/bin/php/php-8.2.6/ext\php_imagick.dll (The specified module could not be found), C:/laragon/bin/php/php-8.2.6/ext\php_php_imagick.dll.dll (The specified module could not be found)) in Unknown on line 0
+=== EK/ON/ARIASBY ===
+
+   Illuminate\Database\QueryException 
+
+  SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select `id`, `no_index`, `marking`, `status`, `cbm_type`, `price_per_cbm`, `weight_price`, `total_cbm`, `total_gross_weight`, `approval_status` from `barangs` where `marking` = EK/ON/ARIASBY)
+
+  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:825
+    821Γûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
+    822Γûò                 );
+    823Γûò             }
+    824Γûò 
+  Γ₧£ 825Γûò             throw new QueryException(
+    826Γûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
+    827Γûò             );
+    828Γûò         }
+    829Γûò     }
+
+  1   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:66
+      PDOException::("SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it")
+
+  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:66
+      PDO::__construct("mysql:host=127.0.0.1;port=3306;dbname=pelayaran", "root", Object(SensitiveParameterValue))
+

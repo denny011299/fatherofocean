@@ -1,0 +1,210 @@
+            ],
+                );
+
+                ActivityLog::record('Delivery trip marking summary updated', $trip, null, [
+                    'marking_key' => $key,
+                ]);
+
+                return $trip->fresh();
+            });
+
+            return $this->trackingMarkingJsonResponse(
+                $container,
+                $trip,
+                __('delivery_trip.marking_summary_updated'),
+            );
+        }
+
+        abort(422, __('delivery_trip.marking_required_for_pdf'));
+    }"}}]}}
+{"role":"assistant","message":{"content":[{"type":"text","text":"[REDACTED]"},{"type":"tool_use","name":"StrReplace","input":{"path":"c:\\Pelayaran\\app\\Http\\Controllers\\DeliveryTripController.php","old_string":"    private function nullableTrim(mixed $value): ?string
+    {
+        $normalized = trim((string) ($value ?? ''));
+
+        return $normalized !== '' ? $normalized : null;
+    }
+}","new_string":"    /**
+     * @param  Collection<int, Barang>  $barangs
+     */
+    private function ensureTrackingTrip(Container $container, Collection $barangs): DeliveryTrip
+    {
+        $trip = $container->latestDeliveryTrip()->first();
+        if ($trip !== null) {
+            return $trip;
+        }
+
+        return DB::transaction(function () use ($container, $barangs): DeliveryTrip {
+            $created = DeliveryTrip::query()->create([
+                'trip_no' => DeliveryTrip::generateTripNo(),
+                'container_id' => $container->id,
+                'status' => DeliveryTrip::STATUS_READY,
+                'created_by' => (int) auth()->id(),
+            ]);
+
+            $sync = [];
+            foreach ($barangs as $index => $barang) {
+                $sync[(int) $barang->id] = ['sort_order' => $index];
+            }
+            $created->barangs()->sync($sync);
+
+            ActivityLog::record('Delivery trip created from tracking', $created, null, [
+                'trip_no' => $created->trip_no,
+                'container_id' => $container->id,
+                'barang_count' => count($sync),
+            ]);
+
+            return $created;
+        });
+    }
+
+    /**
+     * @param  Collection<int, Barang>  $barangs
+     */
+    private function trackingMarkingMediaResponse(
+        Request $request,
+        Container $container,
+        DeliveryTrip $trip,
+        string $markingKey,
+        Collection $barangs,
+    ): JsonResponse {
+        abort_unless(auth()->user()?->can('confirm delivery trip'), 403);
+
+        $data = $request->validate([
+            'marking_key' => 'required|string|max:255',
+            'media_phase' => 'required|in:departure,arrival',
+            'photos' => 'required|array|min:1',
+            'photos.*' => 'file|mimes:jpg,jpeg,png,webp|max:'.DeliveryTripMediaStorage::MAX_PHOTO_KB,
+            'videos' => 'required|array|min:1',
+            'videos.*' => 'file|mimes:mp4,mov,webm,avi,3gp|max:'.DeliveryTripMediaStorage::MAX_VIDEO_KB,
+        ]);
+
+        $markingRow = \\App\\Support\\SuratJalanPdfData::markingSummaryRow($trip, $markingKey);
+        abort_if($markingRow === null || ! $markingRow->truckSaved(), 422, __('delivery_trip.truck_required_for_pdf'));
+
+        $phase = (string) $data['media_phase'];
+        if ($phase === 'departure') {
+            abort_unless($markingRow->canConfirmDeparture(), 422, __('delivery_trip.cannot_confirm_departure'));
+        } else {
+            abort_unless($markingRow->canConfirmArrival(), 422, __('delivery_trip.cannot_confirm_arrival'));
+        }
+
+        $markingBarangs = $barangs->filter(
+            static fn (Barang $barang): bool => \\App\\Support\\SuratJalanPdfData::markingKey($barang) === $markingKey,
+        );
+
+        DB::transaction(function () use ($request, $trip, $markingKey, $phase, $markingBarangs, $markingRow): void {
+            DeliveryTripMediaStorage::storePhase(
+                $trip,
+                $phase === 'departure' ? DeliveryTripMedia::PHASE_DEPARTURE : DeliveryTripMedia::PHASE_ARRIVAL,
+                $request->file('photos', []),
+                $request->file('videos', []),
+                auth()->id(),
+                $markingKey,
+            );
+
+            if ($phase === 'departure') {
+                $markingRow->update([
+                    'status' => DeliveryTrip::STATUS_DEPARTED,
+                    'departed_at' => now(),
+                    'departed_confirmed_by' => auth()->id(),
+                ]);
+
+                foreach ($markingBarangs as $barang) {
+                    if ($barang->status !== Barang::STATUS_ETD) {
+                        $barang->update(['status' => Barang::STATUS_ETD]);
+                    }
+                    $barang->syncEtdTracking(
+                        $markingRow->destination ?: $barang->destination,
+                        null,
+                        auth()->id(),
+                    );
+                }
+            } else {
+                $markingRow->update([
+                    'status' => DeliveryTrip::STATUS_ARRIVED,
+                    'arrived_at' => now(),
+                    'arrived_confirmed_by' => auth()->id(),
+                ]);
+
+                foreach ($markingBarangs as $barang) {
+                    if ($barang->status !== Barang::STATUS_ETA) {
+                        $barang->update(['status' => Barang::STATUS_ETA]);
+                    }
+                    $barang->syncEtaTracking(
+                        $markingRow->destination ?: $barang->destination,
+                        null,
+                        auth()->id(),
+                    );
+                }
+            }
+
+            ActivityLog::record('Delivery marking '.$phase.' confirmed', $trip, null, [
+                'marking_key' => $markingKey,
+            ]);
+        });
+
+        $message = $phase === 'departure'
+            ? __('delivery_trip.departure_confirmed')
+            : __('delivery_trip.arrival_confirmed');
+
+        return $this->trackingMarkingJsonResponse($container, $trip->fresh(), $message);
+    }
+
+    private function trackingMarkingJsonResponse(
+        Container $container,
+        DeliveryTrip $trip,
+        string $message,
+    ): JsonResponse {
+        $this->loadTrackingTrip($trip);
+
+        return response()->json([
+            'success' => true,
+            'message' => $message,
+            'data' => $this->trackingTripPayload($container, $trip, $trip->barangs),
+        ]);
+    }
+
+    private function loadTrackingTrip(DeliveryTrip $trip): void
+    {
+        $trip->load([
+            'container:id,partai,container_no,eta,load_date',
+            'barangs' => static fn ($q) => $q
+                ->with('customer:id,name', 'containers:id,partai,container_no')
+                ->orderBy('delivery_trip_barang.sort_order'),
+            'media.uploader:id,name',
+            'markingSummaries',
+        ]);
+    }
+
+    private function nullableTrim(mixed $value): ?string
+    {
+        $normalized = trim((string) ($value ?? ''));
+
+        return $normalized !== '' ? $normalized : null;
+    }
+}"}},{"type":"tool_use","name":"StrReplace","input":{"path":"c:\\Pelayaran\\app\\Http\\Controllers\\DeliveryTripController.php","old_string":"        $mediaPayload = $trip !== null
+            ? collect($trip->media)->map(static fn (DeliveryTripMedia $media) => [
+                'id' => $media->id,
+                'phase' => $media->phase,
+                'media_type' => $media->media_type,
+                'url' => $media->url(),
+                'original_name' => $media->original_name,
+                'uploaded_by' => $media->uploader?->name,
+                'created_at' => $media->created_at?->format('d M Y H:i'),
+            ])
+            : collect();
+
+        return [
+            'exists' => $trip !== null,
+            'view_url' => route('tracking.staff.surat-jalan', $container),
+            'markings' => $markings,
+            'markings_count' => count($markings),
+            'container' => [
+                'id' => $container->id,
+                'partai' => $container->partai,
+                'container_no' => $container->container_no,
+                'eta' => $container->eta?->format('d/m/Y'),
+                'shipments_count' => $barangs->count(),
+            ],
+            'trip' => [
+   

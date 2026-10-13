@@ -1,0 +1,145 @@
+    public function update(Request $request, Barang $barang): JsonResponse
+    {
+        abort_unless(auth()->user()->can('edit barang'), 403);
+        $this->assertBarangVisibleToUser($barang);
+
+        $prepared = $this->prepareBarangUpdate($request, $barang);
+
+        if ($this->shouldSubmitEditRequest()) {
+            return $this->submitBarangEditRequest($barang, $request, $prepared);
+        }
+
+        $barang = $this->executePreparedBarangUpdate($barang, $request, $prepared);
+
+        return response()->json([
+            'success' => true,
+            'message' => __('messages.barang_updated'),
+            'redirect' => route('barang.index'),
+            'data' => ['id' => $barang->id],
+            'shipping_label_pdf_url' => $this->shippingLabelPdfUrl($barang),
+        ]);
+    }
+
+    public function executeBarangUpdate(Barang $barang, Request $request): Barang
+    {
+        $this->stripEmptyFormRows($request);
+        $this->stripEmptyProductPhotoFields($request);
+        $this->normalizeBarangRequest($request, isUpdate: true);
+
+        $prepared = $this->prepareBarangUpdate($request, $barang);
+
+        return $this->executePreparedBarangUpdate($barang, $request, $prepared);
+    }
+
+    /**
+     * @return array{data: array<string, mixed>, old: array<string, mixed>}
+     */
+    private function prepareBarangUpdate(Request $request, Barang $barang): array
+    {
+        $old = $this->barangAuditSnapshot($barang);
+        $this->stripEmptyFormRows($request);
+        $this->stripEmptyProductPhotoFields($request);
+        $this->normalizeBarangRequest($request, isUpdate: true);
+
+        $data = $request->validate(
+            array_merge($this->barangUpdateRules(), $this->productPhotoValidationRules($request)),
+            $this->barangValidationMessages(),
+            $this->barangValidationAttributes()
+        );
+
+        $data['no_resi'] = $this->parseNoResiInput($data['no_resi'] ?? null);
+
+        return ['data' => $data, 'old' => $old];
+    }
+
+    /**
+     * @param  array{data: array<string, mixed>, old: array<string, mixed>}  $prepared
+     */
+    private function executePreparedBarangUpdate(Barang $barang, Request $request, array $prepared): Barang
+    {
+        $data = $prepared['data'];
+        $old = $prepared['old'];
+
+        if ($request->hasFile('invoice_file')) {
+            if ($barang->invoice_file) {
+                Storage::disk('public')->delete($barang->invoice_file);
+            }
+            $data['invoice_file'] = $this->storeOriginalPackingListFile(
+                $request->file('invoice_file'),
+                (string) $barang->no_index,
+            );
+        } elseif ($request->boolean('remove_invoice_file')) {
+            if ($barang->invoice_file) {
+                Storage::disk('public')->delete($barang->invoice_file);
+            }
+            $data['invoice_file'] = null;
+        }
+
+        $this->syncTerimaBarangUploads($request, $barang, $data);
+
+        unset(
+            $data['remove_invoice_file'],
+            $data['remove_good_receipt_file'],
+            $data['remove_tracking_receipt_file'],
+            $data['good_receipt_file'],
+            $data['tracking_receipt_file'],
+            $data['dimensions'],
+            $data['products'],
+            $data['additional_prices'],
+            $data['company_loyalty_amount'],
+        );
+
+        $this->syncWarehouseOriginFromGudang($data);
+        $this->ensureTanggalMasuk($data);
+
+        $barang = $barang->updateBarang($data, $request);
+
+        Barang::deferAfterUpdate((int) $barang->id, $old, $this->barangAuditSnapshot($barang));
+
+        return $barang;
+    }
+
+    /**
+     * @param  array{data: array<string, mixed>, old: array<string, mixed>}  $prepared
+     */
+    private function submitBarangEditRequest(Barang $barang, Request $request, array $prepared): JsonResponse
+    {
+        $data = $prepared['data'];
+
+        unset(
+            $data['remove_invoice_file'],
+            $data['remove_good_receipt_file'],
+            $data['remove_tracking_receipt_file'],
+            $data['good_receipt_file'],
+            $data['tracking_receipt_file'],
+            $data['dimensions'],
+            $data['products'],
+            $data['additional_prices'],
+            $data['company_loyalty_amount'],
+        );
+
+        $this->syncWarehouseOriginFromGudang($data);
+        $this->ensureTanggalMasuk($data);
+
+        try {
+            app(BarangEditRequestService::class)->createFromUpdate($barang, $request, $data);
+        } catch (\RuntimeException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => __('barang.edit_request_submitted'),
+            'redirect' => route('barang.index', ['tab' => 'pengajuan-edit']),
+            'submitted_for_approval' => true,
+            'data' => ['id' => $barang->id],
+        ]);
+    }
+
+    private function shouldSubmitEditRequest(): bool
+    {
+        return ! (auth()->user()?->can('approve barang') ?? false);
+    }

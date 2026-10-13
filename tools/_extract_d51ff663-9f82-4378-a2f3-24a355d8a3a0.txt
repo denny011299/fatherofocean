@@ -1,0 +1,223 @@
+    public function import(Request $request): JsonResponse
+    {
+        $request->validate(
+            ['file' => 'required|mimes:xlsx,xls,csv|max:10240'],
+            [],
+            $this->barangValidationAttributes()
+        );
+
+        try {
+            Excel::import(new \App\Imports\BarangImport(), $request->file('file'));
+
+            return response()->json(['success' => true, 'message' => 'Data preload berhasil diimport.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Gagal import: ' . $e->getMessage()], 422);
+        }
+    }
+
+    private function normalizeBarangRequest(Request $request): void
+    {
+        foreach ([
+            'price',
+            'insurance_nominal_standar',
+            'rate',
+            'price_per_cbm',
+            'weight_price',
+            'cbm_threshold',
+            'insurance_value',
+        ] as $field) {
+            if (!$request->has($field)) {
+                continue;
+            }
+
+            $value = $request->input($field);
+            if ($value === null || $value === '') {
+                $request->merge([$field => null]);
+                continue;
+            }
+
+            if (!is_string($value)) {
+                continue;
+            }
+
+            $normalized = preg_replace('/[^0-9.,\-]/', '', $value) ?? '';
+            $normalized = str_replace('.', '', $normalized);
+            $normalized = str_replace(',', '.', $normalized);
+            $request->merge([$field => $normalized === '' || $normalized === '-' ? null : $normalized]);
+        }
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function barangStoreRules(): array
+    {
+        return [
+            'no_index' => 'required|string|max:50|unique:barangs',
+            'no_po' => 'nullable|string|max:50',
+            'marking' => 'nullable|string|max:100',
+            'supplier_chinese' => 'nullable|string|max:100',
+            'customer_name' => 'required|string|max:150',
+            'user_id' => 'nullable|exists:users,id',
+            'warehouse_origin' => 'required|string|max:50',
+            'tanggal_masuk' => 'nullable|date',
+            'ctns' => 'nullable|integer|min:0',
+            'pcs' => 'nullable|integer|min:0',
+            'price' => 'nullable|numeric|min:0',
+            'material' => 'nullable|string|max:100',
+            'form' => 'nullable|string|max:100',
+            'material_desc' => 'nullable|string',
+            'insurance_value' => 'nullable|numeric|min:0',
+            'insurance_rate' => 'nullable|numeric|min:0|max:100',
+            'insurance_nominal_standar' => 'nullable|numeric|min:0',
+            'cbm_type' => 'nullable|string|max:20',
+            'rate' => 'nullable|numeric|min:0',
+            'weight' => 'nullable|numeric|min:0',
+            'price_per_cbm' => 'nullable|numeric|min:0',
+            'total_invoice' => 'nullable|string|max:100',
+            'invoice_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
+            'weight_price' => 'nullable|numeric|min:0',
+            'cbm_threshold' => 'nullable|numeric|min:0',
+            'destination' => 'nullable|string|max:100',
+            'other' => 'nullable|string|max:100',
+            'packing_id' => 'nullable|exists:master_packings,id',
+            'no_resi' => 'nullable|string',
+            'notes' => 'nullable|string',
+            'notes_id' => 'nullable|string',
+            'dimensions' => 'nullable|array',
+            'dimensions.*.item_name' => 'nullable|string|max:100',
+            'dimensions.*.ctn_no' => 'nullable|string|max:30',
+            'dimensions.*.qty_ctn' => 'nullable|integer|min:0',
+            'dimensions.*.panjang' => 'nullable|numeric|min:0',
+            'dimensions.*.lebar' => 'nullable|numeric|min:0',
+            'dimensions.*.tinggi' => 'nullable|numeric|min:0',
+            'dimensions.*.ctn_count' => 'nullable|integer|min:1',
+            'dimensions.*.qty' => 'nullable|integer|min:0',
+            'dimensions.*.count_by' => 'nullable|string|max:20',
+            'dimensions.*.gw_per_ctn' => 'nullable|numeric|min:0',
+            'dimensions.*.gross_weight' => 'nullable|numeric|min:0',
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function barangUpdateRules(): array
+    {
+        return [
+            'no_po' => 'nullable|string|max:50',
+            'marking' => 'nullable|string|max:100',
+            'supplier_chinese' => 'nullable|string|max:100',
+            'customer_name' => 'required|string|max:150',
+            'user_id' => 'nullable|exists:users,id',
+            'warehouse_origin' => 'required|string|max:50',
+            'tanggal_masuk' => 'nullable|date',
+            'ctns' => 'nullable|integer|min:0',
+            'pcs' => 'nullable|integer|min:0',
+            'price' => 'nullable|numeric|min:0',
+            'material' => 'nullable|string|max:100',
+            'form' => 'nullable|string|max:100',
+            'material_desc' => 'nullable|string',
+            'insurance_value' => 'nullable|numeric|min:0',
+            'insurance_rate' => 'nullable|numeric|min:0|max:100',
+            'insurance_nominal_standar' => 'nullable|numeric|min:0',
+            'cbm_type' => 'nullable|string|max:20',
+            'rate' => 'nullable|numeric|min:0',
+            'weight' => 'nullable|numeric|min:0',
+            'price_per_cbm' => 'nullable|numeric|min:0',
+            'total_invoice' => 'nullable|string|max:100',
+            'invoice_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
+            'remove_invoice_file' => 'nullable|boolean',
+            'weight_price' => 'nullable|numeric|min:0',
+            'cbm_threshold' => 'nullable|numeric|min:0',
+            'destination' => 'nullable|string|max:100',
+            'other' => 'nullable|string|max:100',
+            'packing_id' => 'nullable|exists:master_packings,id',
+            'no_resi' => 'nullable|string',
+            'notes' => 'nullable|string',
+            'notes_id' => 'nullable|string',
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function barangValidationMessages(): array
+    {
+        $messages = [];
+        $numericFields = [
+            'price',
+            'insurance_nominal_standar',
+            'rate',
+            'price_per_cbm',
+            'weight_price',
+            'cbm_threshold',
+            'insurance_value',
+            'insurance_rate',
+            'weight',
+        ];
+
+        foreach ($numericFields as $field) {
+            $messages["{$field}.numeric"] = ':attribute harus berupa angka.';
+            $messages["{$field}.min"] = ':attribute minimal :min.';
+            $messages["{$field}.max"] = ':attribute maksimal :max.';
+        }
+
+        $messages['insurance_rate.max'] = 'Rate asuransi maksimal :max%.';
+
+        return $messages;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function barangValidationAttributes(): array
+    {
+        return [
+            'no_index' => 'No. Index',
+            'no_po' => 'No. PO',
+            'marking' => 'Marking',
+            'supplier_chinese' => 'Supplier (China)',
+            'customer_name' => 'Nama customer',
+            'user_id' => 'Customer',
+            'warehouse_origin' => 'Gudang asal',
+            'tanggal_masuk' => 'Tanggal masuk',
+            'ctns' => 'CTNS',
+            'pcs' => 'PCS',
+            'price' => 'Harga',
+            'material' => 'Material',
+            'form' => 'Bentuk',
+            'material_desc' => 'Deskripsi material',
+            'insurance_value' => 'Nilai asuransi',
+            'insurance_rate' => 'Rate asuransi',
+            'insurance_nominal_standar' => 'Nominal asuransi',
+            'cbm_type' => 'Tipe CBM',
+            'rate' => 'Rate',
+            'weight' => 'Berat',
+            'price_per_cbm' => 'Harga per CBM',
+            'total_invoice' => 'Total invoice',
+            'invoice_file' => 'Berkas invoice',
+            'weight_price' => 'Harga berat',
+            'cbm_threshold' => 'Ambang CBM',
+            'destination' => 'Tujuan',
+            'other' => 'Lainnya',
+            'packing_id' => 'Packing',
+            'no_resi' => 'No. resi',
+            'notes' => 'Catatan',
+            'notes_id' => 'Catatan (ID)',
+            'dimensions' => 'Dimensi',
+            'dimensions.*.item_name' => 'Nama item',
+            'dimensions.*.ctn_no' => 'No. CTN',
+            'dimensions.*.qty_ctn' => 'Qty CTN',
+            'dimensions.*.panjang' => 'Panjang',
+            'dimensions.*.lebar' => 'Lebar',
+            'dimensions.*.tinggi' => 'Tinggi',
+            'dimensions.*.ctn_count' => 'Jumlah CTN',
+            'dimensions.*.qty' => 'Qty',
+            'dimensions.*.count_by' => 'Hitung per',
+            'dimensions.*.gw_per_ctn' => 'GW per CTN',
+            'dimensions.*.gross_weight' => 'Berat kotor',
+            'file' => 'Berkas',
+        ];
+    }
+}

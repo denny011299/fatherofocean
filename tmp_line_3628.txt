@@ -1,0 +1,15 @@
+    /**
+     * Semua barang di container (untuk daftar marking surat jalan).
+     *
+     * @return Collection<int, Barang>
+     */
+    private function trackingContainerBarangs(Container $container): Collection
+    {
+        return $container->barangs()
+            ->with([
+                'customer:id,name',
+                'containers:id,partai,container_no',
+                'products' => static fn ($q) => $q->orderBy('sort_order'),
+            ])
+            ->orderBy('barangs.no_index')
+            ->get([
