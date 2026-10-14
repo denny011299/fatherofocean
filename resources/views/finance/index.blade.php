@@ -42,31 +42,63 @@
 {{-- Stats --}}
 <div class="row g-3 mb-4" id="financeStatsRow">
     <div class="col-6 col-md-3">
-        <button type="button" class="glass stat-card stat-card-link w-100 border-0 text-start {{ empty($activeCard) ? 'stat-card-active' : '' }}" data-finance-card="">
-            <div class="stat-icon"><i class="bi bi-receipt"></i></div>
-            <div class="stat-label">{{ __('finance.stat_total_invoice') }}</div>
-            <div class="stat-value" id="financeStatTotal">{{ $stats['total'] }}</div>
+        <button type="button" class="glass stat-card stat-card-premium stat-card-blue stat-card-link w-100 border-0 text-start {{ empty($activeCard) ? 'stat-card-active' : '' }}" data-finance-card="">
+            <div class="stat-card-header">
+                <div class="stat-icon-squircle squircle-blue">
+                    <i class="bi bi-receipt-cutoff"></i>
+                </div>
+                <span class="stat-pill stat-pill-blue">Semua</span>
+            </div>
+            <div>
+                <div class="stat-label">{{ __('finance.stat_total_invoice') }}</div>
+                <div class="stat-value" id="financeStatTotal">{{ $stats['total'] }}</div>
+                <div class="stat-change mt-2"><i class="bi bi-files me-1"></i> Seluruh tagihan</div>
+            </div>
         </button>
     </div>
     <div class="col-6 col-md-3">
-        <button type="button" class="glass stat-card stat-card-link w-100 border-0 text-start {{ $activeCard === 'unpaid' ? 'stat-card-active' : '' }}" data-finance-card="unpaid">
-            <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
-            <div class="stat-label">{{ __('finance.stat_unpaid') }}</div>
-            <div class="stat-value text-warning" id="financeStatUnpaid">{{ $stats['unpaid'] }}</div>
+        <button type="button" class="glass stat-card stat-card-premium stat-card-amber stat-card-link w-100 border-0 text-start {{ $activeCard === 'unpaid' ? 'stat-card-active' : '' }}" data-finance-card="unpaid">
+            <div class="stat-card-header">
+                <div class="stat-icon-squircle squircle-amber">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+                <span class="stat-pill stat-pill-amber">Pending</span>
+            </div>
+            <div>
+                <div class="stat-label">{{ __('finance.stat_unpaid') }}</div>
+                <div class="stat-value text-warning" id="financeStatUnpaid">{{ $stats['unpaid'] }}</div>
+                <div class="stat-change down mt-2"><i class="bi bi-clock-history me-1"></i> Menunggu bayar</div>
+            </div>
         </button>
     </div>
     <div class="col-6 col-md-3">
-        <button type="button" class="glass stat-card stat-card-link w-100 border-0 text-start {{ $activeCard === 'overdue' ? 'stat-card-active' : '' }}" data-finance-card="overdue">
-            <div class="stat-icon"><i class="bi bi-calendar-x"></i></div>
-            <div class="stat-label">{{ __('finance.stat_overdue') }}</div>
-            <div class="stat-value" style="color:#dc2626" id="financeStatOverdue">{{ $stats['overdue'] }}</div>
+        <button type="button" class="glass stat-card stat-card-premium stat-card-rose stat-card-link w-100 border-0 text-start {{ $activeCard === 'overdue' ? 'stat-card-active' : '' }}" data-finance-card="overdue">
+            <div class="stat-card-header">
+                <div class="stat-icon-squircle squircle-rose">
+                    <i class="bi bi-calendar-x"></i>
+                </div>
+                <span class="stat-pill stat-pill-amber">Overdue</span>
+            </div>
+            <div>
+                <div class="stat-label">{{ __('finance.stat_overdue') }}</div>
+                <div class="stat-value text-danger" id="financeStatOverdue">{{ $stats['overdue'] }}</div>
+                <div class="stat-change down mt-2"><i class="bi bi-exclamation-triangle me-1"></i> Jatuh tempo</div>
+            </div>
         </button>
     </div>
     <div class="col-6 col-md-3">
-        <button type="button" class="glass stat-card stat-card-link w-100 border-0 text-start {{ $activeCard === 'paid' ? 'stat-card-active' : '' }}" data-finance-card="paid">
-            <div class="stat-icon"><i class="bi bi-check-circle-fill"></i></div>
-            <div class="stat-label">{{ __('finance.stat_paid') }}</div>
-            <div class="stat-value" style="color:#22c55e" id="financeStatPaid">{{ $stats['paid'] }}</div>
+        <button type="button" class="glass stat-card stat-card-premium stat-card-emerald stat-card-link w-100 border-0 text-start {{ $activeCard === 'paid' ? 'stat-card-active' : '' }}" data-finance-card="paid">
+            <div class="stat-card-header">
+                <div class="stat-icon-squircle squircle-emerald">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <span class="stat-pill stat-pill-blue">Paid</span>
+            </div>
+            <div>
+                <div class="stat-label">{{ __('finance.stat_paid') }}</div>
+                <div class="stat-value text-success" id="financeStatPaid">{{ $stats['paid'] }}</div>
+                <div class="stat-change up mt-2"><i class="bi bi-check-all me-1"></i> Lunas terbayar</div>
+            </div>
         </button>
     </div>
 </div>
@@ -142,6 +174,17 @@
 
 {{-- Invoice Table --}}
 <div class="glass p-4 position-relative" id="financeTableWrap">
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-2">
+            <div class="stat-icon-squircle squircle-royal" style="width:38px;height:38px;font-size:1.1rem;border-radius:12px;">
+                <i class="bi bi-receipt"></i>
+            </div>
+            <div>
+                <h5 class="fw-700 mb-0" style="color:var(--text-primary)">Daftar Invoice</h5>
+                <div style="font-size:0.75rem;color:var(--text-muted)">Rekap tagihan dan status pelunasan kargo</div>
+            </div>
+        </div>
+    </div>
     <div id="financeTableLoading" class="finance-table-loading d-none" aria-hidden="true">
         <div class="spinner-border spinner-border-sm text-accent" role="status"></div>
     </div>

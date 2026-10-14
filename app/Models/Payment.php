@@ -19,6 +19,7 @@ final class Payment extends Model
         'status',
         'reviewed_by',
         'review_notes',
+        'notes',
         'reviewed_at',
     ];
 

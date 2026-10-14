@@ -4,27 +4,63 @@
 @section('content')
 <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
-        <div class="glass stat-card">
-            <div class="stat-label">Total</div>
-            <div class="stat-value">{{ $stats['total'] }}</div>
+        <div class="glass stat-card stat-card-premium stat-card-blue">
+            <div class="stat-card-header">
+                <div class="stat-icon-squircle squircle-blue">
+                    <i class="bi bi-shield-shaded"></i>
+                </div>
+                <span class="stat-pill stat-pill-blue">Semua</span>
+            </div>
+            <div>
+                <div class="stat-label">Total Klaim</div>
+                <div class="stat-value">{{ $stats['total'] }}</div>
+                <div class="stat-change mt-2"><i class="bi bi-files me-1"></i> Seluruh pengajuan</div>
+            </div>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="glass stat-card">
-            <div class="stat-label">{{ __('claim.status_pending') }}</div>
-            <div class="stat-value">{{ $stats['pending'] }}</div>
+        <div class="glass stat-card stat-card-premium stat-card-amber">
+            <div class="stat-card-header">
+                <div class="stat-icon-squircle squircle-amber">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+                <span class="stat-pill stat-pill-amber">Pending</span>
+            </div>
+            <div>
+                <div class="stat-label">{{ __('claim.status_pending') }}</div>
+                <div class="stat-value text-warning">{{ $stats['pending'] }}</div>
+                <div class="stat-change mt-2"><i class="bi bi-clock me-1"></i> Menunggu review</div>
+            </div>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="glass stat-card">
-            <div class="stat-label">{{ __('claim.status_approved') }}</div>
-            <div class="stat-value">{{ $stats['approved'] }}</div>
+        <div class="glass stat-card stat-card-premium stat-card-emerald">
+            <div class="stat-card-header">
+                <div class="stat-icon-squircle squircle-emerald">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <span class="stat-pill stat-pill-blue">Approved</span>
+            </div>
+            <div>
+                <div class="stat-label">{{ __('claim.status_approved') }}</div>
+                <div class="stat-value text-success">{{ $stats['approved'] }}</div>
+                <div class="stat-change up mt-2"><i class="bi bi-check-all me-1"></i> Disetujui</div>
+            </div>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="glass stat-card">
-            <div class="stat-label">{{ __('claim.status_rejected') }}</div>
-            <div class="stat-value">{{ $stats['rejected'] }}</div>
+        <div class="glass stat-card stat-card-premium stat-card-rose">
+            <div class="stat-card-header">
+                <div class="stat-icon-squircle squircle-rose">
+                    <i class="bi bi-x-circle-fill"></i>
+                </div>
+                <span class="stat-pill stat-pill-amber">Rejected</span>
+            </div>
+            <div>
+                <div class="stat-label">{{ __('claim.status_rejected') }}</div>
+                <div class="stat-value text-danger">{{ $stats['rejected'] }}</div>
+                <div class="stat-change down mt-2"><i class="bi bi-slash-circle me-1"></i> Ditolak</div>
+            </div>
         </div>
     </div>
 </div>
@@ -57,7 +93,7 @@
         </form>
         @if($canCreateClaim)
         <button type="button" class="btn btn-accent" id="btnOpenClaimModal">
-            <i class="bi bi-plus-lg me-1"></i>{{ __('claim.new') }}
+            <i class="bi bi-plus-circle-fill me-1"></i>{{ __('claim.new') }}
         </button>
         @endif
     </div>

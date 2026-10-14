@@ -17,7 +17,7 @@ return [
     'sign_in' => 'Masuk',
     'no_account' => 'Belum punya akun?',
     'forgot_password_contact_marketing' => 'Lupa Password hubungi Marketing',
-    'tagline' => 'Ship Cargo Management System',
+    'tagline' => 'Sistem Induk Ekspor & Multi-Broker',
     'full_name' => 'Nama Lengkap',
     'full_name_placeholder' => 'Nama Lengkap',
     'email_optional' => 'Email (opsional)',

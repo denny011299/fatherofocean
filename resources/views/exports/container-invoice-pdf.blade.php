@@ -13,7 +13,7 @@
 </head><body>
     <div class="header">
         <h1>INVOICE{{ isset($markingLabel) ? ' — ' . $markingLabel : ' ALL' }} — {{ $container->partai }}</h1>
-        <div>Pelayaran Control — Ship Cargo Management</div>
+        <div>{{ config('app.name', 'EXPORT') }} — Sistem Induk</div>
     </div>
 
     <table style="width:100%;margin-bottom:20px;border:none">

@@ -2,14 +2,32 @@
 @section('title', __('finance-earnings.tab_company'))
 
 @section('content')
-<div class="bento-grid mb-4" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-    <div class="glass stat-card">
-        <div class="stat-label">{{ __('finance-earnings.estimasi_company') }}</div>
-        <div class="stat-value text-warning" id="statEstimasiCompany">Rp {{ number_format($totals['estimasi_company'] ?? 0, 0, ',', '.') }}</div>
+<div class="bento-grid mb-4" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+    <div class="glass stat-card stat-card-premium stat-card-amber">
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-amber">
+                <i class="bi bi-pie-chart-fill"></i>
+            </div>
+            <span class="stat-pill stat-pill-amber">Estimasi</span>
+        </div>
+        <div>
+            <div class="stat-label">{{ __('finance-earnings.estimasi_company') }}</div>
+            <div class="stat-value text-warning" id="statEstimasiCompany">Rp {{ number_format($totals['estimasi_company'] ?? 0, 0, ',', '.') }}</div>
+            <div class="stat-change mt-2"><i class="bi bi-hourglass-split me-1"></i> Proyeksi holding</div>
+        </div>
     </div>
-    <div class="glass stat-card">
-        <div class="stat-label">{{ __('finance-earnings.fix_company') }}</div>
-        <div class="stat-value text-accent" id="statFixCompany">Rp {{ number_format($totals['fix_company'] ?? 0, 0, ',', '.') }}</div>
+    <div class="glass stat-card stat-card-premium stat-card-blue">
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-royal">
+                <i class="bi bi-building"></i>
+            </div>
+            <span class="stat-pill stat-pill-blue">Fixed</span>
+        </div>
+        <div>
+            <div class="stat-label">{{ __('finance-earnings.fix_company') }}</div>
+            <div class="stat-value text-accent" id="statFixCompany">Rp {{ number_format($totals['fix_company'] ?? 0, 0, ',', '.') }}</div>
+            <div class="stat-change up mt-2"><i class="bi bi-shield-check me-1"></i> Realisasi lunas</div>
+        </div>
     </div>
 </div>
 

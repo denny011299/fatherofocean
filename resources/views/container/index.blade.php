@@ -3,8 +3,8 @@
 
 @section('topbar-actions')
 @can('create container')
-<a href="{{ route('container.create.page') }}" class="btn btn-accent btn-sm">
-    <i class="bi bi-plus-lg me-1"></i>{{ __('container.new') }}
+<a href="{{ route('container.create.page') }}" class="btn btn-accent btn-sm d-inline-flex align-items-center gap-1 shadow-sm">
+    <i class="bi bi-plus-circle-fill"></i><span>{{ __('container.new') }}</span>
 </a>
 @endcan
 @endsection
@@ -12,9 +12,15 @@
 @section('content')
 <div class="glass p-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h6 class="fw-700 mb-0" style="color:var(--text-primary)">
-            <i class="bi bi-truck me-2 text-accent"></i>{{ __('container.list_title') }}
-        </h6>
+        <div class="d-flex align-items-center gap-2">
+            <div class="stat-icon-squircle squircle-blue" style="width:36px;height:36px;font-size:1.1rem;border-radius:11px;">
+                <i class="bi bi-truck-flatbed"></i>
+            </div>
+            <div>
+                <h6 class="fw-700 mb-0" style="color:var(--text-primary)">{{ __('container.list_title') }}</h6>
+                <small class="text-muted-glass">Pengelolaan stuffing & pelayaran kontainer</small>
+            </div>
+        </div>
         <div class="d-flex align-items-center gap-2">
             <span class="badge-glass" id="totalCount" style="color:var(--text-muted);font-size:.75rem">
                 <i class="bi bi-hash me-1"></i><span id="countNum">0</span> {{ __('container.items_count_suffix') }}
@@ -61,7 +67,7 @@
     </div>
 
     <div class="table-responsive">
-        <table id="containerTable" class="table table-hover w-100">
+        <table id="containerTable" class="table-glass w-100">
             <thead>
                 <tr>
                     <th>{{ __('container.col_china_wh') }}</th>

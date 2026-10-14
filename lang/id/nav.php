@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'brand_sub' => 'Pelayaran Control',
-    'brand_title' => 'Ship Cargo',
+    'brand_sub' => 'Sistem Induk',
+    'brand_title' => 'EXPORT',
     'main_menu' => 'Menu Utama',
     'dashboard' => 'Dashboard',
     'marking' => 'Marking',

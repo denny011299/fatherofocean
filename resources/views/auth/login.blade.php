@@ -7,39 +7,61 @@
     <i class="bi bi-exclamation-triangle me-1"></i>{{ session('warning') }}
 </div>
 @endif
+
 <form action="{{ route('login.post') }}" method="POST" id="loginForm">
     @csrf
-    <div class="mb-3">
-        <label class="form-label">{{ __('auth.username') }}</label>
-        <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
-               value="{{ old('username') }}" placeholder="{{ __('auth.username_placeholder') }}" autofocus required>
-        @error('username')<div class="invalid-feedback">{{ $message }}</div>@enderror
-        <div class="form-text small text-muted-glass">{{ __('auth.login_hint_marking') }}</div>
+    <div class="auth-field">
+        <div class="d-flex align-items-center justify-content-between mb-1.5">
+            <label class="auth-label" for="loginUsername">{{ __('auth.username') }}</label>
+            <span class="auth-label-badge">ID / KODE MARKING</span>
+        </div>
+        <div class="auth-input-group @error('username') is-invalid @enderror">
+            <span class="auth-input-icon">
+                <i class="bi bi-person-badge-fill"></i>
+            </span>
+            <input type="text" name="username" id="loginUsername"
+                   class="auth-input @error('username') is-invalid @enderror"
+                   value="{{ old('username') }}" placeholder="{{ __('auth.username_placeholder') }}" autofocus required>
+        </div>
+        @error('username')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+        <div class="auth-hint"><i class="bi bi-info-circle"></i><span>{{ __('auth.login_hint_marking') }}</span></div>
     </div>
-    <div class="mb-3">
-        <label class="form-label" for="loginPassword">{{ __('auth.password_label') }}</label>
-        <div class="password-field-wrap">
+
+    <div class="auth-field">
+        <div class="d-flex align-items-center justify-content-between mb-1.5">
+            <label class="auth-label" for="loginPassword">{{ __('auth.password_label') }}</label>
+            <span class="auth-label-badge">PASSCODE</span>
+        </div>
+        <div class="auth-input-group @error('password') is-invalid @enderror">
+            <span class="auth-input-icon">
+                <i class="bi bi-shield-lock-fill"></i>
+            </span>
             <input type="password" name="password" id="loginPassword"
-                   class="form-control @error('password') is-invalid @enderror"
+                   class="auth-input @error('password') is-invalid @enderror"
                    placeholder="{{ __('marking.placeholder_passcode') }}" required autocomplete="current-password">
-            <button type="button" class="password-toggle-btn" id="loginPasswordToggle"
+            <button type="button" class="auth-password-toggle" id="loginPasswordToggle"
                     aria-label="Tampilkan password" title="Tampilkan password">
                 <i class="bi bi-eye"></i>
             </button>
         </div>
-        @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
+        @error('password')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
     </div>
-    <div class="mb-4 form-check">
+
+    <div class="form-check auth-remember">
         <input type="checkbox" name="remember" class="form-check-input" id="remember" checked>
-        <label class="form-check-label small text-muted-glass" for="remember">{{ __('auth.remember_me') }}</label>
+        <label class="form-check-label" for="remember">{{ __('auth.remember_me') }}</label>
     </div>
-    <button type="submit" class="btn btn-accent w-100 py-2" id="loginSubmitBtn">
-        <i class="bi bi-box-arrow-in-right me-1"></i> {{ __('auth.sign_in') }}
+
+    <button type="submit" class="btn btn-accent auth-btn-submit w-100" id="loginSubmitBtn">
+        <span>Masuk ke Sistem</span>
+        <i class="bi bi-arrow-right-short fs-5"></i>
     </button>
-    <p class="text-center mt-3 mb-0 small text-muted-glass">
-        {{ __('auth.forgot_password_contact_marketing') }}
+
+    <p class="auth-support-text">
+        <i class="bi bi-headset"></i> <span>{{ __('auth.forgot_password_contact_marketing') }}</span>
     </p>
 </form>
+
 <script>
 (function () {
     var pageLoadedAt = Date.now();

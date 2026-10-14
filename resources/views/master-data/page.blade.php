@@ -16,7 +16,7 @@
 @section('topbar-actions')
 @if($canCreateMaster)
 <button class="btn btn-accent btn-sm btnAdd">
-    <i class="bi bi-plus-lg me-1"></i>{{ __('common.create') }}
+    <i class="bi bi-plus-circle-fill me-1"></i>{{ __('common.create') }}
 </button>
 @endif
 @endsection
@@ -37,17 +37,24 @@
 @endif
 <div class="glass p-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h6 class="fw-700 mb-0" style="color:var(--text-primary)">
-            @unless(!empty($isIncentiveMaster))
-            <span style="opacity:.6;font-weight:500">{{ $group }}</span>
-            <i class="bi bi-chevron-right mx-1" style="font-size:.65rem;opacity:.4"></i>
-            @endunless
-            <i class="bi {{ $icon }} me-1"></i>{{ $title }}
-        </h6>
+        <div class="d-flex align-items-center gap-2">
+            <div class="stat-icon-squircle squircle-royal" style="width:38px;height:38px;font-size:1.1rem;border-radius:12px;">
+                <i class="bi {{ $icon }}"></i>
+            </div>
+            <div>
+                <h5 class="fw-700 mb-0" style="color:var(--text-primary)">{{ $title }}</h5>
+                <div style="font-size:0.75rem;color:var(--text-muted)">
+                    @unless(!empty($isIncentiveMaster))
+                    <span style="opacity:.7;font-weight:600">{{ $group }}</span> ·
+                    @endunless
+                    Kelola data master kargo dan operasional
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="table-responsive">
-        <table id="masterTable" class="table table-hover w-100">
+        <table id="masterTable" class="table-glass w-100">
             <thead>
                 <tr>
                     @foreach($columns as $col)

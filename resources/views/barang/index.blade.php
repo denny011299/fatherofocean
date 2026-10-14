@@ -3,8 +3,8 @@
 
 @section('topbar-actions')
 @can('create barang')
-<a href="{{ route('barang.create') }}" class="btn btn-accent btn-sm">
-    <i class="bi bi-plus-lg me-1"></i>{{ __('barang.new_barang') }}
+<a href="{{ route('barang.create') }}" class="btn btn-accent btn-sm d-inline-flex align-items-center gap-1 shadow-sm">
+    <i class="bi bi-plus-circle-fill"></i><span>{{ __('barang.new_barang') }}</span>
 </a>
 @endcan
 @endsection
@@ -54,13 +54,19 @@
 <div class="tab-pane fade {{ $tabListActive ? 'show active' : '' }}" id="tabBarangList" role="tabpanel">
 <div class="glass p-4">
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-        <h6 class="fw-700 mb-0" style="color:var(--text-primary)">
-            <i class="bi bi-box-seam me-2"></i>{{ __('barang.list_title') }}
-        </h6>
+        <div class="d-flex align-items-center gap-2">
+            <div class="stat-icon-squircle squircle-blue" style="width:36px;height:36px;font-size:1.1rem;border-radius:11px;">
+                <i class="bi bi-box-seam-fill"></i>
+            </div>
+            <div>
+                <h6 class="fw-700 mb-0" style="color:var(--text-primary)">{{ __('barang.list_title') }}</h6>
+                <small class="text-muted-glass">Manajemen data kiriman & status operasional kargo</small>
+            </div>
+        </div>
         @can('export barang')
-        <a href="{{ route('barang.list.export-excel') }}" class="btn btn-glass btn-sm" id="btnExportBarangList" target="_blank" rel="noopener"
+        <a href="{{ route('barang.list.export-excel') }}" class="btn btn-export-excel btn-sm" id="btnExportBarangList" target="_blank" rel="noopener"
            title="{{ __('barang.tooltip_export_list_excel') }}">
-            <i class="bi bi-file-earmark-excel me-1" style="color:#16a34a"></i>{{ __('barang.export_list_excel') }}
+            <i class="bi bi-file-earmark-excel me-1"></i>{{ __('barang.export_list_excel') }}
         </a>
         @endcan
     </div>

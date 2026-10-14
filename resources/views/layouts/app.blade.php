@@ -94,7 +94,10 @@
                     </span>
                     <div class="sidebar-brand-text">
                         <span class="sidebar-brand-label">{{ __('nav.brand_sub') }}</span>
-                        <span class="sidebar-brand-name">{{ __('nav.brand_title') }}</span>
+                        <span class="sidebar-brand-name">
+                            {{ __('nav.brand_title') }}
+                            <span class="badge-holding-pill">HOLDING</span>
+                        </span>
                     </div>
                 </div>
             @endif
@@ -108,7 +111,7 @@
 
             @can('view marking')
             <a href="{{ route('marking.index') }}" class="nav-link {{ request()->routeIs('marking.*') ? 'active' : '' }}">
-                <i class="bi bi-bookmark-star-fill"></i> {{ __('nav.marking') }}
+                <i class="bi bi-tags-fill"></i> {{ __('nav.marking') }}
             </a>
             @endcan
 
@@ -135,7 +138,7 @@
             @canany(['view barang', 'view container'])
             @php $opsOpen = request()->routeIs('barang.*') || request()->routeIs('container.*') || request()->routeIs('bongkar-muat.*'); @endphp
             <a href="javascript:void(0)" class="nav-link nav-parent {{ $opsOpen ? 'open' : '' }}" onclick="toggleSubmenu('menuOps', this)">
-                <i class="bi bi-truck"></i> {{ __('nav.operations') }}
+                <i class="bi bi-boxes"></i> {{ __('nav.operations') }}
                 <i class="bi bi-chevron-right nav-chevron ms-auto"></i>
             </a>
             <div class="nav-children" id="menuOps" {!! $opsOpen ? '' : 'style="display:none"' !!}>
@@ -161,7 +164,7 @@
             @can('view tracking')
             @unlessrole('customer')
             <a href="{{ route('tracking.staff') }}" class="nav-link {{ request()->routeIs('tracking.staff') ? 'active' : '' }}">
-                <i class="bi bi-radar"></i> {{ __('nav.item_tracking') }}
+                <i class="bi bi-geo-alt-fill"></i> {{ __('nav.item_tracking') }}
             </a>
             @endunlessrole
             @endcan
@@ -202,22 +205,22 @@
             @endcanany
             @canany(['manage sales incentive master', 'manage master data'])
             <a href="{{ route('master-data.page', 'sales-incentive-tiers') }}" class="nav-link {{ request()->is('master-data/sales-incentive-tiers') ? 'active' : '' }}">
-                <i class="bi bi-gift"></i> {{ __('nav.sales_incentive_master') }}
+                <i class="bi bi-award-fill"></i> {{ __('nav.sales_incentive_master') }}
             </a>
             @endcanany
             @can('view sales revenue')
             <a href="{{ route('sales-revenue.index') }}" class="nav-link {{ request()->routeIs('sales-revenue.*') || request()->routeIs('finance.salary.*') ? 'active' : '' }}">
-                <i class="bi bi-wallet2"></i> {{ __('nav.sales_revenue') }}
+                <i class="bi bi-cash-stack"></i> {{ __('nav.sales_revenue') }}
             </a>
             @unlessrole('sales|supervisor')
             <a href="{{ route('finance.company-revenue.index') }}" class="nav-link {{ request()->routeIs('finance.company-revenue.*') || request()->routeIs('finance.earnings.company-data') ? 'active' : '' }}">
-                <i class="bi bi-building"></i> {{ __('nav.company_revenue') }}
+                <i class="bi bi-buildings-fill"></i> {{ __('nav.company_revenue') }}
             </a>
             @endunlessrole
             @endcan
             @can('export omset')
             <a href="{{ route('export.omset') }}" class="nav-link {{ request()->routeIs('export.omset*') ? 'active' : '' }}">
-                <i class="bi bi-file-earmark-spreadsheet-fill"></i> {{ __('nav.export_revenue') }}
+                <i class="bi bi-file-earmark-bar-graph-fill"></i> {{ __('nav.export_revenue') }}
             </a>
             @endcan
             @endcanany
@@ -234,7 +237,7 @@
             <div class="nav-section">{{ __('nav.master_data') }}</div>
 
             <a href="javascript:void(0)" class="nav-link nav-parent {{ $mdOps ? 'open' : '' }}" onclick="toggleSubmenu('mdOps', this)">
-                <i class="bi bi-gear"></i> {{ __('master_data.group_operational') }}
+                <i class="bi bi-sliders2-vertical"></i> {{ __('master_data.group_operational') }}
                 <i class="bi bi-chevron-right nav-chevron ms-auto"></i>
             </a>
             <div class="nav-children" id="mdOps" {!! $mdOps ? '' : 'style="display:none"' !!}>
@@ -266,7 +269,7 @@
             </div>
 
             <a href="javascript:void(0)" class="nav-link nav-parent {{ $mdLokasi ? 'open' : '' }}" onclick="toggleSubmenu('mdLokasi', this)">
-                <i class="bi bi-globe2"></i> {{ __('nav.location') }}
+                <i class="bi bi-pin-map-fill"></i> {{ __('nav.location') }}
                 <i class="bi bi-chevron-right nav-chevron ms-auto"></i>
             </a>
             <div class="nav-children" id="mdLokasi" {!! $mdLokasi ? '' : 'style="display:none"' !!}>
@@ -285,7 +288,7 @@
             </div>
 
             <a href="javascript:void(0)" class="nav-link nav-parent {{ $mdBarang ? 'open' : '' }}" onclick="toggleSubmenu('mdBarang', this)">
-                <i class="bi bi-box-seam"></i> {{ __('nav.cargo_data') }}
+                <i class="bi bi-box-seam-fill"></i> {{ __('nav.cargo_data') }}
                 <i class="bi bi-chevron-right nav-chevron ms-auto"></i>
             </a>
             <div class="nav-children" id="mdBarang" {!! $mdBarang ? '' : 'style="display:none"' !!}>
@@ -310,7 +313,7 @@
             </div>
 
             <a href="javascript:void(0)" class="nav-link nav-parent {{ $mdMitra ? 'open' : '' }}" onclick="toggleSubmenu('mdMitra', this)">
-                <i class="bi bi-people"></i> {{ __('nav.partners_fleet') }}
+                <i class="bi bi-ship"></i> {{ __('nav.partners_fleet') }}
                 <i class="bi bi-chevron-right nav-chevron ms-auto"></i>
             </a>
             <div class="nav-children" id="mdMitra" {!! $mdMitra ? '' : 'style="display:none"' !!}>
@@ -327,10 +330,10 @@
             @role('customer')
             <div class="nav-section">{{ __('nav.my_portal') }}</div>
             <a href="{{ route('tracking.index') }}" class="nav-link {{ request()->routeIs('tracking.index') ? 'active' : '' }}">
-                <i class="bi bi-radar"></i> {{ __('nav.item_tracking') }}
+                <i class="bi bi-geo-alt-fill"></i> {{ __('nav.item_tracking') }}
             </a>
             <a href="{{ route('billing.index') }}" class="nav-link {{ request()->routeIs('billing.*') ? 'active' : '' }}">
-                <i class="bi bi-receipt"></i> {{ __('nav.my_billing') }}
+                <i class="bi bi-receipt-cutoff"></i> {{ __('nav.my_billing') }}
             </a>
             @canany(['view claim', 'create claim', 'approve claim', 'reject claim'])
             <a href="{{ route('claims.index') }}" class="nav-link {{ request()->routeIs('claims.*') ? 'active' : '' }}">
@@ -347,22 +350,25 @@
             @endcan
             @can('manage system')
             <a href="{{ route('system.index') }}" class="nav-link {{ request()->routeIs('system.*') ? 'active' : '' }}">
-                <i class="bi bi-gear-fill"></i> {{ __('nav.settings') }}
+                <i class="bi bi-gear-wide-connected"></i> {{ __('nav.settings') }}
             </a>
             @endcan
 
         </nav>
 
-        <div class="p-3 border-top sidebar-user-footer" style="border-color: var(--glass-border) !important">
-            <div class="d-flex align-items-center gap-2">
-                <a href="{{ route('profile.index') }}" class="rounded-circle bg-white bg-opacity-10 d-flex align-items-center justify-content-center text-decoration-none flex-shrink-0" style="width:36px;height:36px" title="{{ __('nav.my_profile') }}">
-                    <i class="bi bi-person-fill text-white"></i>
+        <div class="sidebar-user-footer">
+            <div class="sidebar-user-card d-flex align-items-center gap-2">
+                <a href="{{ route('profile.index') }}" class="position-relative d-inline-block text-decoration-none flex-shrink-0" title="{{ __('nav.my_profile') }}">
+                    <div class="sidebar-avatar d-flex align-items-center justify-content-center">
+                        <i class="bi bi-person-fill text-white"></i>
+                    </div>
+                    <span class="sidebar-online-dot"></span>
                 </a>
                 <a href="{{ route('profile.index') }}" class="flex-grow-1 overflow-hidden text-decoration-none sidebar-user-meta" title="{{ __('nav.my_profile') }}">
                     <div class="text-white fw-600 small text-truncate">{{ auth()->user()->name }}</div>
-                    <div class="text-muted-glass" style="font-size:.7rem">{{ auth()->user()->roles->first()?->name ?? 'user' }}</div>
+                    <div class="sidebar-user-role text-truncate">{{ auth()->user()->roles->first()?->name ?? 'user' }}</div>
                 </a>
-                <a href="{{ route('logout') }}" class="btn btn-sm p-1 text-muted-glass" title="{{ __('nav.logout') }}">
+                <a href="{{ route('logout') }}" class="sidebar-logout-btn flex-shrink-0" title="{{ __('nav.logout') }}">
                     <i class="bi bi-box-arrow-right"></i>
                 </a>
             </div>
@@ -375,7 +381,7 @@
     {{-- Main Content --}}
     <div class="main-content">
         <header class="topbar">
-            <div class="d-flex align-items-center gap-3">
+            <div class="d-flex align-items-center gap-2 gap-md-3">
                 <button type="button" class="btn btn-sm btn-glass d-lg-none" onclick="toggleSidebar()" aria-label="{{ __('nav.sidebar_mobile') }}">
                     <i class="bi bi-list"></i>
                 </button>
@@ -388,7 +394,12 @@
                         aria-controls="sidebar">
                     <i class="bi bi-arrow-bar-left" data-sidebar-collapse-icon aria-hidden="true"></i>
                 </button>
-                <h1 class="page-title">@yield('title', __('nav.dashboard'))</h1>
+                <div class="d-flex align-items-center gap-2">
+                    <h1 class="page-title">@yield('title', __('nav.dashboard'))</h1>
+                    <span class="topbar-holding-pill d-none d-xl-inline-flex align-items-center gap-1">
+                        <i class="bi bi-diagram-3-fill"></i> Central Holding
+                    </span>
+                </div>
             </div>
             <div class="d-flex align-items-center gap-2">
                 @auth

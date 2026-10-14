@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'brand_sub' => 'Pelayaran Control',
-    'brand_title' => 'Ship Cargo',
+    'brand_sub' => 'Central System',
+    'brand_title' => 'EXPORT',
     'main_menu' => 'Main Menu',
     'dashboard' => 'Dashboard',
     'marking' => 'Marking',

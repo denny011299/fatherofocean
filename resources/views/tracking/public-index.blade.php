@@ -22,7 +22,7 @@
                 @if(\App\Support\Branding::hasLogo())
                     <span class="sidebar-brand-logo-wrap sidebar-brand-logo-wrap--compact"><x-brand-mark variant="public-topbar-full" /></span>
                 @else
-                    <x-brand-mark variant="public-entry-bg" /> PELAYARAN CONTROL
+                    <x-brand-mark variant="public-entry-bg" /> {{ __('nav.brand_title') }}
                 @endif
             </span>
             <span class="public-track-entry-bg-pill"></span>
@@ -83,8 +83,8 @@
                 <div class="public-track-entry-brand-icon">
                     <x-brand-mark variant="public-entry" />
                 </div>
-                <h1 class="public-track-entry-title">PELAYARAN CONTROL</h1>
-                <p class="public-track-entry-subtitle">Ship Cargo — Lacak Pengiriman Anda</p>
+                <h1 class="public-track-entry-title">{{ __('nav.brand_title') }}</h1>
+                <p class="public-track-entry-subtitle">{{ __('nav.brand_sub') }} — Lacak Pengiriman Anda</p>
             @endif
         </div>
 

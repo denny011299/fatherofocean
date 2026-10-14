@@ -32,20 +32,46 @@
 @endpush
 
 @section('content')
-<div class="bento-grid mb-4" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-    <div class="glass stat-card">
-        <div class="stat-label">{{ ($isSupervisorOnly ?? false) ? __('finance-earnings.estimasi_supervisor') : __('finance-earnings.estimasi_sales') }}</div>
-        <div class="stat-value text-warning" id="statEstimasi">Rp {{ number_format($totals['estimasi'], 0, ',', '.') }}</div>
+<div class="bento-grid mb-4" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+    <div class="glass stat-card stat-card-premium stat-card-amber">
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-amber">
+                <i class="bi bi-wallet2"></i>
+            </div>
+            <span class="stat-pill stat-pill-amber">Estimasi</span>
+        </div>
+        <div>
+            <div class="stat-label">{{ ($isSupervisorOnly ?? false) ? __('finance-earnings.estimasi_supervisor') : __('finance-earnings.estimasi_sales') }}</div>
+            <div class="stat-value text-warning" id="statEstimasi">Rp {{ number_format($totals['estimasi'], 0, ',', '.') }}</div>
+            <div class="stat-change mt-2"><i class="bi bi-hourglass-split me-1"></i> Proyeksi omset</div>
+        </div>
     </div>
-    <div class="glass stat-card">
-        <div class="stat-label">{{ ($isSupervisorOnly ?? false) ? __('finance-earnings.fix_supervisor') : __('finance-earnings.fix_sales') }}</div>
-        <div class="stat-value text-accent" id="statFix">Rp {{ number_format($totals['fix'], 0, ',', '.') }}</div>
+    <div class="glass stat-card stat-card-premium stat-card-blue">
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-royal">
+                <i class="bi bi-cash-stack"></i>
+            </div>
+            <span class="stat-pill stat-pill-blue">Fixed</span>
+        </div>
+        <div>
+            <div class="stat-label">{{ ($isSupervisorOnly ?? false) ? __('finance-earnings.fix_supervisor') : __('finance-earnings.fix_sales') }}</div>
+            <div class="stat-value text-accent" id="statFix">Rp {{ number_format($totals['fix'], 0, ',', '.') }}</div>
+            <div class="stat-change up mt-2"><i class="bi bi-check-circle-fill me-1"></i> Telah lunas</div>
+        </div>
     </div>
     @if($canViewIncentive && !$isSales)
-    <div class="glass stat-card">
-        <div class="stat-label">{{ __('sales-incentive.stat_estimasi') }}</div>
-        <div class="stat-value text-warning" id="statIncentiveEstimasi">Rp {{ number_format($incentiveTotals['estimasi'] ?? 0, 0, ',', '.') }}</div>
-        <div class="small mt-1" style="color:var(--text-muted)" id="statIncentivePeriodHint">{{ __('sales-incentive.stat_period_hint', ['period' => $incentivePeriod]) }}</div>
+    <div class="glass stat-card stat-card-premium stat-card-indigo">
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-indigo">
+                <i class="bi bi-award-fill"></i>
+            </div>
+            <span class="stat-pill stat-pill-indigo">Insentif</span>
+        </div>
+        <div>
+            <div class="stat-label">{{ __('sales-incentive.stat_estimasi') }}</div>
+            <div class="stat-value text-warning" id="statIncentiveEstimasi">Rp {{ number_format($incentiveTotals['estimasi'] ?? 0, 0, ',', '.') }}</div>
+            <div class="small mt-2" style="color:var(--text-muted)" id="statIncentivePeriodHint">{{ __('sales-incentive.stat_period_hint', ['period' => $incentivePeriod]) }}</div>
+        </div>
     </div>
     @endif
 </div>

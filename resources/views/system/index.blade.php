@@ -21,7 +21,15 @@
 <div class="row g-3 mb-3">
     <div class="col-12">
         <div class="glass p-4">
-            <h6 class="fw-700 mb-3" style="color:var(--text-primary)"><i class="bi bi-sliders me-2 text-accent"></i>{{ __('system.general_settings') }}</h6>
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon-squircle squircle-royal" style="width:36px;height:36px;font-size:1.05rem;border-radius:10px;">
+                    <i class="bi bi-sliders2"></i>
+                </div>
+                <div>
+                    <h6 class="fw-700 mb-0" style="color:var(--text-primary)">{{ __('system.general_settings') }}</h6>
+                    <div style="font-size:0.72rem;color:var(--text-muted)">Pengaturan parameter operasional dan rekening faktur</div>
+                </div>
+            </div>
             <form id="commissionRatesForm" class="row g-3 align-items-end">
             <div class="col-md-4">
                 <label class="form-label" for="companyRevenueFixed">{{ __('system.company_revenue_label') }}</label>
@@ -72,7 +80,15 @@
 <div class="row g-3 mb-3">
     <div class="col-12">
         <div class="glass p-4">
-            <h6 class="fw-700 mb-3" style="color:var(--text-primary)"><i class="bi bi-tags me-2 text-accent"></i>{{ __('system.item_modal_section_title') }}</h6>
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon-squircle squircle-amber" style="width:36px;height:36px;font-size:1.05rem;border-radius:10px;">
+                    <i class="bi bi-tags-fill"></i>
+                </div>
+                <div>
+                    <h6 class="fw-700 mb-0" style="color:var(--text-primary)">{{ __('system.item_modal_section_title') }}</h6>
+                    <div style="font-size:0.72rem;color:var(--text-muted)">Konfigurasi batas harga modal dan estimasi margin keuntungan</div>
+                </div>
+            </div>
             <form id="itemModalRatesForm">
                 <div class="table-responsive mb-3">
                     <table class="table table-glass table-sm align-middle mb-0" id="itemModalRatesTable">
@@ -188,7 +204,15 @@
 <div class="row g-3 mb-3">
     <div class="col-12">
         <div class="glass p-4">
-            <h6 class="fw-700 mb-3" style="color:var(--text-primary)"><i class="bi bi-image me-2 text-accent"></i>Logo Aplikasi</h6>
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon-squircle squircle-blue" style="width:36px;height:36px;font-size:1.05rem;border-radius:10px;">
+                    <i class="bi bi-image-fill"></i>
+                </div>
+                <div>
+                    <h6 class="fw-700 mb-0" style="color:var(--text-primary)">Logo Aplikasi</h6>
+                    <div style="font-size:0.72rem;color:var(--text-muted)">Identitas visual holding pada header dan antarmuka publik</div>
+                </div>
+            </div>
             <p class="small mb-3" style="color:var(--text-muted)">
                 Logo ditampilkan di sidebar aplikasi dan halaman lacak publik. Format PNG, JPG/JPEG, atau WebP, maks. 2 MB. Foto iPhone (HEIC) perlu dikonversi ke JPG terlebih dahulu.
             </p>
@@ -252,7 +276,15 @@
 <div class="row g-3">
     <div class="col-lg-6">
         <div class="glass p-4">
-            <h6 class="fw-700 mb-3" style="color:var(--text-primary)"><i class="bi bi-shield-exclamation me-2 text-danger"></i>Emergency Kill Switch</h6>
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon-squircle squircle-rose" style="width:36px;height:36px;font-size:1.05rem;border-radius:10px;">
+                    <i class="bi bi-shield-exclamation"></i>
+                </div>
+                <div>
+                    <h6 class="fw-700 mb-0" style="color:var(--text-primary)">Emergency Kill Switch</h6>
+                    <div style="font-size:0.72rem;color:var(--text-muted)">Penguncian darurat dan ekspor basis data holding</div>
+                </div>
+            </div>
             <p class="small mb-3" style="color:var(--text-muted)">
                 Shutdown akan <strong>export database</strong> terlebih dahulu (ZIP), lalu mengaktifkan maintenance mode.
             </p>
@@ -285,7 +317,15 @@
 
     <div class="col-lg-6">
         <div class="glass p-4">
-            <h6 class="fw-700 mb-3" style="color:var(--text-primary)"><i class="bi bi-database-down me-2 text-accent"></i>Backup Database</h6>
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon-squircle squircle-indigo" style="width:36px;height:36px;font-size:1.05rem;border-radius:10px;">
+                    <i class="bi bi-database-down"></i>
+                </div>
+                <div>
+                    <h6 class="fw-700 mb-0" style="color:var(--text-primary)">Backup Database</h6>
+                    <div style="font-size:0.72rem;color:var(--text-muted)">Arsip cadangan data holding terenkripsi ZIP</div>
+                </div>
+            </div>
             <p class="small mb-3" style="color:var(--text-muted)">Export seluruh database ke file SQL, di-zip, dan langsung download.</p>
 
             <div class="glass-solid p-3 mb-3">

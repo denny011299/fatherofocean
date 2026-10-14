@@ -45,61 +45,106 @@
         : 0;
 @endphp
 
-{{-- Row 1: Stat Cards --}}
-@if(($widgets['active_shipments'] ?? false) || ($widgets['master_marking'] ?? false) || ($widgets['invoices'] ?? false) || ($widgets['sales_revenue'] ?? false) || ($widgets['company_value'] ?? false) || ($widgets['omset'] ?? false) || ($widgets['total_cbm'] ?? false))
-<div class="bento-grid mb-4">
+{{-- Section 1: Operational Stat Cards (3 Columns) --}}
+@if(($widgets['active_shipments'] ?? false) || ($widgets['master_marking'] ?? false) || ($widgets['invoices'] ?? false))
+<div class="dashboard-stats-grid mb-4">
     @if($widgets['active_shipments'] ?? false)
     @if($linkKiriman)
-    <a href="{{ $linkKiriman }}" class="glass stat-card stat-card-link">
+    <a href="{{ $linkKiriman }}" class="glass stat-card stat-card-premium stat-card-blue stat-card-link">
     @else
-    <div class="glass stat-card">
+    <div class="glass stat-card stat-card-premium stat-card-blue">
     @endif
-        <i class="bi bi-send stat-icon"></i>
-        <div class="stat-label">{{ __('dashboard.active_shipments') }}</div>
-        <div class="stat-value">{{ number_format($totalKirimanBerjalan) }}</div>
-        <div class="stat-change up"><i class="bi bi-truck"></i> {{ __('dashboard.on_the_way') }}</div>
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-blue">
+                <i class="bi bi-send-fill"></i>
+            </div>
+            <span class="stat-pill stat-pill-blue">
+                <span class="pulse-dot"></span> Operasional
+            </span>
+        </div>
+        <div>
+            <div class="stat-label">{{ __('dashboard.active_shipments') }}</div>
+            <div class="stat-value">{{ number_format($totalKirimanBerjalan) }}</div>
+            <div class="stat-change up mt-2"><i class="bi bi-truck me-1"></i> {{ __('dashboard.on_the_way') }}</div>
+        </div>
     @if($linkKiriman)</a>@else</div>@endif
     @endif
 
     @if($widgets['master_marking'] ?? false)
     @if($linkMarking)
-    <a href="{{ $linkMarking }}" class="glass stat-card stat-card-link">
+    <a href="{{ $linkMarking }}" class="glass stat-card stat-card-premium stat-card-indigo stat-card-link">
     @else
-    <div class="glass stat-card">
+    <div class="glass stat-card stat-card-premium stat-card-indigo">
     @endif
-        <i class="bi bi-bookmark-star stat-icon"></i>
-        <div class="stat-label">{{ __('dashboard.master_marking') }}</div>
-        <div class="stat-value">{{ number_format($totalMasterMarking) }}</div>
-        <div class="stat-change"><i class="bi bi-tags"></i> {{ __('dashboard.total_marking') }}</div>
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-indigo">
+                <i class="bi bi-bookmark-star-fill"></i>
+            </div>
+            <span class="stat-pill stat-pill-indigo">Katalog</span>
+        </div>
+        <div>
+            <div class="stat-label">{{ __('dashboard.master_marking') }}</div>
+            <div class="stat-value">{{ number_format($totalMasterMarking) }}</div>
+            <div class="stat-change mt-2"><i class="bi bi-tags me-1"></i> {{ __('dashboard.total_marking') }}</div>
+        </div>
     @if($linkMarking)</a>@else</div>@endif
     @endif
 
     @if($widgets['invoices'] ?? false)
     @if($linkTagihan)
-    <a href="{{ $linkTagihan }}" class="glass stat-card stat-card-link">
+    <a href="{{ $linkTagihan }}" class="glass stat-card stat-card-premium stat-card-amber stat-card-link">
     @else
-    <div class="glass stat-card">
+    <div class="glass stat-card stat-card-premium stat-card-amber">
     @endif
-        <i class="bi bi-receipt stat-icon"></i>
-        <div class="stat-label">{{ __('dashboard.total_invoices') }}</div>
-        <div class="stat-value text-warning">{{ number_format($totalTagihan) }}</div>
-        <div class="stat-change down"><i class="bi bi-exclamation-circle"></i> {{ __('dashboard.unpaid') }}</div>
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-amber">
+                <i class="bi bi-receipt-cutoff"></i>
+            </div>
+            <span class="stat-pill stat-pill-amber">Finance</span>
+        </div>
+        <div>
+            <div class="stat-label">{{ __('dashboard.total_invoices') }}</div>
+            <div class="stat-value text-warning">{{ number_format($totalTagihan) }}</div>
+            <div class="stat-change down mt-2"><i class="bi bi-exclamation-circle me-1"></i> {{ __('dashboard.unpaid') }}</div>
+        </div>
     @if($linkTagihan)</a>@else</div>@endif
     @endif
+</div>
+@endif
 
+{{-- Section 2: Financial & Cargo Volume Analytics (2 Balanced 50%-50% Columns) --}}
+@php
+    $hasFinancialCard = (($widgets['sales_revenue'] ?? false) && ($isSales ?? false) && !empty($teamOmsetTotal))
+        || (($widgets['company_value'] ?? false) && ($isSuperAdmin ?? false))
+        || (($widgets['omset'] ?? false) && !($isSales ?? false));
+    $hasVolumeCard = (!($isSales ?? false) && !empty($adminCbmMetrics))
+        || (($isSales ?? false) && (($widgets['omset'] ?? false) || ($widgets['total_cbm'] ?? false)) && !empty($teamMetrics));
+@endphp
+
+@if($hasFinancialCard || $hasVolumeCard)
+<div class="dashboard-kpi-grid mb-4">
+    {{-- KPI Card 1: Valuation / Omset / Revenue --}}
     @if(($widgets['sales_revenue'] ?? false) && ($isSales ?? false) && !empty($teamOmsetTotal))
-    <div class="glass stat-card" id="teamOmsetTotalCard">
-        <i class="bi bi-cash-stack stat-icon"></i>
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-1">
-            <div class="stat-label mb-0">{{ ($isSupervisor ?? false) ? __('dashboard.total_team_omset') : __('dashboard.total_my_omset') }}</div>
-            <div class="d-flex gap-1 align-items-center team-metrics-filter">
-                <select id="teamOmsetTotalYear" class="form-select form-select-sm" style="width:auto;font-size:.7rem;max-width:5rem" aria-label="{{ __('dashboard.all_years') }}">
+    <div class="glass kpi-card kpi-card-blue" id="teamOmsetTotalCard">
+        <i class="bi bi-cash-stack kpi-watermark-icon text-accent"></i>
+        <div class="kpi-card-header">
+            <div class="kpi-card-title-group">
+                <div class="stat-icon-squircle squircle-royal">
+                    <i class="bi bi-cash-stack"></i>
+                </div>
+                <div>
+                    <div class="kpi-title">{{ ($isSupervisor ?? false) ? __('dashboard.total_team_omset') : __('dashboard.total_my_omset') }}</div>
+                    <div class="kpi-subtitle">Akumulasi performa transaksi omset</div>
+                </div>
+            </div>
+            <div class="d-flex gap-1 align-items-center team-metrics-filter kpi-filter-group">
+                <select id="teamOmsetTotalYear" class="form-select form-select-sm" style="width:auto;font-size:.72rem;max-width:5.2rem" aria-label="{{ __('dashboard.all_years') }}">
                     <option value="">{{ __('dashboard.all_years') }}</option>
                     @for($y = now()->year; $y >= 1999; $y--)
                         <option value="{{ $y }}" @selected((int) ($teamOmsetTotal['year'] ?? 0) === $y)>{{ $y }}</option>
                     @endfor
                 </select>
-                <select id="teamOmsetTotalMonth" class="form-select form-select-sm" style="width:auto;font-size:.7rem;max-width:5.5rem" aria-label="{{ __('dashboard.all_months') }}">
+                <select id="teamOmsetTotalMonth" class="form-select form-select-sm" style="width:auto;font-size:.72rem;max-width:5.8rem" aria-label="{{ __('dashboard.all_months') }}">
                     <option value="">{{ __('dashboard.all_months') }}</option>
                     @for($m = 1; $m <= 12; $m++)
                         <option value="{{ $m }}" @selected((int) ($teamOmsetTotal['month'] ?? 0) === $m)>{{ \Carbon\Carbon::create(null, $m, 1)->translatedFormat('M') }}</option>
@@ -107,49 +152,67 @@
                 </select>
             </div>
         </div>
-        <div class="team-metrics-body position-relative">
+        <div class="team-metrics-body position-relative flex-grow-1 d-flex flex-column justify-content-between">
             <div class="team-metrics-spinner d-none" id="teamOmsetTotalSpinner" aria-hidden="true">
                 <div class="spinner-border spinner-border-sm text-accent" role="status"></div>
             </div>
-            @if($linkTeamOmsetTotal)
-            <a href="{{ $linkTeamOmsetTotal }}" class="text-decoration-none d-block">
-                <div class="stat-value text-accent" id="teamOmsetTotalAmount">Rp {{ number_format($teamOmsetTotal['omset'] ?? 0, 0, ',', '.') }}</div>
-            </a>
-            @else
-            <div class="stat-value text-accent" id="teamOmsetTotalAmount">Rp {{ number_format($teamOmsetTotal['omset'] ?? 0, 0, ',', '.') }}</div>
-            @endif
-            <div class="stat-change up" id="teamOmsetTotalLastMonth">
-                <i class="bi bi-graph-up-arrow"></i>
-                {{ __('dashboard.total_my_omset_last_month', [
-                    'month' => $teamOmsetTotal['last_month_label'] ?? '',
-                    'amount' => number_format($teamOmsetTotal['omset_last_month'] ?? 0, 0, ',', '.'),
-                ]) }}
+            <div class="kpi-body-content d-flex justify-content-between align-items-center gap-3">
+                <div>
+                    @if($linkTeamOmsetTotal)
+                    <a href="{{ $linkTeamOmsetTotal }}" class="text-decoration-none d-block">
+                        <div class="kpi-hero-value text-accent" id="teamOmsetTotalAmount">Rp {{ number_format($teamOmsetTotal['omset'] ?? 0, 0, ',', '.') }}</div>
+                    </a>
+                    @else
+                    <div class="kpi-hero-value text-accent" id="teamOmsetTotalAmount">Rp {{ number_format($teamOmsetTotal['omset'] ?? 0, 0, ',', '.') }}</div>
+                    @endif
+                    <div class="kpi-trend-pill mt-2" id="teamOmsetTotalLastMonth">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        {{ __('dashboard.total_my_omset_last_month', [
+                            'month' => $teamOmsetTotal['last_month_label'] ?? '',
+                            'amount' => number_format($teamOmsetTotal['omset_last_month'] ?? 0, 0, ',', '.'),
+                        ]) }}
+                    </div>
+                </div>
+                <div class="kpi-side-metric d-none d-sm-flex flex-column align-items-end text-end">
+                    <span class="kpi-side-badge badge-blue">
+                        <i class="bi bi-graph-up"></i> Sales Revenue
+                    </span>
+                    <span class="kpi-side-sub">Terverifikasi</span>
+                </div>
             </div>
-            <div class="text-muted-glass mt-1" style="font-size:.72rem;line-height:1.35">
-                <i class="bi bi-info-circle"></i>
+            <div class="text-muted-glass mt-3 pt-2 d-flex align-items-center gap-1 border-top border-white border-opacity-10 position-relative" style="font-size:.72rem;line-height:1.35;z-index:1;">
+                <i class="bi bi-info-circle text-accent"></i>
                 {{ ($isSupervisor ?? false) ? __('dashboard.total_team_omset_help') : __('dashboard.total_my_omset_help') }}
             </div>
         </div>
     </div>
     @elseif(($widgets['company_value'] ?? false) && ($isSuperAdmin ?? false))
-    <div class="glass stat-card" id="companyValueCard">
-        <i class="bi bi-building stat-icon"></i>
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-1">
-            <div class="stat-label mb-0">{{ __('dashboard.total_company_value') }}</div>
-            <div class="d-flex gap-1 align-items-center flex-wrap" id="companyValueFilter">
-                <select id="companyValueSales" class="form-select form-select-sm" style="width:auto;font-size:.7rem;max-width:8.5rem" aria-label="{{ __('dashboard.filter_all_sales') }}">
+    <div class="glass kpi-card kpi-card-blue" id="companyValueCard">
+        <i class="bi bi-building kpi-watermark-icon text-accent"></i>
+        <div class="kpi-card-header">
+            <div class="kpi-card-title-group">
+                <div class="stat-icon-squircle squircle-royal">
+                    <i class="bi bi-building"></i>
+                </div>
+                <div>
+                    <div class="kpi-title">{{ __('dashboard.total_company_value') }}</div>
+                    <div class="kpi-subtitle">Valuasi real-time holding & omset pergerakan</div>
+                </div>
+            </div>
+            <div class="d-flex gap-1 align-items-center flex-wrap kpi-filter-group" id="companyValueFilter">
+                <select id="companyValueSales" class="form-select form-select-sm" style="width:auto;font-size:.72rem;max-width:8.5rem" aria-label="{{ __('dashboard.filter_all_sales') }}">
                     <option value="">{{ __('dashboard.filter_all_sales') }}</option>
                     @foreach($dashboardSalesOptions ?? [] as $sales)
                         <option value="{{ $sales->id }}" @selected((int) ($companyFilterSalesId ?? 0) === (int) $sales->id)>{{ $sales->name }}</option>
                     @endforeach
                 </select>
-                <select id="companyValueYear" class="form-select form-select-sm" style="width:auto;font-size:.7rem;max-width:5rem" aria-label="{{ __('dashboard.all_years') }}">
+                <select id="companyValueYear" class="form-select form-select-sm" style="width:auto;font-size:.72rem;max-width:5.2rem" aria-label="{{ __('dashboard.all_years') }}">
                     <option value="">{{ __('dashboard.all_years') }}</option>
                     @for($y = now()->year; $y >= 1999; $y--)
                         <option value="{{ $y }}" @selected((int) ($companyFilterYear ?? 0) === $y)>{{ $y }}</option>
                     @endfor
                 </select>
-                <select id="companyValueMonth" class="form-select form-select-sm" style="width:auto;font-size:.7rem;max-width:5.5rem" aria-label="{{ __('dashboard.all_months') }}">
+                <select id="companyValueMonth" class="form-select form-select-sm" style="width:auto;font-size:.72rem;max-width:5.8rem" aria-label="{{ __('dashboard.all_months') }}">
                     <option value="">{{ __('dashboard.all_months') }}</option>
                     @for($m = 1; $m <= 12; $m++)
                         <option value="{{ $m }}" @selected((int) ($companyFilterMonth ?? 0) === $m)>{{ \Carbon\Carbon::create(null, $m, 1)->translatedFormat('M') }}</option>
@@ -157,55 +220,165 @@
                 </select>
             </div>
         </div>
-        <div class="company-value-body position-relative" id="companyValueBody">
+        <div class="company-value-body position-relative flex-grow-1 d-flex flex-column justify-content-between" id="companyValueBody">
             <div class="company-value-spinner d-none" id="companyValueSpinner" aria-hidden="true">
                 <div class="spinner-border spinner-border-sm text-accent" role="status"></div>
             </div>
-            @if($linkCompanyRevenue)
-            <a href="{{ $linkCompanyRevenue }}" class="text-decoration-none d-block">
-                <div class="stat-value text-accent" id="companyValueAmount">Rp {{ number_format($totalCompanyValueDisplay, 0, ',', '.') }}</div>
-            </a>
-            @else
-            <div class="stat-value text-accent" id="companyValueAmount">Rp {{ number_format($totalCompanyValueDisplay, 0, ',', '.') }}</div>
-            @endif
-            <div class="stat-change up" id="companyValueLastMonth">
-                <i class="bi bi-graph-up-arrow"></i>
-                {{ __('dashboard.company_value_last_month', [
-                    'month' => $companyRevenueLastMonthLabel ?? '',
-                    'amount' => number_format($companyRevenueLastMonth ?? 0, 0, ',', '.'),
-                ]) }}
+            <div class="kpi-body-content d-flex justify-content-between align-items-center gap-3">
+                <div>
+                    @if($linkCompanyRevenue)
+                    <a href="{{ $linkCompanyRevenue }}" class="text-decoration-none d-block">
+                        <div class="kpi-hero-value text-accent" id="companyValueAmount">Rp {{ number_format($totalCompanyValueDisplay, 0, ',', '.') }}</div>
+                    </a>
+                    @else
+                    <div class="kpi-hero-value text-accent" id="companyValueAmount">Rp {{ number_format($totalCompanyValueDisplay, 0, ',', '.') }}</div>
+                    @endif
+                    <div class="kpi-trend-pill mt-2" id="companyValueLastMonth">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        {{ __('dashboard.company_value_last_month', [
+                            'month' => $companyRevenueLastMonthLabel ?? '',
+                            'amount' => number_format($companyRevenueLastMonth ?? 0, 0, ',', '.'),
+                        ]) }}
+                    </div>
+                </div>
+                <div class="kpi-side-metric d-none d-sm-flex flex-column align-items-end text-end">
+                    <span class="kpi-side-badge badge-blue">
+                        <i class="bi bi-shield-check"></i> Holding Status
+                    </span>
+                    <span class="kpi-side-sub">Terkonsolidasi</span>
+                </div>
+            </div>
+            <div class="text-muted-glass mt-3 pt-2 d-flex align-items-center gap-1 border-top border-white border-opacity-10 position-relative" style="font-size:.72rem;line-height:1.35;z-index:1;">
+                <i class="bi bi-shield-check text-accent"></i> Estimasi & fix revenue perusahaan terkonsolidasi holding
             </div>
         </div>
     </div>
-    @elseif(($widgets['omset'] ?? false) && $linkOmset && !($isSales ?? false))
-    <a href="{{ $linkOmset }}" class="glass stat-card stat-card-link">
-        <i class="bi bi-cash-stack stat-icon"></i>
-        <div class="stat-label">{{ __('dashboard.total_revenue') }}</div>
-        <div class="stat-value text-accent">Rp {{ number_format($totalOmset, 0, ',', '.') }}</div>
-        <div class="stat-change up"><i class="bi bi-graph-up-arrow"></i> {{ __('dashboard.paid_in_full') }}</div>
-    </a>
     @elseif(($widgets['omset'] ?? false) && !($isSales ?? false))
-    <div class="glass stat-card">
-        <i class="bi bi-cash-stack stat-icon"></i>
-        <div class="stat-label">{{ __('dashboard.total_revenue') }}</div>
-        <div class="stat-value text-accent">Rp {{ number_format($totalOmset, 0, ',', '.') }}</div>
-        <div class="stat-change up"><i class="bi bi-graph-up-arrow"></i> {{ __('dashboard.paid_in_full') }}</div>
-    </div>
+    @if($linkOmset)
+    <a href="{{ $linkOmset }}" class="glass kpi-card kpi-card-blue text-decoration-none">
+    @else
+    <div class="glass kpi-card kpi-card-blue">
+    @endif
+        <i class="bi bi-cash-stack kpi-watermark-icon text-accent"></i>
+        <div class="kpi-card-header">
+            <div class="kpi-card-title-group">
+                <div class="stat-icon-squircle squircle-royal">
+                    <i class="bi bi-cash-stack"></i>
+                </div>
+                <div>
+                    <div class="kpi-title">{{ __('dashboard.total_revenue') }}</div>
+                    <div class="kpi-subtitle">Omset transaksi telah lunas dibayar</div>
+                </div>
+            </div>
+            <span class="stat-pill stat-pill-blue">
+                <i class="bi bi-check-circle-fill"></i> Paid in Full
+            </span>
+        </div>
+        <div class="flex-grow-1 d-flex flex-column justify-content-between">
+            <div class="kpi-body-content d-flex justify-content-between align-items-center gap-3">
+                <div>
+                    <div class="kpi-hero-value text-accent">Rp {{ number_format($totalOmset, 0, ',', '.') }}</div>
+                    <div class="kpi-trend-pill mt-2">
+                        <i class="bi bi-graph-up-arrow"></i> {{ __('dashboard.paid_in_full') }}
+                    </div>
+                </div>
+                <div class="kpi-side-metric d-none d-sm-flex flex-column align-items-end text-end">
+                    <span class="kpi-side-badge badge-blue">
+                        <i class="bi bi-check-circle-fill"></i> Settlement
+                    </span>
+                    <span class="kpi-side-sub">Lunas Terverifikasi</span>
+                </div>
+            </div>
+            <div class="text-muted-glass mt-3 pt-2 d-flex align-items-center gap-1 border-top border-white border-opacity-10 position-relative" style="font-size:.72rem;line-height:1.35;z-index:1;">
+                <i class="bi bi-info-circle text-accent"></i> Akumulasi pembayaran faktur yang telah diverifikasi
+            </div>
+        </div>
+    @if($linkOmset)</a>@else</div>@endif
     @endif
 
-    @if(($isSales ?? false) && ($widgets['omset'] ?? false) && !empty($teamMetrics))
-    <div class="glass stat-card" id="teamOmsetCard">
-        <i class="bi bi-cash-stack stat-icon"></i>
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-1">
-            <div class="stat-label mb-0">{{ ($isSupervisor ?? false) ? __('dashboard.team_omset_team') : __('dashboard.team_omset') }}</div>
-            <div class="d-flex gap-1 align-items-center team-metrics-filter">
-                <select id="teamMetricsYear" class="form-select form-select-sm" style="width:auto;font-size:.7rem;max-width:5rem" aria-label="{{ __('dashboard.all_years') }}">
+    {{-- KPI Card 2: Cargo Volume (CBM) / Sales Commission --}}
+    @if(!($isSales ?? false) && !empty($adminCbmMetrics))
+    <div class="glass kpi-card kpi-card-cyan" id="adminCbmCard">
+        <i class="bi bi-boxes kpi-watermark-icon text-info"></i>
+        <div class="kpi-card-header">
+            <div class="kpi-card-title-group">
+                <div class="stat-icon-squircle squircle-cyan">
+                    <i class="bi bi-boxes"></i>
+                </div>
+                <div>
+                    <div class="kpi-title">{{ __('dashboard.admin_total_cbm') }}</div>
+                    <div class="kpi-subtitle">Volume kubikasi kargo masuk warehouse</div>
+                </div>
+            </div>
+            <div class="d-flex gap-1 align-items-center flex-wrap kpi-filter-group" id="adminCbmFilter">
+                <select id="adminCbmSales" class="form-select form-select-sm" style="width:auto;font-size:.72rem;max-width:8.5rem" aria-label="{{ __('dashboard.filter_all_sales') }}">
+                    <option value="">{{ __('dashboard.filter_all_sales') }}</option>
+                    @foreach($dashboardSalesOptions ?? [] as $sales)
+                        <option value="{{ $sales->id }}" @selected((int) ($adminCbmMetrics['sales_id'] ?? 0) === (int) $sales->id)>{{ $sales->name }}</option>
+                    @endforeach
+                </select>
+                <select id="adminCbmYear" class="form-select form-select-sm" style="width:auto;font-size:.72rem;max-width:5.2rem" aria-label="{{ __('dashboard.all_years') }}">
+                    <option value="">{{ __('dashboard.all_years') }}</option>
+                    @for($y = now()->year; $y >= 1999; $y--)
+                        <option value="{{ $y }}" @selected((int) ($adminCbmMetrics['year'] ?? 0) === $y)>{{ $y }}</option>
+                    @endfor
+                </select>
+                <select id="adminCbmMonth" class="form-select form-select-sm" style="width:auto;font-size:.72rem;max-width:5.8rem" aria-label="{{ __('dashboard.all_months') }}">
+                    <option value="">{{ __('dashboard.all_months') }}</option>
+                    @for($m = 1; $m <= 12; $m++)
+                        <option value="{{ $m }}" @selected((int) ($adminCbmMetrics['month'] ?? 0) === $m)>{{ \Carbon\Carbon::create(null, $m, 1)->translatedFormat('M') }}</option>
+                    @endfor
+                </select>
+            </div>
+        </div>
+        <div class="admin-cbm-body position-relative flex-grow-1 d-flex flex-column justify-content-between" id="adminCbmBody">
+            <div class="admin-cbm-spinner d-none" id="adminCbmSpinner" aria-hidden="true">
+                <div class="spinner-border spinner-border-sm text-info" role="status"></div>
+            </div>
+            <div class="kpi-body-content d-flex justify-content-between align-items-center gap-3">
+                <div>
+                    <div class="kpi-hero-value text-cyan" id="adminCbmAmount">{{ \App\Support\CbmFormat::format($adminCbmMetrics['cbm'] ?? 0) }} CBM</div>
+                    <div class="kpi-trend-pill mt-2" id="adminCbmLastMonth">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        {{ __('dashboard.team_cbm_last_month', [
+                            'month' => $adminCbmMetrics['last_month_label'] ?? '',
+                            'amount' => \App\Support\CbmFormat::format($adminCbmMetrics['cbm_last_month'] ?? 0),
+                        ]) }}
+                    </div>
+                </div>
+                <div class="kpi-side-metric d-none d-sm-flex flex-column align-items-end text-end">
+                    <span class="kpi-side-badge badge-cyan">
+                        <i class="bi bi-box-seam"></i> Inbound Volume
+                    </span>
+                    <span class="kpi-side-sub">Total Kubikasi</span>
+                </div>
+            </div>
+            <div class="text-muted-glass mt-3 pt-2 d-flex align-items-center gap-1 border-top border-white border-opacity-10 position-relative" style="font-size:.72rem;line-height:1.35;z-index:1;">
+                <i class="bi bi-info-circle text-info"></i> {{ __('dashboard.admin_cbm_help') }}
+            </div>
+        </div>
+    </div>
+    @elseif(($isSales ?? false) && ($widgets['omset'] ?? false) && !empty($teamMetrics))
+    <div class="glass kpi-card kpi-card-cyan" id="teamOmsetCard">
+        <i class="bi bi-wallet2 kpi-watermark-icon text-accent"></i>
+        <div class="kpi-card-header">
+            <div class="kpi-card-title-group">
+                <div class="stat-icon-squircle squircle-cyan">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+                <div>
+                    <div class="kpi-title">{{ ($isSupervisor ?? false) ? __('dashboard.team_omset_team') : __('dashboard.team_omset') }}</div>
+                    <div class="kpi-subtitle">Estimasi komisi dari pencapaian omset</div>
+                </div>
+            </div>
+            <div class="d-flex gap-1 align-items-center team-metrics-filter kpi-filter-group">
+                <select id="teamMetricsYear" class="form-select form-select-sm" style="width:auto;font-size:.72rem;max-width:5.2rem" aria-label="{{ __('dashboard.all_years') }}">
                     <option value="">{{ __('dashboard.all_years') }}</option>
                     @for($y = now()->year; $y >= 1999; $y--)
                         <option value="{{ $y }}" @selected((int) ($teamMetrics['year'] ?? 0) === $y)>{{ $y }}</option>
                     @endfor
                 </select>
-                <select id="teamMetricsMonth" class="form-select form-select-sm" style="width:auto;font-size:.7rem;max-width:5.5rem" aria-label="{{ __('dashboard.all_months') }}">
+                <select id="teamMetricsMonth" class="form-select form-select-sm" style="width:auto;font-size:.72rem;max-width:5.8rem" aria-label="{{ __('dashboard.all_months') }}">
                     <option value="">{{ __('dashboard.all_months') }}</option>
                     @for($m = 1; $m <= 12; $m++)
                         <option value="{{ $m }}" @selected((int) ($teamMetrics['month'] ?? 0) === $m)>{{ \Carbon\Carbon::create(null, $m, 1)->translatedFormat('M') }}</option>
@@ -213,20 +386,30 @@
                 </select>
             </div>
         </div>
-        <div class="team-metrics-body position-relative">
+        <div class="team-metrics-body position-relative flex-grow-1 d-flex flex-column justify-content-between">
             <div class="team-metrics-spinner d-none" id="teamMetricsSpinner" aria-hidden="true">
                 <div class="spinner-border spinner-border-sm text-accent" role="status"></div>
             </div>
-            <div class="stat-value text-accent" id="teamOmsetAmount">Rp {{ number_format($teamMetrics['commission'] ?? 0, 0, ',', '.') }}</div>
-            <div class="stat-change up" id="teamOmsetLastMonth">
-                <i class="bi bi-graph-up-arrow"></i>
-                {{ __('dashboard.team_commission_last_month', [
-                    'month' => $teamMetrics['last_month_label'] ?? '',
-                    'amount' => number_format($teamMetrics['commission_last_month'] ?? 0, 0, ',', '.'),
-                ]) }}
+            <div class="kpi-body-content d-flex justify-content-between align-items-center gap-3">
+                <div>
+                    <div class="kpi-hero-value text-accent" id="teamOmsetAmount">Rp {{ number_format($teamMetrics['commission'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="kpi-trend-pill mt-2" id="teamOmsetLastMonth">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        {{ __('dashboard.team_commission_last_month', [
+                            'month' => $teamMetrics['last_month_label'] ?? '',
+                            'amount' => number_format($teamMetrics['commission_last_month'] ?? 0, 0, ',', '.'),
+                        ]) }}
+                    </div>
+                </div>
+                <div class="kpi-side-metric d-none d-sm-flex flex-column align-items-end text-end">
+                    <span class="kpi-side-badge badge-cyan">
+                        <i class="bi bi-award-fill"></i> Performance
+                    </span>
+                    <span class="kpi-side-sub">Komisi Berjalan</span>
+                </div>
             </div>
-            <div class="text-muted-glass mt-1" style="font-size:.72rem;line-height:1.35">
-                <i class="bi bi-info-circle"></i>
+            <div class="text-muted-glass mt-3 pt-2 d-flex align-items-center gap-1 border-top border-white border-opacity-10 position-relative" style="font-size:.72rem;line-height:1.35;z-index:1;">
+                <i class="bi bi-info-circle text-accent"></i>
                 @if($isSupervisor ?? false)
                     {{ __('dashboard.team_commission_help_supervisor') }}
                 @else
@@ -235,67 +418,42 @@
             </div>
         </div>
     </div>
-    @endif
-
-    @if(!($isSales ?? false) && !empty($adminCbmMetrics))
-    <div class="glass stat-card" id="adminCbmCard">
-        <i class="bi bi-boxes stat-icon"></i>
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-1">
-            <div class="stat-label mb-0">{{ __('dashboard.admin_total_cbm') }}</div>
-            <div class="d-flex gap-1 align-items-center flex-wrap" id="adminCbmFilter">
-                <select id="adminCbmSales" class="form-select form-select-sm" style="width:auto;font-size:.7rem;max-width:8.5rem" aria-label="{{ __('dashboard.filter_all_sales') }}">
-                    <option value="">{{ __('dashboard.filter_all_sales') }}</option>
-                    @foreach($dashboardSalesOptions ?? [] as $sales)
-                        <option value="{{ $sales->id }}" @selected((int) ($adminCbmMetrics['sales_id'] ?? 0) === (int) $sales->id)>{{ $sales->name }}</option>
-                    @endforeach
-                </select>
-                <select id="adminCbmYear" class="form-select form-select-sm" style="width:auto;font-size:.7rem;max-width:5rem" aria-label="{{ __('dashboard.all_years') }}">
-                    <option value="">{{ __('dashboard.all_years') }}</option>
-                    @for($y = now()->year; $y >= 1999; $y--)
-                        <option value="{{ $y }}" @selected((int) ($adminCbmMetrics['year'] ?? 0) === $y)>{{ $y }}</option>
-                    @endfor
-                </select>
-                <select id="adminCbmMonth" class="form-select form-select-sm" style="width:auto;font-size:.7rem;max-width:5.5rem" aria-label="{{ __('dashboard.all_months') }}">
-                    <option value="">{{ __('dashboard.all_months') }}</option>
-                    @for($m = 1; $m <= 12; $m++)
-                        <option value="{{ $m }}" @selected((int) ($adminCbmMetrics['month'] ?? 0) === $m)>{{ \Carbon\Carbon::create(null, $m, 1)->translatedFormat('M') }}</option>
-                    @endfor
-                </select>
+    @elseif(($isSales ?? false) && ($widgets['total_cbm'] ?? false) && !empty($teamMetrics))
+    <div class="glass kpi-card kpi-card-cyan" id="teamCbmCard">
+        <i class="bi bi-boxes kpi-watermark-icon text-info"></i>
+        <div class="kpi-card-header">
+            <div class="kpi-card-title-group">
+                <div class="stat-icon-squircle squircle-cyan">
+                    <i class="bi bi-boxes"></i>
+                </div>
+                <div>
+                    <div class="kpi-title">{{ __('dashboard.team_total_cbm') }}</div>
+                    <div class="kpi-subtitle">Volume kubikasi kargo sales</div>
+                </div>
             </div>
         </div>
-        <div class="admin-cbm-body position-relative" id="adminCbmBody">
-            <div class="admin-cbm-spinner d-none" id="adminCbmSpinner" aria-hidden="true">
-                <div class="spinner-border spinner-border-sm text-accent" role="status"></div>
+        <div class="flex-grow-1 d-flex flex-column justify-content-between">
+            <div class="kpi-body-content d-flex justify-content-between align-items-center gap-3">
+                <div>
+                    <div class="kpi-hero-value text-cyan" id="teamCbmAmount">{{ \App\Support\CbmFormat::format($teamMetrics['cbm'] ?? 0) }} CBM</div>
+                    <div class="kpi-trend-pill mt-2" id="teamCbmLastMonth">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        {{ __('dashboard.team_cbm_last_month', [
+                            'month' => $teamMetrics['last_month_label'] ?? '',
+                            'amount' => \App\Support\CbmFormat::format($teamMetrics['cbm_last_month'] ?? 0),
+                        ]) }}
+                    </div>
+                </div>
+                <div class="kpi-side-metric d-none d-sm-flex flex-column align-items-end text-end">
+                    <span class="kpi-side-badge badge-cyan">
+                        <i class="bi bi-box-seam"></i> Inbound CBM
+                    </span>
+                    <span class="kpi-side-sub">Kubikasi Sales</span>
+                </div>
             </div>
-            <div class="stat-value text-accent" id="adminCbmAmount">{{ \App\Support\CbmFormat::format($adminCbmMetrics['cbm'] ?? 0) }} CBM</div>
-            <div class="stat-change up" id="adminCbmLastMonth">
-                <i class="bi bi-graph-up-arrow"></i>
-                {{ __('dashboard.team_cbm_last_month', [
-                    'month' => $adminCbmMetrics['last_month_label'] ?? '',
-                    'amount' => \App\Support\CbmFormat::format($adminCbmMetrics['cbm_last_month'] ?? 0),
-                ]) }}
+            <div class="text-muted-glass mt-3 pt-2 d-flex align-items-center gap-1 border-top border-white border-opacity-10 position-relative" style="font-size:.72rem;line-height:1.35;z-index:1;">
+                <i class="bi bi-info-circle text-info"></i> {{ __('dashboard.team_cbm_help') }}
             </div>
-            <div class="text-muted-glass mt-1" style="font-size:.72rem;line-height:1.35">
-                <i class="bi bi-info-circle"></i> {{ __('dashboard.admin_cbm_help') }}
-            </div>
-        </div>
-    </div>
-    @endif
-
-    @if(($isSales ?? false) && ($widgets['total_cbm'] ?? false) && !empty($teamMetrics))
-    <div class="glass stat-card" id="teamCbmCard">
-        <i class="bi bi-boxes stat-icon"></i>
-        <div class="stat-label">{{ __('dashboard.team_total_cbm') }}</div>
-        <div class="stat-value text-accent" id="teamCbmAmount">{{ \App\Support\CbmFormat::format($teamMetrics['cbm'] ?? 0) }} CBM</div>
-        <div class="stat-change up" id="teamCbmLastMonth">
-            <i class="bi bi-graph-up-arrow"></i>
-            {{ __('dashboard.team_cbm_last_month', [
-                'month' => $teamMetrics['last_month_label'] ?? '',
-                'amount' => \App\Support\CbmFormat::format($teamMetrics['cbm_last_month'] ?? 0),
-            ]) }}
-        </div>
-        <div class="text-muted-glass mt-1" style="font-size:.72rem;line-height:1.35">
-            <i class="bi bi-info-circle"></i> {{ __('dashboard.team_cbm_help') }}
         </div>
     </div>
     @endif
@@ -309,9 +467,14 @@
     <div class="col-lg-{{ ($widgets['feedback'] ?? false) ? '8' : '12' }}">
         <div class="glass p-4 h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <h6 class="fw-700 mb-0" style="color: var(--text-primary)">{{ __('dashboard.shipment_analysis') }}</h6>
-                    <small class="text-muted-glass">{{ __('dashboard.shipment_traffic_year') }}</small>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="stat-icon-squircle squircle-blue" style="width:38px;height:38px;font-size:1.1rem;border-radius:12px;">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-700 mb-0" style="color: var(--text-primary)">{{ __('dashboard.shipment_analysis') }}</h6>
+                        <small class="text-muted-glass">{{ __('dashboard.shipment_traffic_year') }}</small>
+                    </div>
                 </div>
                 <select id="shipmentChartYear" class="form-select form-select-sm" style="width:auto;font-size:.78rem;max-width:6rem">
                     @foreach($shipmentYears ?? [now()->year] as $yr)
@@ -327,9 +490,14 @@
     <div class="col-lg-{{ ($widgets['shipment_chart'] ?? false) ? '4' : '12' }}">
         <div class="glass p-4 h-100 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <h6 class="fw-700 mb-0" style="color: var(--text-primary)">Kritik & Saran</h6>
-                    <small class="text-muted-glass">{{ $kritikSaran->count() }} feedback terbaru</small>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="stat-icon-squircle squircle-indigo" style="width:38px;height:38px;font-size:1.1rem;border-radius:12px;">
+                        <i class="bi bi-chat-heart"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-700 mb-0" style="color: var(--text-primary)">Kritik & Saran</h6>
+                        <small class="text-muted-glass">{{ $kritikSaran->count() }} feedback terbaru</small>
+                    </div>
                 </div>
                 <span class="badge-glass" style="background: rgba(var(--accent-rgb),.12); color: var(--accent);">
                     <i class="bi bi-chat-dots"></i> {{ $kritikSaran->count() }}
@@ -404,9 +572,14 @@
 @endphp
 <div class="glass p-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-            <h6 class="fw-700 mb-0" style="color: var(--text-primary)">Daily Task</h6>
-            <small class="text-muted-glass">Barang masuk hari ini &mdash; {{ now()->translatedFormat('d F Y') }}</small>
+        <div class="d-flex align-items-center gap-2">
+            <div class="stat-icon-squircle squircle-royal" style="width:38px;height:38px;font-size:1.1rem;border-radius:12px;">
+                <i class="bi bi-check2-square"></i>
+            </div>
+            <div>
+                <h6 class="fw-700 mb-0" style="color: var(--text-primary)">Daily Task</h6>
+                <small class="text-muted-glass">Barang masuk hari ini &mdash; {{ now()->translatedFormat('d F Y') }}</small>
+            </div>
         </div>
         <div class="d-flex gap-2">
             @can('manage task')
@@ -795,7 +968,7 @@ const monthLabels = @json($monthlyShipments->keys()->map(fn($m) => \Carbon\Carbo
 const monthData = @json($monthlyShipments->values());
 
 const isDark = document.body.getAttribute('data-theme') !== 'light';
-const accentColor = isDark ? '#F0A030' : '#E88824';
+const accentColor = isDark ? '#3B82F6' : '#2563EB';
 const textColor = isDark ? '#8892a4' : '#64748b';
 const gridColor = isDark ? 'rgba(255,255,255,.06)' : 'rgba(0,0,0,.06)';
 
@@ -850,7 +1023,7 @@ const options = {
     markers: {
         size: 5,
         colors: [accentColor],
-        strokeColors: isDark ? '#0C1E38' : '#ffffff',
+        strokeColors: isDark ? '#0F172A' : '#ffffff',
         strokeWidth: 3,
         hover: { sizeOffset: 3 }
     },
@@ -1151,7 +1324,7 @@ document.getElementById('themeToggle')?.addEventListener('click', () => {
     if (!chart) return;
     setTimeout(() => {
         const nowDark = document.body.getAttribute('data-theme') !== 'light';
-        const newAccent = nowDark ? '#F0A030' : '#E88824';
+        const newAccent = nowDark ? '#3B82F6' : '#2563EB';
         const newText = nowDark ? '#8892a4' : '#64748b';
         const newGrid = nowDark ? 'rgba(255,255,255,.06)' : 'rgba(0,0,0,.06)';
 
@@ -1163,7 +1336,7 @@ document.getElementById('themeToggle')?.addEventListener('click', () => {
             tooltip: { theme: nowDark ? 'dark' : 'light' },
             markers: {
                 colors: [newAccent],
-                strokeColors: nowDark ? '#0C1E38' : '#ffffff',
+                strokeColors: nowDark ? '#0F172A' : '#ffffff',
             },
             dataLabels: {
                 background: { foreColor: nowDark ? '#fff' : '#0f172a' },

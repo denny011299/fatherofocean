@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'brand_sub' => 'Pelayaran Control',
+    'brand_sub' => 'Central System',
     'brand_title' => 'Ship Cargo',
     'main_menu' => '主菜单',
     'dashboard' => '仪表盘',

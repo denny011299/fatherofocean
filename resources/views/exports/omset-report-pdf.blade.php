@@ -25,7 +25,7 @@
 </head><body>
     <div class="header">
         <h1>LAPORAN OMSET</h1>
-        <div class="header-sub">Pelayaran Control — Ship Cargo Management</div>
+        <div class="header-sub">{{ config('app.name', 'EXPORT') }} — Sistem Induk</div>
     </div>
 
     <div class="period-info">
@@ -74,6 +74,6 @@
     </div>
 
     <div class="footer">
-        Dokumen ini dibuat secara otomatis oleh sistem Pelayaran Control pada {{ now()->format('d M Y H:i:s') }}.
+        Dokumen ini dibuat secara otomatis oleh sistem {{ config('app.name', 'EXPORT') }} pada {{ now()->format('d M Y H:i:s') }}.
     </div>
 </body></html>

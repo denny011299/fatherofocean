@@ -15,10 +15,10 @@ return new class extends Migration
             Schema::create('sales_incentive_tier_pricing_item', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('sales_incentive_tier_id')
-                    ->constrained('sales_incentive_tiers')
+                    ->constrained('sales_incentive_tiers', indexName: 'sit_pricing_item_sit_fk')
                     ->cascadeOnDelete();
                 $table->foreignId('pricing_item_id')
-                    ->constrained('master_pricing_items')
+                    ->constrained('master_pricing_items', indexName: 'sit_pricing_item_pi_fk')
                     ->cascadeOnDelete();
                 $table->timestamps();
 

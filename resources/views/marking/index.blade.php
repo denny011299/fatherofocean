@@ -3,8 +3,8 @@
 
 @section('topbar-actions')
 @can('create marking')
-<button class="btn btn-accent btn-sm btnAdd">
-    <i class="bi bi-plus-lg me-1"></i>{{ __('marking.add') }}
+<button class="btn btn-accent btn-sm btnAdd d-inline-flex align-items-center gap-1 shadow-sm">
+    <i class="bi bi-plus-circle-fill"></i><span>{{ __('marking.add') }}</span>
 </button>
 @endcan
 @endsection
@@ -18,20 +18,26 @@
 @endif
 <div class="glass p-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h6 class="fw-700 mb-0" style="color:var(--text-primary)">
-            <i class="bi bi-bookmark-star me-2 text-accent"></i>{{ __('marking.list_title') }}
-        </h6>
+        <div class="d-flex align-items-center gap-2">
+            <div class="stat-icon-squircle squircle-blue" style="width:36px;height:36px;font-size:1.1rem;border-radius:11px;">
+                <i class="bi bi-tags-fill"></i>
+            </div>
+            <div>
+                <h6 class="fw-700 mb-0" style="color:var(--text-primary)">{{ __('marking.list_title') }}</h6>
+                <small class="text-muted-glass">Katalog & database master marking</small>
+            </div>
+        </div>
         <div class="d-flex align-items-center gap-2 marking-list-header-actions">
             <span class="badge-glass" id="totalCount" style="color:var(--text-muted);font-size:.75rem">
                 <i class="bi bi-hash me-1"></i>{{ __('marking.count', ['count' => 0]) }}
             </span>
             @can('export marking')
             <div class="btn-group">
-                <a href="#" class="btn btn-success btn-sm px-3" id="btnExportMarking" data-format="xlsx"
+                <a href="#" class="btn btn-export-excel btn-sm px-3" id="btnExportMarking" data-format="xlsx"
                    title="{{ __('marking.export_excel') }}">
-                    <i class="bi bi-download me-1"></i><span>{{ __('marking.export') }}</span>
+                    <i class="bi bi-file-earmark-excel-fill me-1"></i><span>{{ __('marking.export') }}</span>
                 </a>
-                <button type="button" class="btn btn-success btn-sm dropdown-toggle dropdown-toggle-split"
+                <button type="button" class="btn btn-export-excel btn-sm dropdown-toggle dropdown-toggle-split"
                         data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="visually-hidden">{{ __('marking.export_format') }}</span>
                 </button>
@@ -134,9 +140,12 @@
     <div class="modal-dialog modal-xl modal-fullscreen-lg-down modal-dialog-centered modal-dialog-scrollable modal-marking">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title fw-700" id="formModalTitle">
-                    <i class="bi bi-bookmark-star me-2 text-accent"></i>{{ __('marking.add') }}
-                </h6>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="stat-icon-squircle squircle-royal" style="width:34px;height:34px;font-size:1rem;border-radius:10px;">
+                        <i class="bi bi-tags-fill"></i>
+                    </div>
+                    <h6 class="modal-title fw-700 mb-0" id="formModalTitle">{{ __('marking.add') }}</h6>
+                </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form id="dataForm" enctype="multipart/form-data">

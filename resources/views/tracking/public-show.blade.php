@@ -29,7 +29,7 @@
                     <x-brand-mark variant="public-topbar-full" />
                 </span>
             @else
-                <x-brand-mark variant="public-topbar" class="me-1" /> PELAYARAN CONTROL
+                <x-brand-mark variant="public-topbar" class="me-1" /> {{ __('nav.brand_title') }}
             @endif
         </a>
         <div class="d-flex align-items-center gap-2">

@@ -2,27 +2,58 @@
 @section('title', __('dashboard.gudang_china_title'))
 
 @section('content')
-<div class="bento-grid mb-4">
-    <div class="glass stat-card">
-        <div class="stat-label">Inbound Hari Ini</div>
-        <div class="stat-value text-accent">{{ $todayInbound }}</div>
+<div class="dashboard-stats-grid mb-4">
+    <div class="glass stat-card stat-card-premium stat-card-blue">
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-blue">
+                <i class="bi bi-box-arrow-in-down"></i>
+            </div>
+            <span class="stat-pill stat-pill-blue">Inbound</span>
+        </div>
+        <div>
+            <div class="stat-label">Inbound Hari Ini</div>
+            <div class="stat-value text-accent">{{ $todayInbound }}</div>
+            <div class="stat-change up mt-2"><i class="bi bi-calendar-check me-1"></i> Masuk warehouse</div>
+        </div>
     </div>
-    <div class="glass stat-card">
-        <div class="stat-label">Draft / Pre-manifest</div>
-        <div class="stat-value">{{ $draftCount }}</div>
+    <div class="glass stat-card stat-card-premium stat-card-indigo">
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-indigo">
+                <i class="bi bi-file-earmark-text"></i>
+            </div>
+            <span class="stat-pill stat-pill-indigo">Pre-manifest</span>
+        </div>
+        <div>
+            <div class="stat-label">Draft / Pre-manifest</div>
+            <div class="stat-value">{{ $draftCount }}</div>
+            <div class="stat-change mt-2"><i class="bi bi-hourglass-split me-1"></i> Perlu verifikasi</div>
+        </div>
     </div>
-    <div class="glass stat-card" style="grid-column: span 2">
-        <div class="stat-label">Quick Actions</div>
-        <div class="d-flex gap-2 mt-2">
-            <a href="{{ route('barang.index') }}" class="btn btn-accent btn-sm"><i class="bi bi-plus-lg me-1"></i>Input Barang</a>
-            <a href="{{ route('container.index') }}" class="btn btn-glass btn-sm"><i class="bi bi-truck me-1"></i>Loading Container</a>
+    <div class="glass stat-card stat-card-premium stat-card-emerald">
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-emerald">
+                <i class="bi bi-lightning-charge-fill"></i>
+            </div>
+            <span class="stat-pill stat-pill-blue">Shortcuts</span>
+        </div>
+        <div>
+            <div class="stat-label">Quick Actions</div>
+            <div class="d-flex gap-2 mt-2 flex-wrap">
+                <a href="{{ route('barang.index') }}" class="btn btn-accent btn-sm"><i class="bi bi-plus-lg me-1"></i>Input Barang</a>
+                <a href="{{ route('container.index') }}" class="btn btn-glass btn-sm"><i class="bi bi-truck me-1"></i>Loading Container</a>
+            </div>
         </div>
     </div>
 </div>
 
 @if($openContainers->isNotEmpty())
 <div class="glass p-4 mb-4">
-    <h6 class="fw-700 text-white mb-3"><i class="bi bi-truck me-2"></i>Container Open</h6>
+    <div class="d-flex align-items-center gap-2 mb-3">
+        <div class="stat-icon-squircle squircle-blue" style="width:36px;height:36px;font-size:1rem;border-radius:10px;">
+            <i class="bi bi-truck"></i>
+        </div>
+        <h6 class="fw-700 mb-0" style="color:var(--text-primary)">Container Open</h6>
+    </div>
     <div class="row g-3">
         @foreach($openContainers as $c)
         <div class="col-md-6 col-lg-4">

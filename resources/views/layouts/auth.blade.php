@@ -25,34 +25,92 @@
             document.body.setAttribute('data-theme', t);
         })();
     </script>
-    <div class="auth-wrapper">
-        <div class="auth-card glass">
-            <div class="text-center mb-4">
-                <div class="d-flex justify-content-end gap-2 mb-2">
-                    <x-language-switcher />
-                    <button class="theme-toggle" id="themeToggle" title="{{ __('nav.toggle_theme') }}">
-                        <i class="bi bi-sun-fill"></i>
-                        <i class="bi bi-moon-fill"></i>
-                    </button>
-                </div>
+
+    <div class="auth-split">
+        <div class="auth-floating-controls">
+            <x-language-switcher />
+            <button class="theme-toggle" id="themeToggle" title="{{ __('nav.toggle_theme') }}">
+                <i class="bi bi-sun-fill"></i>
+                <i class="bi bi-moon-fill"></i>
+            </button>
+        </div>
+
+        {{-- Left: brand panel --}}
+        <aside class="auth-brand-panel">
+            <div class="auth-brand-top">
                 @if(\App\Support\Branding::hasLogo())
-                    <div class="sidebar-brand-logo-wrap sidebar-brand-logo-wrap--auth d-inline-flex mb-3">
+                    <div class="sidebar-brand-logo-wrap sidebar-brand-logo-wrap--auth">
                         <x-brand-mark variant="auth-full" />
                     </div>
                 @else
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width:56px;height:56px;background:linear-gradient(135deg,var(--primary),var(--accent))">
-                        <i class="bi bi-tsunami fs-4" style="color:var(--accent-text)"></i>
-                    </div>
-                    <h4 class="fw-800" style="color:var(--text-primary)">{{ __('nav.brand_sub') }}</h4>
-                    <p class="text-muted-glass small">{{ __('auth.tagline') }}</p>
+                    <span class="auth-brand-mark"><i class="bi bi-box-seam-fill"></i></span>
+                    <span class="auth-brand-name">{{ config('app.name', 'EXPORT') }}</span>
                 @endif
             </div>
-            @yield('content')
-        </div>
+
+            <div class="auth-brand-body">
+                <div class="auth-brand-tag">
+                    <i class="bi bi-shield-check"></i>
+                    <span>SISTEM INDUK GRUP PERUSAHAAN</span>
+                </div>
+                <h1 class="auth-brand-headline">
+                    Satu sistem untuk seluruh unit ekspor grup.
+                </h1>
+                <p class="auth-brand-lead">
+                    Portal internal untuk mengelola gudang, kontainer, dan pengiriman lintas perusahaan dalam satu kendali terpusat.
+                </p>
+
+                <svg class="auth-route" viewBox="0 0 480 90" fill="none" aria-hidden="true">
+                    <path id="authRoutePath" d="M 12 66 C 120 66, 150 20, 240 38 S 380 70, 468 24"
+                          stroke="currentColor" stroke-opacity=".18" stroke-width="1.5" stroke-linecap="round"/>
+                    <path class="auth-route-flow" d="M 12 66 C 120 66, 150 20, 240 38 S 380 70, 468 24"
+                          stroke="currentColor" stroke-opacity=".55" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="12" cy="66" r="4" fill="currentColor"/>
+                    <circle cx="468" cy="24" r="4" fill="currentColor"/>
+                    <circle r="3.5" fill="#38BDF8">
+                        <animateMotion dur="9s" repeatCount="indefinite" rotate="auto">
+                            <mpath href="#authRoutePath"/>
+                        </animateMotion>
+                    </circle>
+                </svg>
+                <div class="auth-route-labels">
+                    <span><i class="bi bi-geo-alt-fill me-1"></i> Gudang China (Yiwu/GZ)</span>
+                    <span><i class="bi bi-geo-alt-fill me-1"></i> Gudang Indonesia (Distribusi)</span>
+                </div>
+            </div>
+
+            <div class="auth-brand-foot">
+                <span class="auth-live-indicator"></span>
+                <span>Jaringan Internal Holding Terproteksi · Akses Terpusat</span>
+            </div>
+        </aside>
+
+        {{-- Right: form panel --}}
+        <main class="auth-form-panel">
+            <div class="auth-form-inner">
+                <div class="auth-form-mobile-brand">
+                    <span class="auth-brand-mark"><i class="bi bi-box-seam-fill"></i></span>
+                    <span class="auth-brand-name">{{ config('app.name', 'EXPORT') }}</span>
+                </div>
+
+                <div class="auth-form-header">
+                    <div class="auth-form-tag">
+                        <span class="auth-portal-badge">
+                            <i class="bi bi-shield-check"></i> PORTAL INTERNAL EKSPOR
+                        </span>
+                    </div>
+                    <h2 class="auth-form-title">Akses Karyawan & Mitra</h2>
+                    <p class="auth-form-subtitle">Satu pintu masuk operasional untuk seluruh unit pelayaran dan mitra terdaftar.</p>
+                </div>
+
+                @yield('content')
+            </div>
+        </main>
     </div>
+
     <script>
-        document.getElementById('themeToggle').addEventListener('click', function() {
-            var current = document.body.getAttribute('data-theme') || 'dark';
+        document.getElementById('themeToggle')?.addEventListener('click', function() {
+            var current = document.body.getAttribute('data-theme') || 'light';
             var next = current === 'dark' ? 'light' : 'dark';
             document.body.setAttribute('data-theme', next);
             localStorage.setItem('theme', next);

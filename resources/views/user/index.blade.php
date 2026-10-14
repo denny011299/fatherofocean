@@ -4,7 +4,7 @@
 @section('topbar-actions')
 @can('manage user')
 <button class="btn btn-accent btn-sm btnAdd">
-    <i class="bi bi-person-plus me-1"></i>{{ __('user.add') }}
+    <i class="bi bi-plus-circle-fill me-1"></i>{{ __('user.add') }}
 </button>
 @endcan
 @endsection
@@ -14,13 +14,19 @@
 
 <div class="glass p-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h6 class="fw-700 mb-0" style="color:var(--text-primary)">
-            <i class="bi bi-people me-2"></i>{{ __('user.list_title') }}
-        </h6>
+        <div class="d-flex align-items-center gap-2">
+            <div class="stat-icon-squircle squircle-royal" style="width:38px;height:38px;font-size:1.1rem;border-radius:12px;">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <div>
+                <h5 class="fw-700 mb-0" style="color:var(--text-primary)">{{ __('user.list_title') }}</h5>
+                <div style="font-size:0.75rem;color:var(--text-muted)">Manajemen pengguna sistem, hak akses, dan komisi sales</div>
+            </div>
+        </div>
     </div>
 
     <div class="table-responsive">
-        <table id="userTable" class="table table-hover w-100">
+        <table id="userTable" class="table-glass w-100">
             <thead>
                 <tr>
                     <th>{{ __('user.col_name') }}</th>

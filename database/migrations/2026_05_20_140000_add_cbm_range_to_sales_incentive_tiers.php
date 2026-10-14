@@ -11,8 +11,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sales_incentive_tiers', function (Blueprint $table) {
-            $table->decimal('cbm_min', 12, 4)->nullable()->after('name');
-            $table->decimal('cbm_max', 12, 4)->nullable()->after('cbm_min');
+            if (!Schema::hasColumn('sales_incentive_tiers', 'cbm_min')) {
+                $table->decimal('cbm_min', 12, 4)->nullable()->after('name');
+            }
+            if (!Schema::hasColumn('sales_incentive_tiers', 'cbm_max')) {
+                $table->decimal('cbm_max', 12, 4)->nullable()->after('cbm_min');
+            }
         });
     }
 

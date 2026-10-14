@@ -17,7 +17,7 @@ return [
     'sign_in' => 'Sign in',
     'no_account' => "Don't have an account?",
     'forgot_password_contact_marketing' => 'Forgot password? Contact Marketing',
-    'tagline' => 'Ship Cargo Management System',
+    'tagline' => 'Central Shipping ERP & Export Logistics',
     'full_name' => 'Full Name',
     'full_name_placeholder' => 'Full name',
     'email_optional' => 'Email (optional)',

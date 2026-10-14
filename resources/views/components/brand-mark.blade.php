@@ -14,5 +14,5 @@
         {{ $attributes }}
     >
 @else
-    <i class="bi bi-tsunami brand-mark-fallback brand-mark-fallback--{{ $variant }}" {{ $attributes }}></i>
+    <i class="bi bi-box-seam-fill brand-mark-fallback brand-mark-fallback--{{ $variant }}" {{ $attributes }}></i>
 @endif

@@ -7,11 +7,17 @@
     <div class="col-12">
         <div class="glass p-3">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-                <h6 class="fw-700 mb-0" style="color:var(--text-primary)">
-                    <i class="bi bi-shield-lock me-2"></i>Pilih Role
-                </h6>
-                <button class="btn btn-glass btn-sm" id="btnAddRole">
-                    <i class="bi bi-plus-lg me-1"></i>{{ __('role.add') }}
+                <div class="d-flex align-items-center gap-2">
+                    <div class="stat-icon-squircle squircle-royal" style="width:36px;height:36px;font-size:1.05rem;border-radius:10px;">
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-700 mb-0" style="color:var(--text-primary)">Pilih Role</h6>
+                        <div style="font-size:0.72rem;color:var(--text-muted)">Pilih jabatan untuk mengatur konfigurasi hak akses</div>
+                    </div>
+                </div>
+                <button class="btn btn-accent btn-sm" id="btnAddRole">
+                    <i class="bi bi-plus-circle-fill me-1"></i>{{ __('role.add') }}
                 </button>
             </div>
             <div class="role-tabs d-flex flex-wrap gap-2" id="roleTabs">

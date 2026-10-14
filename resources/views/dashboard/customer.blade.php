@@ -2,18 +2,45 @@
 @section('title', __('dashboard.portal_title'))
 
 @section('content')
-<div class="bento-grid mb-4">
-    <div class="glass stat-card">
-        <div class="stat-label">Total Barang Saya</div>
-        <div class="stat-value">{{ $totalBarang }}</div>
+<div class="dashboard-stats-grid mb-4">
+    <div class="glass stat-card stat-card-premium stat-card-blue">
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-blue">
+                <i class="bi bi-box-seam"></i>
+            </div>
+            <span class="stat-pill stat-pill-blue">Cargo</span>
+        </div>
+        <div>
+            <div class="stat-label">Total Barang Saya</div>
+            <div class="stat-value">{{ $totalBarang }}</div>
+            <div class="stat-change up mt-2"><i class="bi bi-boxes me-1"></i> Total kargo terdaftar</div>
+        </div>
     </div>
-    <div class="glass stat-card">
-        <div class="stat-label">Tagihan Belum Dibayar</div>
-        <div class="stat-value text-warning">{{ $unpaidInvoices }}</div>
+    <div class="glass stat-card stat-card-premium stat-card-amber">
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-amber">
+                <i class="bi bi-receipt"></i>
+            </div>
+            <span class="stat-pill stat-pill-amber">Outstanding</span>
+        </div>
+        <div>
+            <div class="stat-label">Tagihan Belum Dibayar</div>
+            <div class="stat-value text-warning">{{ $unpaidInvoices }}</div>
+            <div class="stat-change down mt-2"><i class="bi bi-exclamation-circle me-1"></i> Menunggu pelunasan</div>
+        </div>
     </div>
-    <div class="glass stat-card">
-        <div class="stat-label">Barang Terkirim</div>
-        <div class="stat-value text-accent">{{ $deliveredCount }}</div>
+    <div class="glass stat-card stat-card-premium stat-card-indigo">
+        <div class="stat-card-header">
+            <div class="stat-icon-squircle squircle-indigo">
+                <i class="bi bi-send-check"></i>
+            </div>
+            <span class="stat-pill stat-pill-blue">Delivered</span>
+        </div>
+        <div>
+            <div class="stat-label">Barang Terkirim</div>
+            <div class="stat-value text-accent">{{ $deliveredCount }}</div>
+            <div class="stat-change up mt-2"><i class="bi bi-check-circle-fill me-1"></i> Selesai diterima</div>
+        </div>
     </div>
 </div>
 

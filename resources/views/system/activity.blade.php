@@ -14,15 +14,26 @@
 </div>
 
 <div class="glass p-4">
-    @if($logs->total() > 0)
-    <p class="text-muted-glass small mb-3">
-        {{ __('system.showing', [
-            'from' => $logs->firstItem(),
-            'to' => $logs->lastItem(),
-            'total' => $logs->total(),
-        ]) }}
-    </p>
-    @endif
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-2">
+            <div class="stat-icon-squircle squircle-indigo" style="width:38px;height:38px;font-size:1.1rem;border-radius:12px;">
+                <i class="bi bi-clock-history"></i>
+            </div>
+            <div>
+                <h5 class="fw-700 mb-0" style="color:var(--text-primary)">{{ __('system.activity_title') }}</h5>
+                <div style="font-size:0.75rem;color:var(--text-muted)">Rekam jejak seluruh aktivitas perubahan data pengguna</div>
+            </div>
+        </div>
+        @if($logs->total() > 0)
+        <span class="text-muted-glass small">
+            {{ __('system.showing', [
+                'from' => $logs->firstItem(),
+                'to' => $logs->lastItem(),
+                'total' => $logs->total(),
+            ]) }}
+        </span>
+        @endif
+    </div>
     <div class="table-responsive">
         <table class="table-glass">
             <thead>

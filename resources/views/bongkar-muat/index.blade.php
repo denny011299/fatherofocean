@@ -4,17 +4,22 @@
 @section('topbar-actions')
 @can('manage bongkar muat')
 <a href="{{ route('bongkar-muat.create') }}" class="btn btn-accent btn-sm">
-    <i class="bi bi-plus-lg me-1"></i>{{ __('bongkar_muat.add_unload') }}
+    <i class="bi bi-plus-circle-fill me-1"></i>{{ __('bongkar_muat.add_unload') }}
 </a>
 @endcan
 @endsection
 
 @section('content')
 <div class="glass p-4">
-    <h6 class="fw-700 mb-1" style="color:var(--text-primary)">
-        <i class="bi bi-box-arrow-in-down me-2 text-accent"></i>{{ __('bongkar_muat.list_title') }}
-    </h6>
-    <p class="small text-muted-glass mb-3">{{ __('bongkar_muat.list_subtitle') }}</p>
+    <div class="d-flex align-items-center gap-2 mb-3">
+        <div class="stat-icon-squircle squircle-blue" style="width:38px;height:38px;font-size:1.1rem;border-radius:12px;">
+            <i class="bi bi-box-arrow-in-down"></i>
+        </div>
+        <div>
+            <h5 class="fw-700 mb-0" style="color:var(--text-primary)">{{ __('bongkar_muat.list_title') }}</h5>
+            <div style="font-size:0.75rem;color:var(--text-muted)">{{ __('bongkar_muat.list_subtitle') }}</div>
+        </div>
+    </div>
 
     <div class="filter-bar p-3 mb-3" style="border-bottom:1px solid var(--glass-border)">
         <div class="row g-2 align-items-end">
